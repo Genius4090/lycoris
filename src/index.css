@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
+@import "tailwindcss";
+
+
+
+.active {
+    background: black;
+    color: white;
+}
+
+@layer base{
+    body{
+        font-family: "Sora", sans-serif;
+    }
+}
+
+.containers {
+    width: 1240px;
+    margin: 0 auto;
+}

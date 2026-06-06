@@ -1,0 +1,18 @@
+{
+    "home":{
+     "title":"Elegance <0></0> arranged with delicate intention.",
+      "description": "Welcome to our enchanting flower emporium, where beauty blossoms and dreams take shape. Step into a world of vibrant colors, captivating fragrances, and artistry that will leave you spellbound.",
+      "button": "Our Catalog"
+    },
+    "header": {
+      "content1": "Home",
+      "content2": "About us",
+      "content3": "Catalog",
+      "content4": "News"
+    },
+    "auth": {
+     "login": "Log In",
+     "logout": "Log Out",
+     "dashboard": "Dashboard"
+    }
+}

@@ -1,20 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Sora:wght@100..800&display=swap');
 @import "tailwindcss";
 
 
 
-.active {
-    background: black;
-    color: white;
+
+
+
+@layer base {
+  * {
+    font-family: "Sora", sans-serif;
+  }
+
+  body {
+    background-color: #F8F3EC;
+  }
 }
 
-@layer base{
-    body{
-        font-family: "Sora", sans-serif;
-    }
+@theme {
+  --font-sora: "Sora", sans-serif;
+  --font-liter: "Literata", serif;
+  --color-title: #2C2C2C;
+  --color-pinkish: #FB8585;
+  --color-brownish: #DBCCBA;
+  --color-textish: #4E4E4E;
+  --color-lightish: #d4d4d4;
 }
 
 .containers {
-    width: 1240px;
-    margin: 0 auto;
+  width: 1280px;
+  margin: 0 auto;
+}
+
+.active {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: var(--color-textish) ;
+}
+
+
+/* Minimal scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(82, 82, 82);
+  border-radius: 3px;
 }

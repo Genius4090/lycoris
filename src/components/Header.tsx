@@ -1,12 +1,19 @@
-import { NavLink, useNavigate } from "react-router-dom";
+
+
+
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { PATH } from "../constants/paths";
 import { useAuth } from "../context/AuthContext";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import LanguageSelect from "./LanguageSelect";
 
 const Header = () => {
   const { user, role, signOut } = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { t } = useTranslation()
 
   const handleSignOut = async () => {
     await signOut();
@@ -15,65 +22,118 @@ const Header = () => {
   };
 
   const navLinks = [
-    { path: PATH.home, title: "Home" },
-    { path: PATH.products, title: "Products" },
+    { path: PATH.home, title:t("header.content1") },
+    { path: PATH.about, title: "About" },
+    { path: PATH.products, title: "Catalog" },
     { path: PATH.cart, title: "Cart" },
     { path: PATH.orders, title: "Orders" },
   ];
 
   const isAdmin = role === "admin" || role === "superadmin";
 
-  return (
-    <header className="w-full fixed top-0 left-0 z-10 bg-white/80 backdrop-blur-sm border-b border-gray-100">
-      <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-        {/* Left — store nav */}
-        <nav className="flex items-center gap-1">
-          {navLinks.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className="px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:text-black hover:bg-gray-100 transition-colors"
-            >
-              {item.title}
-            </NavLink>
-          ))}
-        </nav>
+  const [scrolled, setScrolled] = useState(false)
 
-        {/* Right — auth + dashboard */}
-        <div className="flex items-center gap-2">
-          {isAdmin && (
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
+
+
+
+  return (
+  <header className="w-full fixed top-0 left-0 z-10">
+    <nav
+      className={`
+        fixed top-0 left-0 w-full z-50
+        transition-all duration-300
+        py-5 px-10
+         border-b-transparent
+         border-b
+        ${
+          scrolled
+            ? "backdrop-blur-md bg-[#F8F3EC] border-b-black/10!"
+            : "bg-transparent" 
+        }
+      `}
+    >
+      <div className="grid grid-cols-3 items-center w-full">
+        {/* Left - Logo */}
+        <div className="flex justify-start items-center">
+          <Link
+            to={PATH.home}
+            className="font-liter italic text-[24px] pb-2 text-title"
+          >
+            Lycoris
+          </Link>
+        <LanguageSelect/>
+
+        </div>
+
+        {/* Center - Navigation */}
+        <ul className="flex justify-center items-center gap-10">
+          {navLinks.map((item) => (
+            <li key={item.path}>
+              <NavLink
+                to={item.path}
+                 className="font-liter italic tracking-widest text-title uppercase"
+              >
+                {item.title}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+  {/* Right — auth + dashboard */}
+          
+        {/* Right - Auth */}
+        <div className="flex justify-end items-center gap-8">
+          {user ? (
+            <div className="flex items-center gap-8">
+             {!isAdmin && (
+               <span className="text-xs text-textish hidden sm:block truncate max-w-[220px] font-liter italic">
+                {user.email}
+              </span>
+             )}
+  {isAdmin && (
             <NavLink
               to={PATH.dashboard}
-              className="text-sm px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+               className="font-liter italic tracking-widest text-title uppercase cursor-pointer border border-brownish px-2 rounded "
             >
               Dashboard
             </NavLink>
           )}
-
-          {user ? (
-            <>
-              <span className="text-xs text-gray-400 hidden sm:block truncate max-w-[160px]">
-                {user.email}
-              </span>
               <button
                 onClick={handleSignOut}
-                className="text-sm bg-black text-white px-3 py-1.5 rounded-lg cursor-pointer"
+                className="font-liter italic tracking-widest text-title uppercase cursor-pointer hover:opacity-70 transition"
               >
-                Sign out
+                 {
+                  t("auth.logout")
+                }
               </button>
-            </>
+            </div>
           ) : (
             <NavLink
               to={PATH.login}
-              className="text-sm bg-black text-white px-3 py-1.5 rounded-lg"
+              className="font-liter italic tracking-widest text-title uppercase cursor-pointer hover:opacity-70 transition"
             >
-              Log in
+              {
+                  t("auth.login")
+                }
             </NavLink>
           )}
+        
         </div>
+        
       </div>
-    </header>
-  );
+    </nav>
+  </header>
+);
 };
 
 export default Header;

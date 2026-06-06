@@ -3,15 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { fetchProducts } from "../supabase/productService";
 import { addToCart, fetchCart, removeFromCart } from "../supabase/cartService";
 import { useAuth } from "../context/AuthContext";
-import { PATH } from "../constants/paths";
 import type { CartItemFull } from "../@types";
+import { Card, Input, Title } from "../components";
+import { TextAlignEnd } from "lucide-react";
 
 const Products = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
-  const navigate = useNavigate();
-
-  const { data: products = [], isLoading: productsLoading } = useQuery({
+  const { data: products = [] } = useQuery({
     queryKey: ["products"],
     queryFn: fetchProducts,
     staleTime: 1000 * 60 * 5,
@@ -51,7 +50,6 @@ const Products = () => {
           },
         ];
       });
-
       return { previous };
     },
     onError: (_err, _productId, ctx) => {
@@ -68,7 +66,6 @@ const Products = () => {
     onMutate: async (productId) => {
       await queryClient.cancelQueries({ queryKey: ["cart"] });
       const previous = queryClient.getQueryData<CartItemFull[]>(["cart"]);
-
       queryClient.setQueryData<CartItemFull[]>(["cart"], (old = []) => {
         const existing = old.find((c) => c.product_id === productId);
         if (!existing) return old;
@@ -93,86 +90,29 @@ const Products = () => {
   const getCartItem = (productId: number) =>
     cartItems.find((c) => c.product_id === productId);
 
-  if (productsLoading) {
-    return (
-      <div className="containers flex justify-center py-10">
-        <p className="text-gray-400 text-sm">Loading products...</p>
-      </div>
-    );
-  }
 
   return (
-    <section className="containers">
-      <h2 className="text-lg font-semibold mb-6 text-center">Products</h2>
-
-      {products.length === 0 ? (
-        <p className="text-center text-gray-400 text-sm">No products yet.</p>
-      ) : (
-        <ul className="flex flex-wrap justify-center gap-6">
+    <section  className="min-h-screen flex flex-col items-center containers pt-50">
+     <Title extraClass="max-w-[810px]">
+        Catalog of Floral Delights for Every Occasion
+      </Title>
+  <div className="flex items-center justify-between w-full mt-25">
+        <Input />
+        <button className="cursor-pointer">
+          <TextAlignEnd />
+        </button>
+      </div>
+        <ul className="flex flex-wrap justify-center gap-x-8 gap-y-8 mt-10">
           {products.map((product) => {
             const cartItem = getCartItem(product.id);
             const qty = cartItem?.quantity ?? 0;
-
             return (
-              <li
-                key={product.id}
-                className="border rounded-xl p-5 w-[220px] flex flex-col items-center gap-3"
-              >
-                {product.image_url && (
-                  <img
-                    src={product.image_url}
-                    alt={product.title}
-                    className="w-full h-36 object-cover rounded-lg"
-                  />
-                )}
-                <h3 className="font-medium text-center">{product.title}</h3>
-                <p className="text-sm text-gray-500">${product.price}</p>
-                <p className="text-xs text-gray-400">Stock: {product.stock}</p>
-
-                {!user ? (
-                  <button
-                    onClick={() => navigate(PATH.login)}
-                    className="border border-black text-black px-4 py-1.5 rounded-lg text-sm w-full hover:bg-black hover:text-white transition-colors"
-                  >
-                    Log in to add to cart
-                  </button>
-                ) : product.stock === 0 ? (
-                  <button
-                    disabled
-                    className="bg-black text-white px-4 py-1.5 rounded-lg text-sm w-full opacity-40"
-                  >
-                    Out of stock
-                  </button>
-                ) : qty > 0 ? (
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => removeMutation.mutate(product.id)}
-                      className="bg-black text-white w-8 h-8 rounded-full text-lg"
-                    >
-                      −
-                    </button>
-                    <span className="w-5 text-center font-medium">{qty}</span>
-                    <button
-                      onClick={() => addMutation.mutate(product.id)}
-                      disabled={qty >= product.stock}
-                      className="bg-black text-white w-8 h-8 rounded-full text-lg disabled:opacity-40"
-                    >
-                      +
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => addMutation.mutate(product.id)}
-                    className="bg-black text-white px-4 py-1.5 rounded-lg text-sm w-full"
-                  >
-                    Add to cart
-                  </button>
-                )}
-              </li>
+                <Card product={product} user={user} addMutation={addMutation} removeMutation={removeMutation} qty={qty}/>
             );
           })}
         </ul>
-      )}
+
+      
     </section>
   );
 };

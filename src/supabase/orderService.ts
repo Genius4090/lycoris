@@ -60,3 +60,19 @@ export const cancelOrder = async (orderId: string): Promise<void> => {
   });
   if (error) throw error;
 };
+
+/**
+ * Delete all orders (and their items via cascade) for the current user.
+ * This is permanent — no restore possible.
+ */
+export const clearOrderHistory = async (): Promise<void> => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const { error } = await supabase
+    .from("orders")
+    .delete()
+    .eq("user_id", user.id);
+
+  if (error) throw error;
+};

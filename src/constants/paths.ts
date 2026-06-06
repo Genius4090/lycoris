@@ -1,6 +1,7 @@
 export const PATH = {
   home: "/",
-  products: "/products",
+  about: "/about",
+  products: "/catalog",
   cart: "/cart",
   checkout: "/checkout",
   orders: "/orders",

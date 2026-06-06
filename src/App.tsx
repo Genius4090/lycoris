@@ -15,6 +15,7 @@ import DashboardProducts from "./pages/dashboard/DashboardProducts";
 import DashboardUsers from "./pages/dashboard/DashboardUsers";
 import DashboardOrders from "./pages/dashboard/DashboardOrders";
 import DashboardAdmins from "./pages/dashboard/DashboardAdmins";
+import About from "./pages/about/About";
 
 function App() {
   const router = createBrowserRouter([
@@ -26,6 +27,7 @@ function App() {
         { index: true, element: <Home /> },
         { path: PATH.home, element: <Navigate to="/" replace /> },
         { path: PATH.login, element: <Login /> },
+        { path: PATH.about, element: <About /> },
         { path: PATH.products, element: <Products /> },
         {
           path: PATH.cart,

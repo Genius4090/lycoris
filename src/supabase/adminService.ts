@@ -5,6 +5,34 @@ import type { Order } from "./orderService";
 
 // ─── PRODUCTS ────────────────────────────────────────────────────────────────
 
+const BUCKET = "product-images";
+
+/** Upload an image file to storage and return its public URL. */
+export const uploadProductImage = async (file: File): Promise<string> => {
+  const ext = file.name.split(".").pop();
+  const path = `${crypto.randomUUID()}.${ext}`;
+
+  const { error } = await supabase.storage
+    .from(BUCKET)
+    .upload(path, file, { upsert: false });
+
+  if (error) throw error;
+
+  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+  return data.publicUrl;
+};
+
+/** Delete an image from storage by its full public URL. */
+export const deleteProductImage = async (url: string): Promise<void> => {
+  // Extract the path after the bucket name
+  const marker = `/object/public/${BUCKET}/`;
+  const idx = url.indexOf(marker);
+  if (idx === -1) return;
+  const path = url.slice(idx + marker.length);
+
+  await supabase.storage.from(BUCKET).remove([path]);
+};
+
 export const adminFetchProducts = async (): Promise<Product[]> => {
   const { data, error } = await supabase
     .from("products")
@@ -33,8 +61,19 @@ export const adminUpdateProduct = async (
 };
 
 export const adminDeleteProduct = async (id: number): Promise<void> => {
+  // Fetch image URL before deleting so we can clean up storage too
+  const { data } = await supabase
+    .from("products")
+    .select("image_url")
+    .eq("id", id)
+    .single();
+
   const { error } = await supabase.from("products").delete().eq("id", id);
   if (error) throw error;
+
+  if (data?.image_url) {
+    await deleteProductImage(data.image_url).catch(() => {});
+  }
 };
 
 // ─── USERS ───────────────────────────────────────────────────────────────────

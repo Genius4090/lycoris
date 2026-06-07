@@ -11,5 +11,6 @@ export const adminSupabase = createClient(supabaseUrl, serviceRoleKey, {
   auth: {
     autoRefreshToken: false,
     persistSession: false,
+    storageKey: "sb-admin-auth-token", // different key — avoids the multiple GoTrueClient warning
   },
 });

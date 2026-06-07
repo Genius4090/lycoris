@@ -80,7 +80,7 @@ const Orders = () => {
   }
 
   return (
-    <section className="containers">
+    <section className="containers py-40">
 
       {/* Header row */}
       <div className="flex items-center justify-between mb-6">

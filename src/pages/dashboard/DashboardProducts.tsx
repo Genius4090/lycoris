@@ -145,7 +145,14 @@ const DashboardProducts = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-xl font-semibold">Products</h1>
+      <div className="flex items-center gap-3">
+        <h1 className="text-xl font-semibold">Products</h1>
+        {!isLoading && (
+          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">
+            {products.length} total
+          </span>
+        )}
+      </div>
 
       {/* ── Form ── */}
       <form

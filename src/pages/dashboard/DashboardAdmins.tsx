@@ -61,7 +61,14 @@ const DashboardAdmins = () => {
 
   return (
     <div className="flex flex-col gap-8">
-      <h1 className="text-xl font-semibold">Admins</h1>
+      <div className="flex items-center gap-3">
+        <h1 className="text-xl font-semibold">Admins</h1>
+        {!isLoading && (
+          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">
+            {admins.length} total
+          </span>
+        )}
+      </div>
 
       {/* Current admins */}
       <div className="bg-white rounded-xl border overflow-hidden">

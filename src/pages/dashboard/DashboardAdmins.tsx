@@ -8,6 +8,20 @@ import {
 import type { Profile } from "../../@types";
 import { useAuth } from "../../context/AuthContext";
 import { useState } from "react";
+import { ShieldMinus, ShieldPlus } from "lucide-react";
+
+const RoleBadge = ({ role }: { role: Profile["role"] }) => {
+  const map = {
+    admin: "bg-blue-100 text-blue-700",
+    superadmin: "bg-amber-100 text-amber-700",
+    user: "bg-brownish/40 text-title",
+  };
+  return (
+    <span className={`font-liter text-xs px-2.5 py-0.5 capitalize ${map[role]}`}>
+      {role}
+    </span>
+  );
+};
 
 const DashboardAdmins = () => {
   const queryClient = useQueryClient();
@@ -24,7 +38,6 @@ const DashboardAdmins = () => {
     queryFn: adminFetchAdmins,
   });
 
-  // All users to pick from when promoting
   const { data: allUsers = [] } = useQuery({
     queryKey: ["admin-users"],
     queryFn: adminFetchUsers,
@@ -40,127 +53,134 @@ const DashboardAdmins = () => {
     onSuccess: invalidateAll,
   });
 
-  // Users who are not yet admin/superadmin
   const regularUsers = allUsers.filter((u) => u.role === "user");
   const filtered = regularUsers.filter((u) =>
     u.email.toLowerCase().includes(search.toLowerCase())
   );
 
-  const roleBadge = (role: Profile["role"]) => {
-    const map = {
-      admin: "bg-blue-100 text-blue-700",
-      superadmin: "bg-purple-100 text-purple-700",
-      user: "bg-gray-100 text-gray-600",
-    };
-    return (
-      <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${map[role]}`}>
-        {role}
-      </span>
-    );
-  };
-
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex items-center gap-3">
-        <h1 className="text-xl font-semibold">Admins</h1>
+
+      {/* ── Header ── */}
+      <div className="flex items-end gap-3">
+        <h1 className="font-liter text-3xl text-title">Admins</h1>
         {!isLoading && (
-          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">
+          <span className="font-liter text-textish text-sm mb-0.5">
             {admins.length} total
           </span>
         )}
       </div>
 
-      {/* Current admins */}
-      <div className="bg-white rounded-xl border overflow-hidden">
-        <div className="px-4 py-3 border-b bg-gray-50">
-          <h2 className="font-medium text-sm">Current Admins</h2>
+      {/* ── Current admins ── */}
+      <div className="flex flex-col gap-0">
+        <div className="bg-brownish/20 border border-brownish border-b-0 px-5 py-3">
+          <h2 className="font-liter text-sm text-title">Current Admins</h2>
         </div>
-        {isLoading ? (
-          <p className="text-gray-400 text-sm p-6">Loading...</p>
-        ) : (
-          <table className="w-full text-sm">
-            <thead className="border-b">
-              <tr>
-                <th className="text-left px-4 py-3 font-medium">Email</th>
-                <th className="text-left px-4 py-3 font-medium">Role</th>
-                <th className="px-4 py-3" />
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {admins.map((a) => (
-                <tr key={a.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3">
-                    {a.email}
-                    {a.id === currentUser?.id && (
-                      <span className="ml-2 text-xs text-gray-400">(you)</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3">{roleBadge(a.role)}</td>
-                  <td className="px-4 py-3 text-right">
-                    {/* Can't demote yourself or other superadmins */}
-                    {a.id !== currentUser?.id && a.role === "admin" && (
-                      <button
-                        onClick={() => demoteMutation.mutate(a.id)}
-                        disabled={demoteMutation.isPending}
-                        className="text-xs border border-red-200 text-red-500 px-3 py-1 rounded-lg hover:bg-red-50 disabled:opacity-50 cursor-pointer"
-                      >
-                        Remove admin
-                      </button>
-                    )}
-                  </td>
+        <div className="border border-brownish overflow-hidden">
+          {isLoading ? (
+            <p className="font-liter text-textish text-sm p-6">Loading...</p>
+          ) : admins.length === 0 ? (
+            <p className="font-liter text-textish text-sm p-6">No admins yet.</p>
+          ) : (
+            <table className="w-full text-sm">
+              <thead className="border-b border-brownish/60">
+                <tr>
+                  <th className="text-left px-4 py-3 font-liter text-textish font-normal">Email</th>
+                  <th className="text-left px-4 py-3 font-liter text-textish font-normal">Role</th>
+                  <th className="px-4 py-3 w-32" />
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+              </thead>
+              <tbody className="divide-y divide-brownish/40">
+                {admins.map((a) => (
+                  <tr key={a.id} className="hover:bg-brownish/10 transition-colors">
+                    <td className="px-4 py-3 font-liter text-title text-sm">
+                      {a.email}
+                      {a.id === currentUser?.id && (
+                        <span className="ml-2 font-liter text-xs text-lightish">(you)</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      <RoleBadge role={a.role} />
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      {a.id !== currentUser?.id && a.role === "admin" && (
+                        <button
+                          onClick={() => demoteMutation.mutate(a.id)}
+                          disabled={demoteMutation.isPending}
+                          className="flex items-center gap-1.5 ml-auto font-liter text-xs text-textish border border-brownish/50 px-3 py-1.5 hover:text-pinkish hover:border-pinkish/40 transition-colors disabled:opacity-40 cursor-pointer"
+                        >
+                          <ShieldMinus className="w-3.5 h-3.5" />
+                          Remove admin
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
 
-      {/* Promote a user to admin */}
-      <div className="bg-white rounded-xl border overflow-hidden">
-        <div className="px-4 py-3 border-b bg-gray-50 flex items-center justify-between">
-          <h2 className="font-medium text-sm">Promote User to Admin</h2>
+      {/* ── Promote a user ── */}
+      <div className="flex flex-col gap-0">
+        <div className="bg-brownish/20 border border-brownish border-b-0 px-5 py-3 flex items-center justify-between">
+          <h2 className="font-liter text-sm text-title">Promote User to Admin</h2>
           <input
             placeholder="Search by email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border rounded-lg px-3 py-1.5 text-sm w-56"
+            className="border border-brownish bg-transparent font-liter text-xs px-3 py-1.5 text-title placeholder:text-title/40 outline-none focus:border-textish transition-colors w-52"
           />
         </div>
-        {filtered.length === 0 ? (
-          <p className="text-gray-400 text-sm p-6">No users found.</p>
-        ) : (
-          <table className="w-full text-sm">
-            <thead className="border-b">
-              <tr>
-                <th className="text-left px-4 py-3 font-medium">Email</th>
-                <th className="text-left px-4 py-3 font-medium">Joined</th>
-                <th className="px-4 py-3" />
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {filtered.map((u) => (
-                <tr key={u.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3">{u.email}</td>
-                  <td className="px-4 py-3 text-xs text-gray-400">
-                    {new Date(u.created_at).toLocaleDateString()}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <button
-                      onClick={() => promoteMutation.mutate(u.id)}
-                      disabled={promoteMutation.isPending}
-                      className="text-xs bg-black text-white px-3 py-1 rounded-lg disabled:opacity-50 cursor-pointer"
-                    >
-                      Make admin
-                    </button>
-                  </td>
+        <div className="border border-brownish overflow-hidden">
+          {filtered.length === 0 ? (
+            <p className="font-liter text-textish text-sm p-6">
+              {search ? `No users matching "${search}".` : "No regular users found."}
+            </p>
+          ) : (
+            <table className="w-full text-sm">
+              <thead className="border-b border-brownish/60">
+                <tr>
+                  <th className="text-left px-4 py-3 font-liter text-textish font-normal">Email</th>
+                  <th className="text-left px-4 py-3 font-liter text-textish font-normal">Joined</th>
+                  <th className="px-4 py-3 w-32" />
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+              </thead>
+              <tbody className="divide-y divide-brownish/40">
+                {filtered.map((u) => (
+                  <tr key={u.id} className="hover:bg-brownish/10 transition-colors">
+                    <td className="px-4 py-3 font-liter text-title text-sm">{u.email}</td>
+                    <td className="px-4 py-3 font-liter text-textish text-xs">
+                      {new Date(u.created_at).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </td>
+                    <td className="px-4 py-3 text-right">
+                      <button
+                        onClick={() => promoteMutation.mutate(u.id)}
+                        disabled={promoteMutation.isPending}
+                        className="flex items-center gap-1.5 ml-auto font-liter text-xs text-title border border-brownish px-3 py-1.5 bg-brownish/30 hover:bg-brownish/60 transition-colors disabled:opacity-50 cursor-pointer"
+                      >
+                        <ShieldPlus className="w-3.5 h-3.5" />
+                        Make admin
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
+
     </div>
   );
 };
 
 export default DashboardAdmins;
+
+
+

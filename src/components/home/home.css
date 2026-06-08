@@ -1,0 +1,16 @@
+.home-banner-1 {
+    background-image: url("../../assets/images/home_img1.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+
+.home-banner-2 {
+    background-image: url("../../assets/images/home_img3.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+

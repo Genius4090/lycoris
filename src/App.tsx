@@ -3,7 +3,8 @@ import MainLayout from "./layouts/MainLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Home from "./pages/Home";
 import { PATH } from "./constants/paths";
-import Products from "./pages/Products";
+import Products from "./pages/Products/Products";
+import ProductsMore from "./pages/Products/ProductMore";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Orders from "./pages/Orders";
@@ -16,12 +17,15 @@ import DashboardUsers from "./pages/dashboard/DashboardUsers";
 import DashboardOrders from "./pages/dashboard/DashboardOrders";
 import DashboardAdmins from "./pages/dashboard/DashboardAdmins";
 import About from "./pages/about/About";
+import Notfound from "./pages/NotFound";
+import Errorpage from "./pages/ErrorPage";
 
 function App() {
   const router = createBrowserRouter([
     // ── Store (public layout) ──────────────────────────────────────────────
     {
       path: "/",
+      errorElement: <Errorpage/>,
       element: <MainLayout />,
       children: [
         { index: true, element: <Home /> },
@@ -29,6 +33,8 @@ function App() {
         { path: PATH.login, element: <Login /> },
         { path: PATH.about, element: <About /> },
         { path: PATH.products, element: <Products /> },
+        { path: PATH.productsMore, element: <ProductsMore/> },
+        { path: "*", element: <Notfound/> },
         {
           path: PATH.cart,
           element: <ProtectedRoute><Cart /></ProtectedRoute>,

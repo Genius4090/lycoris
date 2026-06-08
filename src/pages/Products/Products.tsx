@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchProducts, PAGE_SIZE } from "../supabase/productService";
-import { addToCart, fetchCart, removeFromCart } from "../supabase/cartService";
-import { useAuth } from "../context/AuthContext";
-import type { CartItemFull } from "../@types";
-import { Card, Input, Title } from "../components";
+import { fetchProducts } from "../../supabase/productService";
+import { addToCart, fetchCart, removeFromCart } from "../../supabase/cartService";
+import { useAuth } from "../../context/AuthContext";
+import type { CartItemFull } from "../../@types";
+import { Card, Input, Title } from "../../components";
 import { ChevronLeft, ChevronRight, TextAlignEnd } from "lucide-react";
-import useDebounce from "../hooks/debounce";
+import useDebounce from "../../hooks/debounce";
 
 const Products = () => {
   const queryClient = useQueryClient();
   const { user } = useAuth();
-
+  const PAGE_SIZE = 12;
   // ── Search / sort / page state ──────────────────────────────────────────
   const [search, setSearch] = useState("");
   const [sortAZ, setSortAZ] = useState(false);
@@ -35,7 +35,7 @@ const Products = () => {
   // ── Products query ──────────────────────────────────────────────────────
   const { data, isLoading } = useQuery({
     queryKey: ["products", debouncedSearch, sortAZ, page],
-    queryFn: () => fetchProducts({ search: debouncedSearch, sortAZ, page }),
+    queryFn: () => fetchProducts({ search: debouncedSearch, sortAZ, page,PAGE_SIZE }),
     staleTime: 1000 * 60 * 5,
     placeholderData: (prev) => prev, // keep old data while fetching next page
   });
@@ -114,7 +114,7 @@ const Products = () => {
       </Title>
 
       {/* ── Controls ── */}
-      <div className="flex items-center justify-between w-full mt-25">
+      <div className="flex items-center justify-between w-full mt-25 px-4">
         <Input value={search} onChange={handleSearch} />
         <button
           onClick={handleSort}
@@ -134,7 +134,7 @@ const Products = () => {
           No products found{debouncedSearch ? ` for "${debouncedSearch}"` : ""}.
         </p>
       ) : (
-        <ul className="flex flex-wrap justify-center gap-x-8 gap-y-8 mt-10">
+        <ul className="flex flex-wrap justify-center gap-x-10 gap-y-8 mt-10">
           {products.map((product) => {
             const cartItem = getCartItem(product.id);
             const qty = cartItem?.quantity ?? 0;
@@ -158,7 +158,7 @@ const Products = () => {
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-2 py-1.5 text-title bg-brownish rounded-lg text-sm disabled:opacity-40 cursor-pointer"
+            className="px-1.5 py-1.5 text-title bg-brownish text-sm disabled:opacity-40 cursor-pointer"
           >
             <ChevronLeft />
           </button>
@@ -168,7 +168,7 @@ const Products = () => {
             <button
               key={p}
               onClick={() => setPage(p)}
-              className={`w-9 h-9 rounded-lg  cursor-pointer text-title font-liter ${
+              className={`w-9 h-9  cursor-pointer text-title font-liter ${
                 p === page
                   ? "bg-brownish"
                   : "border border-brownish"
@@ -182,7 +182,7 @@ const Products = () => {
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="px-2 py-1.5 text-title bg-brownish rounded-lg text-sm disabled:opacity-40 cursor-pointer"
+            className="px-1.5 py-1.5 text-title bg-brownish text-sm disabled:opacity-40 cursor-pointer"
           >
             <ChevronRight />
           </button>

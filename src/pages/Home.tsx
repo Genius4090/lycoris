@@ -2,12 +2,13 @@ import { MoveRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { RoseImg } from "../assets/icons";
 import { Trans, useTranslation } from "react-i18next";
-
+import { HomeSection1, HomeSocial } from "../components/home";
+import { HomeAd, HomeBanner1, HomeBanner2 } from "../components";
 const Home = () => {
   const { t } = useTranslation()
-
   return (
-    <section className="homepage h-screen flex flex-col items-center justify-center">
+<>
+<section className="homepage h-screen flex flex-col items-center justify-center">
     <span className="font-liter text-title italic text-center leading-tight max-w-260 text-8xl">
   <Trans
   className="font-liter text-title italic text-center leading-tight max-w-260 text-8xl"
@@ -26,6 +27,14 @@ const Home = () => {
       <MoveRight className=""/>
       </Link>
     </section>
+    <HomeBanner1/>
+    <HomeSection1/>
+    <HomeSocial/>
+    <HomeBanner2/>
+    <HomeAd/>
+</>
+
+    
   );
 };
 

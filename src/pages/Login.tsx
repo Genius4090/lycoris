@@ -141,7 +141,7 @@ const Login = () => {
 
   // ── Auth form ────────────────────────────────────────────────────────────
   return (
-    <div className="containers flex justify-center items-start pt-10">
+    <div className="containers flex justify-center items-start pt-40 h-screen">
       <div className="w-full max-w-sm border rounded-xl p-8 flex flex-col gap-6">
         {/* Toggle tabs */}
         <div className="flex border rounded-lg overflow-hidden">

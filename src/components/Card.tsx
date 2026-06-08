@@ -1,20 +1,33 @@
 import { useNavigate } from "react-router-dom";
 import { PATH } from "../constants/paths";
 import { Minus, Plus } from "lucide-react";
+import type { UseMutationResult } from "@tanstack/react-query";
+import type { User } from "@supabase/supabase-js";
+import type { Product } from "../@types";
 
-const Card = ({ product, user, addMutation, removeMutation, qty }) => {
+interface CardProps {
+  product: Product;
+  user: User | null;
+  addMutation: UseMutationResult<void, Error, number>;
+  removeMutation: UseMutationResult<void, Error, number>;
+  qty: number;
+}
+
+const Card = ({ product, user, addMutation, removeMutation, qty }: CardProps) => {
   const navigate = useNavigate();
 
-  return (
-    <li className="flex flex-col w-[250px]">
 
+  return (
+    <li className="flex flex-col w-[370px]">
+     
       {/* Image */}
-      <div className="w-[250px] h-[280px] overflow-hidden bg-brownish/30">
+      <div className="w-[370px] h-[378px] overflow-hidden bg-brownish/30">
         {product.image_url ? (
           <img
             src={product.image_url}
             alt={product.title}
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            onClick={()=> navigate(`${PATH.products}/${product.id}`)}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-4xl opacity-20">
@@ -26,7 +39,6 @@ const Card = ({ product, user, addMutation, removeMutation, qty }) => {
       {/* Info */}
       <div className="flex flex-col gap-3 pt-3 flex-1">
         <h3 className="font-liter text-lg leading-snug text-title">{product.title}</h3>
-
         <div className="flex items-center justify-between text-textish">
           <span className="font-liter">{product.price} Euro</span>
           <span

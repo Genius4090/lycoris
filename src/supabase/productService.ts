@@ -1,12 +1,11 @@
 import { supabase } from "./supabase-client";
 import type { Product } from "../@types";
 
-export const PAGE_SIZE = 12;
-
 export type FetchProductsParams = {
   search?: string;
   sortAZ?: boolean;
   page?: number;
+  PAGE_SIZE?: number;
 };
 
 export type FetchProductsResult = {
@@ -15,10 +14,22 @@ export type FetchProductsResult = {
   pageSize: number;
 };
 
+export const fetchProductById = async (id: number): Promise<Product> => {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+  return data as Product;
+};
+
 export const fetchProducts = async ({
   search = "",
   sortAZ = false,
   page = 1,
+  PAGE_SIZE
 }: FetchProductsParams = {}): Promise<FetchProductsResult> => {
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;

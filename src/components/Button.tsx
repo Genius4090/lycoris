@@ -8,7 +8,7 @@ type BtnType = {
 const Button:FC<BtnType> = ({children,extraClass}) => {
   return (
     <div className={`border border-brownish p-2.5 ${extraClass}`}>
-        <button className="cursor-pointer font-liter flex gap-2 items-center text-title bg-brownish py-3 px-7 text-lg">{children} <ArrowRight/> </button>
+        <button className="cursor-pointer font-liter flex gap-2 items-center text-title bg-brownish py-3 px-7 text-lg">{children} <div className="mt-0.5"><ArrowRight/></div> </button>
     </div>
   )
 }

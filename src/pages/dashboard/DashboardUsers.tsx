@@ -8,15 +8,19 @@ import {
 } from "../../supabase/adminService";
 import type { Profile, Role } from "../../@types";
 import { useAuth } from "../../context/AuthContext";
+import { Trash2 } from "lucide-react";
 
-const roleBadge = (role: Role) => {
+const input =
+  "border border-brownish bg-transparent px-3 py-2 text-sm font-liter text-title placeholder:text-title/40 outline-none focus:border-textish transition-colors w-full";
+
+const RoleBadge = ({ role }: { role: Role }) => {
   const map: Record<Role, string> = {
-    user: "bg-gray-100 text-gray-600",
+    user: "bg-brownish/40 text-title",
     admin: "bg-blue-100 text-blue-700",
-    superadmin: "bg-purple-100 text-purple-700",
+    superadmin: "bg-amber-100 text-amber-700",
   };
   return (
-    <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${map[role]}`}>
+    <span className={`font-liter text-xs px-2.5 py-0.5 capitalize ${map[role]}`}>
       {role}
     </span>
   );
@@ -73,38 +77,37 @@ const DashboardUsers = () => {
     return true;
   };
 
-  // Admins can only create users with role "user"
-  // Superadmins can create any role
   const roleOptions: Role[] =
-    currentRole === "superadmin"
-      ? ["user", "admin", "superadmin"]
-      : ["user"];
+    currentRole === "superadmin" ? ["user", "admin", "superadmin"] : ["user"];
 
   return (
     <div className="flex flex-col gap-8">
-      <div className="flex items-center gap-3">
-        <h1 className="text-xl font-semibold">Users</h1>
+
+      {/* ── Header ── */}
+      <div className="flex items-end gap-3">
+        <h1 className="font-liter text-3xl text-title">Users</h1>
         {!isLoading && (
-          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">
+          <span className="font-liter text-textish text-sm mb-0.5">
             {users.length} total
           </span>
         )}
       </div>
 
-      {/* Add user form */}
+      {/* ── Add user form ── */}
       <form
         onSubmit={handleCreate}
-        className="bg-white rounded-xl border p-6 flex flex-col gap-4"
+        className="border border-brownish p-6 flex flex-col gap-5 bg-[#F8F3EC]"
       >
-        <h2 className="font-medium text-sm">Add user</h2>
+        <h2 className="font-liter text-base text-title">Add new user</h2>
+
         <div className="grid grid-cols-2 gap-4">
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Email address"
             required
             value={form.email}
             onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-            className="border rounded-lg px-3 py-2 text-sm col-span-2"
+            className={`${input} col-span-2`}
           />
           <input
             type="password"
@@ -113,12 +116,12 @@ const DashboardUsers = () => {
             minLength={6}
             value={form.password}
             onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-            className="border rounded-lg px-3 py-2 text-sm"
+            className={input}
           />
           <select
             value={form.role}
             onChange={(e) => setForm((f) => ({ ...f, role: e.target.value as Role }))}
-            className="border rounded-lg px-3 py-2 text-sm cursor-pointer"
+            className={`${input} cursor-pointer`}
           >
             {roleOptions.map((r) => (
               <option key={r} value={r}>{r}</option>
@@ -127,60 +130,65 @@ const DashboardUsers = () => {
         </div>
 
         {formError && (
-          <p className="text-red-500 text-xs">{formError}</p>
+          <p className="font-liter text-xs text-pinkish">{formError}</p>
         )}
 
-        <button
-          type="submit"
-          disabled={createMutation.isPending}
-          className="bg-black text-white px-5 py-2 rounded-lg text-sm w-fit disabled:opacity-50 cursor-pointer"
-        >
-          {createMutation.isPending ? "Creating..." : "Create user"}
-        </button>
+        <div className="border border-brownish p-1.5 w-fit">
+          <button
+            type="submit"
+            disabled={createMutation.isPending}
+            className="font-liter text-sm text-title bg-brownish py-2 px-6 hover:bg-brownish/70 transition-colors disabled:opacity-50 cursor-pointer"
+          >
+            {createMutation.isPending ? "Creating..." : "Create user"}
+          </button>
+        </div>
       </form>
 
-      {/* Users table */}
-      <div className="bg-white rounded-xl border overflow-hidden">
+      {/* ── Users table ── */}
+      <div className="border border-brownish overflow-hidden">
         {isLoading ? (
-          <p className="text-gray-400 text-sm p-6">Loading...</p>
+          <p className="font-liter text-textish text-sm p-6">Loading...</p>
         ) : users.length === 0 ? (
-          <p className="text-gray-400 text-sm p-6">No users yet.</p>
+          <p className="font-liter text-textish text-sm p-6">No users yet.</p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-brownish/20 border-b border-brownish">
               <tr>
-                <th className="text-left px-4 py-3 font-medium">Email</th>
-                <th className="text-left px-4 py-3 font-medium">Role</th>
-                <th className="text-left px-4 py-3 font-medium">Joined</th>
-                <th className="px-4 py-3" />
+                <th className="text-left px-4 py-3 font-liter text-textish font-normal">Email</th>
+                <th className="text-left px-4 py-3 font-liter text-textish font-normal">Role</th>
+                <th className="text-left px-4 py-3 font-liter text-textish font-normal">Joined</th>
+                <th className="px-4 py-3 w-32" />
               </tr>
             </thead>
-            <tbody className="divide-y">
+            <tbody className="divide-y divide-brownish/40">
               {users.map((u) => (
-                <tr key={u.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 max-w-[220px] truncate">
+                <tr key={u.id} className="hover:bg-brownish/10 transition-colors">
+                  <td className="px-4 py-3 font-liter text-title text-sm max-w-[240px] truncate">
                     {u.email}
                     {u.id === currentUser?.id && (
-                      <span className="ml-2 text-xs text-gray-400">(you)</span>
+                      <span className="ml-2 font-liter text-xs text-lightish">(you)</span>
                     )}
                   </td>
-                  <td className="px-4 py-3">{roleBadge(u.role)}</td>
-                  <td className="px-4 py-3 text-gray-400 text-xs">
-                    {new Date(u.created_at).toLocaleDateString()}
+                  <td className="px-4 py-3">
+                    <RoleBadge role={u.role} />
+                  </td>
+                  <td className="px-4 py-3 font-liter text-textish text-xs">
+                    {new Date(u.created_at).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
                   </td>
                   <td className="px-4 py-3">
                     {canChangeRole(u) && (
-                      <div className="flex justify-end gap-2">
+                      <div className="flex justify-end items-center gap-3">
                         {currentRole === "superadmin" && (
                           <select
                             value={u.role}
                             onChange={(e) =>
-                              roleMutation.mutate({
-                                id: u.id,
-                                role: e.target.value as Role,
-                              })
+                              roleMutation.mutate({ id: u.id, role: e.target.value as Role })
                             }
-                            className="text-xs border rounded-lg px-2 py-1 cursor-pointer"
+                            className="border border-brownish bg-transparent font-liter text-xs px-2 py-1.5 text-title cursor-pointer outline-none focus:border-textish"
                           >
                             <option value="user">user</option>
                             <option value="admin">admin</option>
@@ -190,9 +198,10 @@ const DashboardUsers = () => {
                         <button
                           onClick={() => deleteMutation.mutate(u.id)}
                           disabled={deleteMutation.isPending}
-                          className="text-xs border border-red-200 text-red-500 px-3 py-1 rounded-lg hover:bg-red-50 disabled:opacity-50 cursor-pointer"
+                          className="text-lightish hover:text-pinkish transition-colors disabled:opacity-40 cursor-pointer"
+                          aria-label="Delete user"
                         >
-                          Delete
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     )}
@@ -208,3 +217,6 @@ const DashboardUsers = () => {
 };
 
 export default DashboardUsers;
+
+
+

@@ -8,7 +8,9 @@ const Home = () => {
   const { t } = useTranslation()
   return (
 <>
-<section className="homepage h-screen flex flex-col items-center justify-center">
+<section className="homepage relative h-screen flex flex-col items-center justify-center">
+
+
     <span className="font-liter text-title italic text-center leading-tight max-w-260 text-8xl">
   <Trans
   className="font-liter text-title italic text-center leading-tight max-w-260 text-8xl"
@@ -32,6 +34,7 @@ const Home = () => {
     <HomeSocial/>
     <HomeBanner2/>
     <HomeAd/>
+
 </>
 
     

@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DashboardRoute from "./components/DashboardRoute";
 import SuperAdminRoute from "./components/SuperAdminRoute";
+import DashboardHome from "./pages/dashboard/DashboardHome";
 import DashboardProducts from "./pages/dashboard/DashboardProducts";
 import DashboardUsers from "./pages/dashboard/DashboardUsers";
 import DashboardOrders from "./pages/dashboard/DashboardOrders";
@@ -54,7 +55,7 @@ function App() {
       path: PATH.dashboard,
       element: <DashboardRoute><DashboardLayout /></DashboardRoute>,
       children: [
-        { index: true, element: <Navigate to={PATH.dashboardProducts} replace /> },
+        { index: true, element: <DashboardHome /> },
         { path: PATH.dashboardProducts, element: <DashboardProducts /> },
         { path: PATH.dashboardUsers,    element: <DashboardUsers /> },
         { path: PATH.dashboardOrders,   element: <DashboardOrders /> },

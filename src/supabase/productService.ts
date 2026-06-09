@@ -29,7 +29,7 @@ export const fetchProducts = async ({
   search = "",
   sortAZ = false,
   page = 1,
-  PAGE_SIZE
+  PAGE_SIZE = 10
 }: FetchProductsParams = {}): Promise<FetchProductsResult> => {
   const from = (page - 1) * PAGE_SIZE;
   const to = from + PAGE_SIZE - 1;

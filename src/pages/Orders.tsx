@@ -97,7 +97,7 @@ const Orders = () => {
             onClick={() => setShowConfirm(true)}
             className="flex items-center gap-1.5 text-sm font-liter text-textish hover:text-pinkish transition-colors cursor-pointer"
           >
-            <X className="w-4 h-4" />
+            <X className="w-4 h-4 mt-0.5" />
             Clear history
           </button>
         )}
@@ -239,6 +239,8 @@ const Orders = () => {
           ))}
         </ul>
       )}
+
+      
     </section>
   );
 };

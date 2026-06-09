@@ -96,12 +96,11 @@ function ProductMore() {
 
   // - Products 
 
-   const { data: Popularproduct,} = useQuery({
+   const { data: Popularproduct } = useQuery({
     queryKey: ["products"],
-    queryFn: () => fetchProducts({PAGE_SIZE}),
+    queryFn: () => fetchProducts({ PAGE_SIZE }),
     staleTime: 1000 * 60 * 5,
   });
-  console.log(Popularproduct);
   
    
    

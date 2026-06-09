@@ -11,7 +11,6 @@ import Social3 from "./social3.png"
 import Social4 from "./social4.png"
 import Social5 from "./social5.png"
 export {RoseImg,StarIcon,Logo1,Logo2,Logo3,Logo4,Logo5,Social1,Social2,Social3,Social4,Social5}
-
 export const ArrowRight = () => <svg width="23" height="14" viewBox="0 0 23 14" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
 <rect width="23" height="14" fill="url(#pattern0_40_28)"/>
 <defs>

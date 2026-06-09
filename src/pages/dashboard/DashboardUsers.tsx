@@ -10,17 +10,17 @@ import type { Profile, Role } from "../../@types";
 import { useAuth } from "../../context/AuthContext";
 import { Trash2 } from "lucide-react";
 
-const input =
-  "border border-brownish bg-transparent px-3 py-2 text-sm font-liter text-title placeholder:text-title/40 outline-none focus:border-textish transition-colors w-full";
+const inp =
+  "w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 outline-none focus:border-gray-400 transition-colors bg-white";
 
 const RoleBadge = ({ role }: { role: Role }) => {
   const map: Record<Role, string> = {
-    user: "bg-brownish/40 text-title",
-    admin: "bg-blue-100 text-blue-700",
-    superadmin: "bg-amber-100 text-amber-700",
+    user:       "bg-gray-100 text-gray-600",
+    admin:      "bg-blue-100 text-blue-700",
+    superadmin: "bg-purple-100 text-purple-700",
   };
   return (
-    <span className={`font-liter text-xs px-2.5 py-0.5 capitalize ${map[role]}`}>
+    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full capitalize ${map[role]}`}>
       {role}
     </span>
   );
@@ -35,8 +35,7 @@ const DashboardUsers = () => {
   const [form, setForm] = useState(emptyForm);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const invalidate = () =>
-    queryClient.invalidateQueries({ queryKey: ["admin-users"] });
+  const invalidate = () => queryClient.invalidateQueries({ queryKey: ["admin-users"] });
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["admin-users"],
@@ -45,17 +44,12 @@ const DashboardUsers = () => {
 
   const createMutation = useMutation({
     mutationFn: () => adminCreateUser(form.email, form.password, form.role),
-    onSuccess: () => {
-      invalidate();
-      setForm(emptyForm);
-      setFormError(null);
-    },
+    onSuccess: () => { invalidate(); setForm(emptyForm); setFormError(null); },
     onError: (err: Error) => setFormError(err.message),
   });
 
   const roleMutation = useMutation({
-    mutationFn: ({ id, role }: { id: string; role: Role }) =>
-      adminUpdateUserRole(id, role),
+    mutationFn: ({ id, role }: { id: string; role: Role }) => adminUpdateUserRole(id, role),
     onSuccess: invalidate,
   });
 
@@ -81,114 +75,90 @@ const DashboardUsers = () => {
     currentRole === "superadmin" ? ["user", "admin", "superadmin"] : ["user"];
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
 
-      {/* ── Header ── */}
-      <div className="flex items-end gap-3">
-        <h1 className="font-liter text-3xl text-title">Users</h1>
-        {!isLoading && (
-          <span className="font-liter text-textish text-sm mb-0.5">
-            {users.length} total
-          </span>
-        )}
-      </div>
-
-      {/* ── Add user form ── */}
-      <form
-        onSubmit={handleCreate}
-        className="border border-brownish p-6 flex flex-col gap-5 bg-[#F8F3EC]"
-      >
-        <h2 className="font-liter text-base text-title">Add new user</h2>
-
-        <div className="grid grid-cols-2 gap-4">
-          <input
-            type="email"
-            placeholder="Email address"
-            required
-            value={form.email}
-            onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-            className={`${input} col-span-2`}
-          />
-          <input
-            type="password"
-            placeholder="Password (min 6 chars)"
-            required
-            minLength={6}
-            value={form.password}
-            onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-            className={input}
-          />
-          <select
-            value={form.role}
-            onChange={(e) => setForm((f) => ({ ...f, role: e.target.value as Role }))}
-            className={`${input} cursor-pointer`}
-          >
-            {roleOptions.map((r) => (
-              <option key={r} value={r}>{r}</option>
-            ))}
-          </select>
-        </div>
-
-        {formError && (
-          <p className="font-liter text-xs text-pinkish">{formError}</p>
-        )}
-
-        <div className="border border-brownish p-1.5 w-fit">
+      {/* ── Add user card ── */}
+      <div className="bg-white rounded-2xl p-6 flex flex-col gap-5">
+        <h2 className="font-bold text-gray-800 text-base">Add New User</h2>
+        <form onSubmit={handleCreate} className="flex flex-col gap-4">
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              type="email" placeholder="Email address" required
+              value={form.email}
+              onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+              className={`${inp} col-span-2`}
+            />
+            <input
+              type="password" placeholder="Password (min 6 chars)" required minLength={6}
+              value={form.password}
+              onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
+              className={inp}
+            />
+            <select
+              value={form.role}
+              onChange={(e) => setForm((f) => ({ ...f, role: e.target.value as Role }))}
+              className={`${inp} cursor-pointer`}
+            >
+              {roleOptions.map((r) => <option key={r} value={r}>{r}</option>)}
+            </select>
+          </div>
+          {formError && <p className="text-xs text-red-500">{formError}</p>}
           <button
             type="submit"
             disabled={createMutation.isPending}
-            className="font-liter text-sm text-title bg-brownish py-2 px-6 hover:bg-brownish/70 transition-colors disabled:opacity-50 cursor-pointer"
+            className="bg-gray-900 hover:bg-gray-700 text-white text-sm font-semibold px-6 py-2 rounded-lg transition-colors disabled:opacity-50 cursor-pointer w-fit"
           >
             {createMutation.isPending ? "Creating..." : "Create user"}
           </button>
-        </div>
-      </form>
+        </form>
+      </div>
 
-      {/* ── Users table ── */}
-      <div className="border border-brownish overflow-hidden">
+      {/* ── Users table card ── */}
+      <div className="bg-white rounded-2xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
+          <h3 className="font-bold text-gray-800 text-base">All Users</h3>
+          {!isLoading && (
+            <span className="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-0.5 rounded-full">
+              {users.length}
+            </span>
+          )}
+        </div>
+
         {isLoading ? (
-          <p className="font-liter text-textish text-sm p-6">Loading...</p>
+          <p className="text-gray-400 text-sm p-6">Loading...</p>
         ) : users.length === 0 ? (
-          <p className="font-liter text-textish text-sm p-6">No users yet.</p>
+          <p className="text-gray-400 text-sm p-6">No users yet.</p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-brownish/20 border-b border-brownish">
+            <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
-                <th className="text-left px-4 py-3 font-liter text-textish font-normal">Email</th>
-                <th className="text-left px-4 py-3 font-liter text-textish font-normal">Role</th>
-                <th className="text-left px-4 py-3 font-liter text-textish font-normal">Joined</th>
-                <th className="px-4 py-3 w-32" />
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Email</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Role</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Joined</th>
+                <th className="px-5 py-3 w-32" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-brownish/40">
+            <tbody className="divide-y divide-gray-50">
               {users.map((u) => (
-                <tr key={u.id} className="hover:bg-brownish/10 transition-colors">
-                  <td className="px-4 py-3 font-liter text-title text-sm max-w-[240px] truncate">
+                <tr key={u.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-5 py-3 text-gray-800 font-medium max-w-[240px] truncate">
                     {u.email}
                     {u.id === currentUser?.id && (
-                      <span className="ml-2 font-liter text-xs text-lightish">(you)</span>
+                      <span className="ml-2 text-xs text-gray-400">(you)</span>
                     )}
                   </td>
-                  <td className="px-4 py-3">
-                    <RoleBadge role={u.role} />
+                  <td className="px-5 py-3"><RoleBadge role={u.role} /></td>
+                  <td className="px-5 py-3 text-xs text-gray-400">
+                    {new Date(u.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                   </td>
-                  <td className="px-4 py-3 font-liter text-textish text-xs">
-                    {new Date(u.created_at).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </td>
-                  <td className="px-4 py-3">
+                  <td className="px-5 py-3">
                     {canChangeRole(u) && (
                       <div className="flex justify-end items-center gap-3">
                         {currentRole === "superadmin" && (
                           <select
                             value={u.role}
-                            onChange={(e) =>
-                              roleMutation.mutate({ id: u.id, role: e.target.value as Role })
-                            }
-                            className="border border-brownish bg-transparent font-liter text-xs px-2 py-1.5 text-title cursor-pointer outline-none focus:border-textish"
+                            onChange={(e) => roleMutation.mutate({ id: u.id, role: e.target.value as Role })}
+                            className="border border-gray-200 rounded-lg text-xs px-2 py-1.5 text-gray-700 cursor-pointer outline-none bg-white"
                           >
                             <option value="user">user</option>
                             <option value="admin">admin</option>
@@ -198,7 +168,7 @@ const DashboardUsers = () => {
                         <button
                           onClick={() => deleteMutation.mutate(u.id)}
                           disabled={deleteMutation.isPending}
-                          className="text-lightish hover:text-pinkish transition-colors disabled:opacity-40 cursor-pointer"
+                          className="text-gray-400 hover:text-red-500 transition-colors disabled:opacity-40 cursor-pointer"
                           aria-label="Delete user"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -217,6 +187,3 @@ const DashboardUsers = () => {
 };
 
 export default DashboardUsers;
-
-
-

@@ -6,14 +6,11 @@ export interface Product {
   image_url: string | null
 }
 
-export interface CartRow {
+export interface CartItemFull {
   id: string
   user_id: string
   product_id: number
   quantity: number
-}
-
-export interface CartItemFull extends CartRow {
   product: Product
 }
 

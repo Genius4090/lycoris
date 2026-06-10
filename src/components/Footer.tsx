@@ -29,12 +29,12 @@ const Footer = () => {
       <Title extraClass="max-w-200">Stay Connected: Follow Our Floral Journey</Title>
       <p className="max-w-120 text-center mt-10 font-light text-title">Stay updated with the latest floral trends, exclusive offers, and special deals delivered straight to your inbox.</p>
      <div className="flex items-center gap-4 mt-5">
-      <input type="text" className="outline-none py-2 px-2 w-[386px] border border-brownish" placeholder=""/>
-      <button className="bg-brownish py-2 px-6 border border-brownish text-title font-liter cursor-pointer">Send</button>
+      <input type="text" className="outline-none py-2 px-2 w-[386px] border border-brownish bg-transparent text-title placeholder:text-title/40" placeholder=""/>
+      <button className="bg-brownish py-2 px-6 border border-brownish text-grayish font-liter cursor-pointer">Send</button>
      </div>
      <div className="flex items-center gap-4 mt-12">
       {SocialList.map(item => 
-        <div key={item.id} className=" rounded-lg bg-pinkish w-[36px] h-[36px] flex items-center justify-center cursor-pointer" >
+        <div key={item.id} className=" rounded-lg bg-grayish w-[36px] h-[36px] flex items-center justify-center cursor-pointer" >
           <img key={item.id} src={item.img} alt="social-icon" />
         </div>
       )} 

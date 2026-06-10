@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   if (loading) {
     return (
       <div className="containers flex justify-center items-center py-20">
-        <p className="text-gray-500 text-sm">Loading...</p>
+        <p className="text-textish text-sm">Loading...</p>
       </div>
     );
   }

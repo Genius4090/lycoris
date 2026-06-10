@@ -8,12 +8,12 @@ type InputProps = {
 
 const Input = ({ value, onChange, placeholder = "Search..." }: InputProps) => {
   return (
-    <div className="w-70 border border-title rounded-lg flex justify-between py-2.5 pr-2 pl-4 gap-2">
+    <div className="w-70 border border-brownish/60 rounded-lg flex justify-between py-2.5 pr-2 pl-4 gap-2">
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="outline-none placeholder:font-liter w-full"
+        className="outline-none placeholder:font-liter w-full bg-transparent text-title placeholder:text-title/40"
         placeholder={placeholder}
       />
       <Search className="text-title" />

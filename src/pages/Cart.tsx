@@ -122,7 +122,7 @@ const Cart = () => {
         <div className="border border-brownish p-2">
           <button
             onClick={() => navigate(PATH.products)}
-            className="cursor-pointer font-liter flex justify-center items-center text-title bg-brownish py-2 px-8"
+            className="cursor-pointer font-liter flex justify-center items-center text-grayish bg-brownish py-2 px-8"
           >
             Browse catalog
           </button>
@@ -206,10 +206,10 @@ const Cart = () => {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => removeMutation.mutate(item.product_id)}
-                      className="bg-brownish text-title w-7 h-7 flex items-center justify-center cursor-pointer hover:bg-brownish/70 transition-colors"
+                      className="bg-brownish  w-7 h-7 flex items-center justify-center cursor-pointer hover:bg-brownish/70 transition-colors"
                       aria-label="Decrease quantity"
                     >
-                      <Minus className="w-3.5 h-3.5" />
+                      <Minus className="w-3.5 h-3.5 text-grayish" />
                     </button>
                     <span className="font-liter text-title w-5 text-center pb-0.5">
                       {item.quantity}
@@ -220,7 +220,7 @@ const Cart = () => {
                       className="bg-brownish text-title w-7 h-7 flex items-center justify-center cursor-pointer hover:bg-brownish/70 transition-colors disabled:opacity-40"
                       aria-label="Increase quantity"
                     >
-                      <Plus className="w-3.5 h-3.5" />
+                      <Plus className="w-3.5 h-3.5 text-grayish" />
                     </button>
                   </div>
 
@@ -271,7 +271,7 @@ const Cart = () => {
             <div className="border border-brownish/80 p-2 mt-1">
               <button
                 onClick={() => navigate(PATH.checkout)}
-                className="cursor-pointer w-full font-liter flex justify-center items-center text-title bg-brownish py-2.5 px-7 hover:bg-brownish/70 transition-colors"
+                className="cursor-pointer w-full font-liter flex justify-center items-center text-grayish bg-brownish py-2.5 px-7 hover:bg-brownish/70 transition-colors"
               >
                 Proceed to Checkout
               </button>

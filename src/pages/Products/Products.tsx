@@ -121,16 +121,16 @@ const Products = () => {
           className="cursor-pointer"
           title={sortAZ ? "Sort: A → Z (click to reset)" : "Sort by name"}
         >
-          {sortAZ ? <TextAlignEnd className="rotate-180 -scale-x-100  transition-transform duration-300"/> : <TextAlignEnd className="transition-transform duration-300"/>}
+          {sortAZ ? <TextAlignEnd className="rotate-180 -scale-x-100 text-title  transition-transform duration-300"/> : <TextAlignEnd className="transition-transform text-title duration-300"/>}
          
         </button>
       </div>
 
       {/* ── Product grid ── */}
       {isLoading ? (
-        <p className="text-gray-400 text-sm mt-16">Loading...</p>
+        <p className="text-textish text-sm mt-16">Loading...</p>
       ) : products.length === 0 ? (
-        <p className="text-gray-400 text-sm mt-16">
+        <p className="text-textish text-sm mt-16">
           No products found{debouncedSearch ? ` for "${debouncedSearch}"` : ""}.
         </p>
       ) : (
@@ -158,7 +158,7 @@ const Products = () => {
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-1.5 py-1.5 text-title bg-brownish text-sm disabled:opacity-40 cursor-pointer"
+            className="px-1.5 py-1.5 text-grayish bg-brownish text-sm disabled:opacity-40 cursor-pointer"
           >
             <ChevronLeft />
           </button>
@@ -170,7 +170,7 @@ const Products = () => {
               onClick={() => setPage(p)}
               className={`w-9 h-9  cursor-pointer text-title font-liter ${
                 p === page
-                  ? "bg-brownish"
+                  ? "bg-brownish text-grayish!"
                   : "border border-brownish"
               }`}
             >
@@ -182,7 +182,7 @@ const Products = () => {
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="px-1.5 py-1.5 text-title bg-brownish text-sm disabled:opacity-40 cursor-pointer"
+            className="px-1.5 py-1.5 text-grayish bg-brownish text-sm disabled:opacity-40 cursor-pointer"
           >
             <ChevronRight />
           </button>

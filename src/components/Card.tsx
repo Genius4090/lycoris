@@ -44,10 +44,10 @@ const Card = ({ product, user, addMutation, removeMutation, qty }: CardProps) =>
           <span
             className={`text-sm px-2  py-0.5 rounded-full font-liter ${
               product.stock === 0
-                ? "bg-red-100 text-red-500"
+                ? "bg-red-900/40 text-red-400"
                 : product.stock <= 3
-                ? "bg-amber-100 text-amber-600"
-                : "bg-brownish/40 text-title"
+                ? "bg-amber-900/40 text-amber-400"
+                : "bg-brownish/20 text-title"
             }`}
           >
             {product.stock === 0 ? "Out of stock" : `${product.stock} left`}
@@ -62,7 +62,7 @@ const Card = ({ product, user, addMutation, removeMutation, qty }: CardProps) =>
             <div className="border border-brownish p-2 w-full">
               <button
                 onClick={() => navigate(PATH.login)}
-                className="cursor-pointer w-full font-liter flex justify-center gap-2 items-center text-title bg-brownish py-2 px-7"
+                className="cursor-pointer w-full font-liter flex justify-center gap-2 items-center text-grayish bg-brownish py-2 px-7"
               >
                 Log in to add to cart
               </button>
@@ -78,17 +78,17 @@ const Card = ({ product, user, addMutation, removeMutation, qty }: CardProps) =>
               <div className="bg-brownish flex items-center justify-between w-full py-1">
                 <button
                   onClick={() => removeMutation.mutate(product.id)}
-                  className="bg-brownish text-title w-8 h-8 rounded-full text-lg flex items-center justify-center cursor-pointer"
+                  className="bg-brownish  w-8 h-8 rounded-full text-lg flex items-center justify-center cursor-pointer"
                 >
-                  <Minus className="w-4" />
+                  <Minus className="w-4 text-grayish" />
                 </button>
-                <p className="font-liter mb-0.5">{qty}</p>
+                <p className="font-liter mb-0.5 text-grayish">{qty}</p>
                 <button
                   onClick={() => addMutation.mutate(product.id)}
                   disabled={qty >= product.stock}
                   className="bg-brownish text-title w-8 h-8 rounded-full text-lg disabled:opacity-40 flex items-center justify-center cursor-pointer"
                 >
-                  <Plus className="w-4" />
+                  <Plus className="w-4 text-grayish" />
                 </button>
               </div>
             </div>
@@ -96,7 +96,7 @@ const Card = ({ product, user, addMutation, removeMutation, qty }: CardProps) =>
             <div className="border border-brownish p-2 w-full">
               <button
                 onClick={() => addMutation.mutate(product.id)}
-                className="cursor-pointer w-full font-liter flex justify-center gap-2 items-center text-title bg-brownish py-2 px-7"
+                className="cursor-pointer w-full font-liter flex justify-center gap-2 items-center text-grayish bg-brownish py-2 px-7"
               >
                 Add to cart
               </button>

@@ -1,5 +1,3 @@
-import { StarIcon } from "../assets/icons"
-
 interface InfoType {
     id:number,
     quantity:string,
@@ -26,19 +24,30 @@ const Numbers = () => {
       ]
   
       return (
-    <section className="mt-20 mb-10">
-           <div className="relative ">
-        <img src={StarIcon} alt="star-icon" className="absolute left-10 -top-2" />
-        <img src={StarIcon} alt="star-icon" className="absolute right-10 -bottom-2" />
-        <p className="text-[40px] text-title text-center">Our story in numbers</p>
+    <section className="mt-24 mb-10 flex flex-col items-center">
+      <div className="relative mt-10">
+       
+        <p className="text-[40px] text-title font-liter italic text-center">Our story in numbers</p>
       </div>
-      <ul className="flex gap-4 mt-10">
-        {InfoList.map(item => <li className="flex flex-col items-center py-4 px-6  bg-pinkish text-white rounded-xl" key={item.id}>
-          <p className="text-[32px] font-semibold tracking-wider">{item.quantity} +</p>
-          <p>{item.text}</p>
-        </li>)}
-        
-      </ul>
+
+      <div className="flex gap-10">
+        {InfoList.map((item) => (
+          <div
+            key={item.id}
+            className="flex flex-col items-center justify-center py-10 gap-5 p-4"
+          >
+            <span
+              className="font-liter text-[56px] leading-none text-title"
+              style={{ textShadow: '0 0 40px rgba(200,80,5,0.4)' }}
+            >
+              {item.quantity} +
+            </span>
+            <span className="font-sora text-[11px] uppercase tracking-[0.2em] text-textish mt-1">
+              {item.text}
+            </span>
+          </div>
+        ))}
+      </div>
     </section>
   )
 }

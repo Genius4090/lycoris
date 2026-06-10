@@ -106,7 +106,7 @@ const Orders = () => {
       {/* ── Confirm clear modal ── */}
       {showConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-          <div className="bg-[#F8F3EC] border border-brownish p-8 w-full max-w-sm flex flex-col gap-6">
+          <div className="bg-[#1a1511] border border-brownish p-8 w-full max-w-sm flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <h3 className="font-liter text-xl text-title">Clear order history?</h3>
               <p className="font-liter text-sm text-textish">
@@ -118,7 +118,7 @@ const Orders = () => {
                 <button
                   onClick={() => clearMutation.mutate()}
                   disabled={clearMutation.isPending}
-                  className="w-full font-liter text-sm text-title bg-brownish py-2 hover:bg-brownish/70 transition-colors disabled:opacity-50 cursor-pointer"
+                  className="w-full font-liter text-sm text-grayish bg-brownish py-2 hover:bg-brownish/70 transition-colors disabled:opacity-50 cursor-pointer"
                 >
                   {clearMutation.isPending ? "Clearing..." : "Yes, clear it"}
                 </button>
@@ -148,7 +148,7 @@ const Orders = () => {
           <div className="border border-brownish p-2">
             <button
               onClick={() => navigate(PATH.products)}
-              className="cursor-pointer font-liter flex justify-center items-center text-title bg-brownish py-2 px-8"
+              className="cursor-pointer font-liter flex justify-center items-center text-grayish bg-brownish py-2 px-8"
             >
               Start shopping
             </button>

@@ -16,7 +16,7 @@ const HomeSection1 = () => {
        <div>
        <div className="py-4">
       <div className="relative w-full">
-        <h3 className="font-liter text-3xl font-medium">OUR STORE</h3>
+        <h3 className="font-liter text-title text-3xl font-medium">OUR STORE</h3>
       <p className="text-textish mt-4 mb-2">Blossom Haven <br /> c/floral 523</p>
       <span className="bg-[#F7FF00] px-1.5 py-0.5 absolute -top-4.5 -right-3 font-liter">New</span>
       </div>            

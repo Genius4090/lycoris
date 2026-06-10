@@ -68,7 +68,7 @@ const Login = () => {
       <div className="min-h-screen flex items-center justify-center px-4 login-bg">
         <div className="w-full max-w-sm border border-brownish p-10 flex flex-col items-center gap-6 text-center">
           <div className="w-14 h-14 bg-brownish flex items-center justify-center">
-            <Mail className="w-6 h-6 text-title" />
+            <Mail className="w-6 h-6 text-grayish" />
           </div>
 
           <div className="flex flex-col gap-2">
@@ -91,7 +91,7 @@ const Login = () => {
                 setPassword("");
                 dismissConfirmation();
               }}
-              className="w-full font-liter text-sm text-title bg-brownish py-2.5 hover:bg-brownish/70 transition-colors cursor-pointer"
+              className="w-full font-liter text-sm text-grayish bg-brownish py-2.5 hover:bg-brownish/70 transition-colors cursor-pointer"
             >
               Go to Log In
             </button>
@@ -135,7 +135,7 @@ const Login = () => {
               onClick={() => switchMode(m)}
               className={`flex-1 py-2.5 font-liter text-sm transition-colors cursor-pointer ${
                 mode === m
-                  ? "bg-brownish text-title"
+                  ? "bg-brownish text-grayish"
                   : "text-textish hover:bg-brownish/20"
               }`}
             >
@@ -197,7 +197,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full font-liter text-sm text-title bg-brownish py-2.5 hover:bg-brownish/70 transition-colors disabled:opacity-50 cursor-pointer"
+              className="w-full font-liter text-sm text-grayish bg-brownish py-2.5 hover:bg-brownish/70 transition-colors disabled:opacity-50 cursor-pointer"
             >
               {loading
                 ? "Please wait..."

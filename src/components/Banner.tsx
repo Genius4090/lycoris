@@ -24,7 +24,7 @@ const Banner = () => {
         }
     ]
   return (
-    <div className="bg-brownish py-10 w-full mt-30">
+    <div className=" py-10 w-full mt-30">
       <ul className="flex items-center justify-center gap-30">
         {logoList.map(item => <li key={item.id}><img src={item.img} alt="banner-image"/></li>)}
       </ul>

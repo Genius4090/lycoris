@@ -1,10 +1,11 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { PATH } from "../constants/paths";
 import { useAuth } from "../context/AuthContext";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import LanguageSelect from "./LanguageSelect";
+import { fetchCart } from "../supabase/cartService";
 
 const Header = () => {
   const { user, role, signOut } = useAuth();
@@ -27,6 +28,14 @@ const Header = () => {
   ];
 
   const isAdmin = role === "admin" || role === "superadmin";
+
+  const { data: cartItems = [] } = useQuery({
+    queryKey: ["cart"],
+    queryFn: fetchCart,
+    enabled: !!user,
+  });
+
+  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const [scrolled, setScrolled] = useState(false);
 
@@ -94,9 +103,9 @@ const Header = () => {
         <span className="text-white/25 text-xs font-thin">|</span>
 
         {/* Bag */}
-        <span className="font-sora text-[11px] text-white/80 tracking-wide cursor-pointer hover:text-white transition-colors duration-200">
-          bag [&nbsp;0&nbsp;]
-        </span>
+        <Link to={PATH.cart} className="font-sora text-[11px] text-white/80 tracking-wide cursor-pointer hover:text-white transition-colors duration-200">
+          bag [&nbsp;{totalItems}&nbsp;]
+        </Link>
 
         <span className="text-white/25 text-xs font-thin">|</span>
     

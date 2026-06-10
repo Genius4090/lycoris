@@ -11,8 +11,8 @@
       "content4": "News"
     },
     "auth": {
-     "login": "Log In",
-     "logout": "Log Out",
+     "login": "sign in",
+     "logout": "log out",
      "dashboard": "Dashboard"
     }
 }

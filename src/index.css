@@ -1,5 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Sora:wght@100..800&display=swap');
 @import "tailwindcss";
+
+/* ── Sora ── */
+@font-face {
+  font-family: "Sora";
+  src: url("./assets/fonts/Sora/Sora-VariableFont_wght.ttf") format("truetype");
+  font-weight: 100 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Literata ── */
+@font-face {
+  font-family: "Literata";
+  src: url("./assets/fonts/Literata/Literata-VariableFont_opsz,wght.ttf") format("truetype");
+  font-weight: 200 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Literata";
+  src: url("./assets/fonts/Literata/Literata-Italic-VariableFont_opsz,wght.ttf") format("truetype");
+  font-weight: 200 900;
+  font-style: italic;
+  font-display: swap;
+}
 
 @layer base {
   * {
@@ -29,12 +54,12 @@ html{
   margin: 0 auto;
 }
 
-.active {
+/* .active {
   text-decoration: underline;
   text-underline-offset: 6px;
   text-decoration-thickness: 1.5px;
   text-decoration-color: var(--color-textish) ;
-}
+} */
 
 /* Minimal scrollbar */
 ::-webkit-scrollbar {
@@ -45,3 +70,6 @@ html{
   background: rgb(82, 82, 82);
   border-radius: 3px;
 }
+
+
+

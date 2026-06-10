@@ -147,7 +147,7 @@ const DashboardAdmins = () => {
             <tbody className="divide-y divide-gray-50">
               {filtered.map((u) => (
                 <tr key={u.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-5 py-3 font-medium text-gray-800">{u.email}</td>
+                  <td className="px-5 py-3 font-medium text-gray-800 max-w-[180px] truncate">{u.email}</td>
                   <td className="px-5 py-3 text-xs text-gray-400">
                     {new Date(u.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                   </td>
@@ -157,7 +157,7 @@ const DashboardAdmins = () => {
                       disabled={promoteMutation.isPending}
                       className="flex items-center gap-1.5 ml-auto text-xs text-white bg-gray-900 hover:bg-gray-700 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
                     >
-                      <ShieldPlus className="w-3.5 h-3.5" />
+                      <ShieldPlus/>
                       Make admin
                     </button>
                   </td>

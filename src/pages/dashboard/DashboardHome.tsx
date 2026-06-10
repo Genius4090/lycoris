@@ -65,7 +65,7 @@ const DashboardHome = () => {
       text: "text-gray-900",
     },
     {
-      label: "Confirmed Orders",
+      label: "Orders",
       value: confirmedOrders,
       icon: ClipboardList,
       color: "bg-[#7c3aed]",

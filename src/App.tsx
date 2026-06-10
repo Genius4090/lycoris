@@ -57,8 +57,8 @@ function App() {
       children: [
         { index: true, element: <DashboardHome /> },
         { path: PATH.dashboardProducts, element: <DashboardProducts /> },
-        { path: PATH.dashboardUsers,    element: <DashboardUsers /> },
-        { path: PATH.dashboardOrders,   element: <DashboardOrders /> },
+        { path: PATH.dashboardUsers, element: <DashboardUsers /> },
+        { path: PATH.dashboardOrders, element: <DashboardOrders /> },
         {
           path: PATH.dashboardAdmins,
           element: <SuperAdminRoute><DashboardAdmins /></SuperAdminRoute>,

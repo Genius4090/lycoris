@@ -20,7 +20,7 @@ const LanguageSelect = () => {
         <button
           key={item.id}
           onClick={() => changeLanguage(item.code)}
-          className={`font-sora text-[11px] tracking-wide cursor-pointer transition-colors duration-200 ${
+          className={`font-sora text-xs tracking-wide cursor-pointer transition-colors duration-200 ${
             current === item.code
               ? "text-white font-semibold underline underline-offset-2"
               : "text-white/45 font-light hover:text-white/70"

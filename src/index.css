@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&display=swap');
 @import "tailwindcss";
 
 /* ── Sora ── */
@@ -55,6 +56,7 @@ html{
 @theme {
   --font-sora: "Sora", sans-serif;
   --font-liter: "Literata", serif;
+  --font-cas:"Libre Caslon Display", serif;
   --color-title: #e8e0d5;
   --color-pinkish: #FB8585;
   --color-brownish: #DBCCBA;

@@ -18,8 +18,8 @@ import DashboardUsers from "./pages/dashboard/DashboardUsers";
 import DashboardOrders from "./pages/dashboard/DashboardOrders";
 import DashboardAdmins from "./pages/dashboard/DashboardAdmins";
 import About from "./pages/about/About";
-import Notfound from "./pages/NotFound";
-import Errorpage from "./pages/ErrorPage";
+import Notfound from "./pages/NotFound/NotFound";
+import Errorpage from "./pages/Error/ErrorPage";
 
 function App() {
   const router = createBrowserRouter([

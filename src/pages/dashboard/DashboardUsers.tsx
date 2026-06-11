@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  adminCreateUser,
-  adminDeleteUser,
-  adminFetchUsers,
-  adminUpdateUserRole,
+  adminCreateUser, adminDeleteUser, adminFetchUsers, adminUpdateUserRole,
 } from "../../supabase/adminService";
 import type { Profile, Role } from "../../@types";
 import { useAuth } from "../../context/AuthContext";
 import { Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const inp =
   "w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 outline-none focus:border-gray-400 transition-colors bg-white";
@@ -31,16 +29,14 @@ const emptyForm = { email: "", password: "", role: "user" as Role };
 const DashboardUsers = () => {
   const queryClient = useQueryClient();
   const { user: currentUser, role: currentRole } = useAuth();
+  const { t } = useTranslation();
 
   const [form, setForm] = useState(emptyForm);
   const [formError, setFormError] = useState<string | null>(null);
 
   const invalidate = () => queryClient.invalidateQueries({ queryKey: ["admin-users"] });
 
-  const { data: users = [], isLoading } = useQuery({
-    queryKey: ["admin-users"],
-    queryFn: adminFetchUsers,
-  });
+  const { data: users = [], isLoading } = useQuery({ queryKey: ["admin-users"], queryFn: adminFetchUsers });
 
   const createMutation = useMutation({
     mutationFn: () => adminCreateUser(form.email, form.password, form.role),
@@ -77,19 +73,19 @@ const DashboardUsers = () => {
   return (
     <div className="flex flex-col gap-6">
 
-      {/* ── Add user card ── */}
+      {/* Add user card */}
       <div className="bg-white rounded-2xl p-6 flex flex-col gap-5">
-        <h2 className="font-bold text-gray-800 text-base">Add New User</h2>
+        <h2 className="font-bold text-gray-800 text-base">{t("dashboard.users_addNew")}</h2>
         <form onSubmit={handleCreate} className="flex flex-col gap-4">
           <div className="grid grid-cols-2 gap-4">
             <input
-              type="email" placeholder="Email address" required
+              type="email" placeholder={t("dashboard.users_emailPlaceholder")} required
               value={form.email}
               onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
               className={`${inp} col-span-2`}
             />
             <input
-              type="password" placeholder="Password (min 6 chars)" required minLength={6}
+              type="password" placeholder={t("dashboard.users_passwordPlaceholder")} required minLength={6}
               value={form.password}
               onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
               className={inp}
@@ -104,37 +100,34 @@ const DashboardUsers = () => {
           </div>
           {formError && <p className="text-xs text-red-500">{formError}</p>}
           <button
-            type="submit"
-            disabled={createMutation.isPending}
+            type="submit" disabled={createMutation.isPending}
             className="bg-gray-900 hover:bg-gray-700 text-white text-sm font-semibold px-6 py-2 rounded-lg transition-colors disabled:opacity-50 cursor-pointer w-fit"
           >
-            {createMutation.isPending ? "Creating..." : "Create user"}
+            {createMutation.isPending ? t("dashboard.users_creating") : t("dashboard.users_createUser")}
           </button>
         </form>
       </div>
 
-      {/* ── Users table card ── */}
+      {/* Users table card */}
       <div className="bg-white rounded-2xl overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
-          <h3 className="font-bold text-gray-800 text-base">All Users</h3>
+          <h3 className="font-bold text-gray-800 text-base">{t("dashboard.users_allUsers")}</h3>
           {!isLoading && (
-            <span className="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-0.5 rounded-full">
-              {users.length}
-            </span>
+            <span className="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-0.5 rounded-full">{users.length}</span>
           )}
         </div>
 
         {isLoading ? (
-          <p className="text-gray-400 text-sm p-6">Loading...</p>
+          <p className="text-gray-400 text-sm p-6">{t("dashboard.users_loading")}</p>
         ) : users.length === 0 ? (
-          <p className="text-gray-400 text-sm p-6">No users yet.</p>
+          <p className="text-gray-400 text-sm p-6">{t("dashboard.users_noUsers")}</p>
         ) : (
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Email</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Role</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Joined</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.users_emailCol")}</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.users_roleCol")}</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.users_joinedCol")}</th>
                 <th className="px-5 py-3 w-32" />
               </tr>
             </thead>
@@ -144,12 +137,12 @@ const DashboardUsers = () => {
                   <td className="px-5 py-3 text-gray-800 font-medium max-w-[240px] truncate">
                     {u.email}
                     {u.id === currentUser?.id && (
-                      <span className="ml-2 text-xs text-gray-400">(you)</span>
+                      <span className="ml-2 text-xs text-gray-400">{t("dashboard.users_you")}</span>
                     )}
                   </td>
                   <td className="px-5 py-3"><RoleBadge role={u.role} /></td>
                   <td className="px-5 py-3 text-xs text-gray-400">
-                    {new Date(u.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    {new Date(u.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
                   </td>
                   <td className="px-5 py-3">
                     {canChangeRole(u) && (

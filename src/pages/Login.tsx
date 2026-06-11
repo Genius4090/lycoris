@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { PATH } from "../constants/paths";
 import { Eye, EyeOff, Mail } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 type Mode = "login" | "register";
 
@@ -17,6 +18,7 @@ const inp =
 const Login = () => {
   const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [mode, setMode]            = useState<Mode>("login");
   const [email, setEmail]          = useState("");
@@ -26,9 +28,9 @@ const Login = () => {
   const [loading, setLoading]      = useState(false);
   const [pendingEmail, setPending] = useState<string | null>(getStoredPending);
 
-  const showConfirmation  = (e: string) => { savePendingEmail(e); setPending(e); };
-  const dismissConfirmation = ()        => { clearPendingEmail(); setPending(null); };
-  const switchMode = (next: Mode)       => { setMode(next); setError(null); };
+  const showConfirmation    = (e: string) => { savePendingEmail(e); setPending(e); };
+  const dismissConfirmation = ()          => { clearPendingEmail(); setPending(null); };
+  const switchMode          = (next: Mode) => { setMode(next); setError(null); };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,9 +40,7 @@ const Login = () => {
     if (mode === "register") {
       const { error } = await signUp(email, password);
       if (error) {
-        const isRate =
-          error.toLowerCase().includes("rate limit") ||
-          error.toLowerCase().includes("after");
+        const isRate = error.toLowerCase().includes("rate limit") || error.toLowerCase().includes("after");
         isRate ? showConfirmation(email) : setError(error);
       } else {
         showConfirmation(email);
@@ -50,7 +50,7 @@ const Login = () => {
       if (error) {
         if (error.includes("Email not confirmed")) {
           if (email) showConfirmation(email);
-          setError("Please confirm your email first. Check your inbox.");
+          setError(t("auth.emailNotConfirmed"));
         } else {
           setError(error);
         }
@@ -65,43 +65,30 @@ const Login = () => {
   // ── Confirmation screen ───────────────────────────────────────────────────
   if (pendingEmail) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 login-bg">
+      <div className="min-h-screen flex items-center justify-center px-4">
         <div className="w-full max-w-sm border border-brownish p-10 flex flex-col items-center gap-6 text-center">
           <div className="w-14 h-14 bg-brownish flex items-center justify-center">
             <Mail className="w-6 h-6 text-grayish" />
           </div>
-
           <div className="flex flex-col gap-2">
-            <h2 className="font-liter text-2xl text-title">Check your email</h2>
-            <p className="font-liter text-sm text-textish">
-              We sent a confirmation link to
-            </p>
+            <h2 className="font-liter text-2xl text-title">{t("auth.checkEmail")}</h2>
+            <p className="font-liter text-sm text-textish">{t("auth.sentLink")}</p>
             <p className="font-liter text-sm text-title break-all">{pendingEmail}</p>
           </div>
-
-          <p className="font-liter text-xs text-textish leading-relaxed">
-            Click the link to confirm your account, then come back to log in.
-          </p>
-
+          <p className="font-liter text-xs text-textish leading-relaxed">{t("auth.confirmInstruction")}</p>
           <div className="border border-brownish p-2 w-full">
             <button
-              onClick={() => {
-                setEmail(pendingEmail);
-                setMode("login");
-                setPassword("");
-                dismissConfirmation();
-              }}
+              onClick={() => { setEmail(pendingEmail); setMode("login"); setPassword(""); dismissConfirmation(); }}
               className="w-full font-liter text-sm text-grayish bg-brownish py-2.5 hover:bg-brownish/70 transition-colors cursor-pointer"
             >
-              Go to Log In
+              {t("auth.goToLogin")}
             </button>
           </div>
-
           <button
             onClick={() => { setMode("register"); dismissConfirmation(); }}
             className="font-liter text-xs text-textish underline underline-offset-4 cursor-pointer hover:text-title transition-colors"
           >
-            Back to register
+            {t("auth.backToRegister")}
           </button>
         </div>
       </div>
@@ -113,20 +100,15 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center px-4">
       <div className="w-full max-w-sm flex flex-col gap-8">
 
-        {/* Brand */}
         <div className="flex flex-col items-center gap-1 text-center">
-          <Link
-            to={PATH.home}
-            className="font-liter italic text-title text-3xl hover:opacity-70 transition-opacity"
-          >
+          <Link to={PATH.home} className="font-liter italic text-title text-3xl hover:opacity-70 transition-opacity">
             Lycoris
           </Link>
           <p className="font-liter text-sm text-textish">
-            {mode === "login" ? "Welcome back" : "Create your account"}
+            {mode === "login" ? t("auth.welcomeBack") : t("auth.createAccount")}
           </p>
         </div>
 
-        {/* Mode tabs */}
         <div className="flex border border-brownish">
           {(["login", "register"] as Mode[]).map((m) => (
             <button
@@ -134,27 +116,19 @@ const Login = () => {
               type="button"
               onClick={() => switchMode(m)}
               className={`flex-1 py-2.5 font-liter text-sm transition-colors cursor-pointer ${
-                mode === m
-                  ? "bg-brownish text-grayish"
-                  : "text-textish hover:bg-brownish/20"
+                mode === m ? "bg-brownish text-grayish" : "text-textish hover:bg-brownish/20"
               }`}
             >
-              {m === "login" ? "Log In" : "Register"}
+              {m === "login" ? t("auth.logIn") : t("auth.register")}
             </button>
           ))}
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-
           <div className="flex flex-col gap-1.5">
-            <label className="font-liter text-xs text-textish uppercase tracking-widest">
-              Email
-            </label>
+            <label className="font-liter text-xs text-textish uppercase tracking-widest">{t("auth.email")}</label>
             <input
-              type="email"
-              required
-              value={email}
+              type="email" required value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               className={inp}
@@ -162,22 +136,15 @@ const Login = () => {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="font-liter text-xs text-textish uppercase tracking-widest">
-              Password
-            </label>
+            <label className="font-liter text-xs text-textish uppercase tracking-widest">{t("auth.password")}</label>
             <div className="relative">
               <input
-                type={showPass ? "text" : "password"}
-                required
-                minLength={6}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className={`${inp} pr-11`}
+                type={showPass ? "text" : "password"} required minLength={6}
+                value={password} onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••" className={`${inp} pr-11`}
               />
               <button
-                type="button"
-                onClick={() => setShowPass((v) => !v)}
+                type="button" onClick={() => setShowPass((v) => !v)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-textish/50 hover:text-textish transition-colors cursor-pointer"
                 aria-label={showPass ? "Hide password" : "Show password"}
               >
@@ -185,39 +152,32 @@ const Login = () => {
               </button>
             </div>
             {mode === "register" && (
-              <p className="font-liter text-xs text-textish/60">Minimum 6 characters</p>
+              <p className="font-liter text-xs text-textish/60">{t("auth.minChars")}</p>
             )}
           </div>
 
-          {error && (
-            <p className="font-liter text-xs text-pinkish text-center">{error}</p>
-          )}
+          {error && <p className="font-liter text-xs text-pinkish text-center">{error}</p>}
 
           <div className="border border-brownish p-2">
             <button
-              type="submit"
-              disabled={loading}
+              type="submit" disabled={loading}
               className="w-full font-liter text-sm text-grayish bg-brownish py-2.5 hover:bg-brownish/70 transition-colors disabled:opacity-50 cursor-pointer"
             >
-              {loading
-                ? "Please wait..."
-                : mode === "login" ? "Log In" : "Create Account"}
+              {loading ? t("auth.pleaseWait") : mode === "login" ? t("auth.logIn") : t("auth.createAccountBtn")}
             </button>
           </div>
         </form>
 
-        {/* Switch mode */}
         <p className="font-liter text-xs text-center text-textish">
-          {mode === "login" ? "Don't have an account? " : "Already have an account? "}
+          {mode === "login" ? t("auth.noAccount") : t("auth.haveAccount")}{" "}
           <button
             type="button"
             onClick={() => switchMode(mode === "login" ? "register" : "login")}
             className="text-title underline underline-offset-4 cursor-pointer hover:opacity-70 transition-opacity"
           >
-            {mode === "login" ? "Register" : "Log In"}
+            {mode === "login" ? t("auth.register") : t("auth.logIn")}
           </button>
         </p>
-
       </div>
     </div>
   );

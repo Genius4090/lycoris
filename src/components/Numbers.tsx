@@ -1,33 +1,18 @@
-interface InfoType {
-    id:number,
-    quantity:string,
-    text:string
-}
-    
+import { useTranslation } from "react-i18next"
+
 const Numbers = () => {
-    const InfoList:InfoType[] = [
-        {
-          id:1,
-          quantity: "12,500",
-          text: "Bouquets Delivered"
-        },
-        {
-          id:2,
-          quantity: "3,400",
-          text: "Daily Deliveries"
-        },
-        {
-          id:3,
-          quantity: "2,100",
-          text: "5-Star Reviews"
-        }
-      ]
-  
-      return (
+  const { t } = useTranslation()
+
+  const InfoList = [
+    { id: 1, quantity: "12,500", labelKey: "about.numbers.bouquets" },
+    { id: 2, quantity: "3,400",  labelKey: "about.numbers.deliveries" },
+    { id: 3, quantity: "2,100",  labelKey: "about.numbers.reviews" },
+  ]
+
+  return (
     <section className="mt-24 mb-10 flex flex-col items-center">
       <div className="relative mt-10">
-       
-        <p className="text-[40px] text-title font-liter italic text-center">Our story in numbers</p>
+        <p className="text-[40px] text-title font-liter italic text-center">{t("about.numbers.heading")}</p>
       </div>
 
       <div className="flex gap-10">
@@ -43,7 +28,7 @@ const Numbers = () => {
               {item.quantity} +
             </span>
             <span className="font-sora text-[11px] uppercase tracking-[0.2em] text-textish mt-1">
-              {item.text}
+              {t(item.labelKey)}
             </span>
           </div>
         ))}

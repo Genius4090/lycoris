@@ -1,15 +1,12 @@
 import { useRef, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  adminCreateProduct,
-  adminDeleteProduct,
-  adminFetchProducts,
-  adminUpdateProduct,
-  deleteProductImage,
-  uploadProductImage,
+  adminCreateProduct, adminDeleteProduct, adminFetchProducts,
+  adminUpdateProduct, deleteProductImage, uploadProductImage,
 } from "../../supabase/adminService";
 import type { Product } from "../../@types";
 import { ImagePlus, Pencil, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const empty = { title: "", price: "", stock: "" };
 
@@ -19,9 +16,9 @@ const inp =
 const DashboardProducts = () => {
   const queryClient = useQueryClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
-  const invalidate = () =>
-    queryClient.invalidateQueries({ queryKey: ["admin-products"] });
+  const invalidate = () => queryClient.invalidateQueries({ queryKey: ["admin-products"] });
 
   const { data: products = [], isLoading } = useQuery({
     queryKey: ["admin-products"],
@@ -39,8 +36,8 @@ const DashboardProducts = () => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (!file.type.startsWith("image/")) { setUploadError("Please select an image file."); return; }
-    if (file.size > 5 * 1024 * 1024) { setUploadError("Image must be under 5 MB."); return; }
+    if (!file.type.startsWith("image/")) { setUploadError(t("dashboard.products_errImageType")); return; }
+    if (file.size > 5 * 1024 * 1024) { setUploadError(t("dashboard.products_errImageSize")); return; }
     setUploadError(null);
     setImageFile(file);
     setRemoveImage(false);
@@ -58,7 +55,10 @@ const DashboardProducts = () => {
       const image_url = await resolveImageUrl();
       await adminCreateProduct({ title: form.title, price: Number(form.price), stock: Number(form.stock), image_url });
     },
-    onSuccess: () => { invalidate(); setForm(empty); setImageFile(null); setImagePreview(null); if (fileInputRef.current) fileInputRef.current.value = ""; },
+    onSuccess: () => {
+      invalidate(); setForm(empty); setImageFile(null); setImagePreview(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    },
   });
 
   const updateMutation = useMutation({
@@ -91,7 +91,7 @@ const DashboardProducts = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.title || !form.price || !form.stock) return;
-    if (!editingId && !imageFile) { setUploadError("Please select a product image."); return; }
+    if (!editingId && !imageFile) { setUploadError(t("dashboard.products_errImageRequired")); return; }
     editingId ? updateMutation.mutate() : createMutation.mutate();
   };
 
@@ -101,30 +101,29 @@ const DashboardProducts = () => {
   return (
     <div className="flex flex-col gap-6">
 
-      {/* ── Form card ── */}
+      {/* Form card */}
       <div className="bg-white rounded-2xl p-6 flex flex-col gap-5">
         <h2 className="font-bold text-gray-800 text-base">
-          {editingId ? "Edit Product" : "Add New Product"}
+          {editingId ? t("dashboard.products_editProduct") : t("dashboard.products_addNew")}
         </h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="grid grid-cols-2 gap-4">
             <input
-              placeholder="Product title"
-              required
+              placeholder={t("dashboard.products_titlePlaceholder")} required
               value={form.title}
               onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
               className={`${inp} col-span-2`}
             />
             <input
-              placeholder="Price (€)"
+              placeholder={t("dashboard.products_pricePlaceholder")}
               type="number" min="0" step="0.01" required
               value={form.price}
               onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
               className={inp}
             />
             <input
-              placeholder="Stock quantity"
+              placeholder={t("dashboard.products_stockPlaceholder")}
               type="number" min="0" required
               value={form.stock}
               onChange={(e) => setForm((f) => ({ ...f, stock: e.target.value }))}
@@ -132,7 +131,6 @@ const DashboardProducts = () => {
             />
           </div>
 
-          {/* Image */}
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
               {displayImage
@@ -142,11 +140,11 @@ const DashboardProducts = () => {
             </div>
             <div className="flex flex-col gap-1">
               <label className="cursor-pointer text-xs font-semibold text-white bg-gray-800 hover:bg-gray-700 transition-colors px-4 py-2 rounded-lg w-fit">
-                Choose image
+                {t("dashboard.products_chooseImage")}
                 <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
               </label>
               <p className="text-xs text-gray-400">
-                {imageFile ? imageFile.name : editingId ? "Pick a new file to replace" : "Required, max 5 MB"}
+                {imageFile ? imageFile.name : editingId ? t("dashboard.products_replaceFile") : t("dashboard.products_imageRequired")}
               </p>
               {uploadError && <p className="text-xs text-red-500">{uploadError}</p>}
             </div>
@@ -154,48 +152,44 @@ const DashboardProducts = () => {
 
           <div className="flex gap-3">
             <button
-              type="submit"
-              disabled={isSubmitting}
+              type="submit" disabled={isSubmitting}
               className="bg-gray-900 hover:bg-gray-700 text-white text-sm font-semibold px-6 py-2 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
             >
-              {isSubmitting ? "Saving..." : editingId ? "Save changes" : "Add product"}
+              {isSubmitting ? t("dashboard.products_saving") : editingId ? t("dashboard.products_saveChanges") : t("dashboard.products_addProduct")}
             </button>
             {editingId && (
               <button
-                type="button"
-                onClick={resetForm}
+                type="button" onClick={resetForm}
                 className="border border-gray-200 text-gray-600 text-sm px-5 py-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
               >
-                Cancel
+                {t("dashboard.products_cancel")}
               </button>
             )}
           </div>
         </form>
       </div>
 
-      {/* ── Table card ── */}
+      {/* Table card */}
       <div className="bg-white rounded-2xl overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
-          <h3 className="font-bold text-gray-800 text-base">All Products</h3>
+          <h3 className="font-bold text-gray-800 text-base">{t("dashboard.products_allProducts")}</h3>
           {!isLoading && (
-            <span className="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-0.5 rounded-full">
-              {products.length}
-            </span>
+            <span className="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-0.5 rounded-full">{products.length}</span>
           )}
         </div>
 
         {isLoading ? (
-          <p className="text-gray-400 text-sm p-6">Loading...</p>
+          <p className="text-gray-400 text-sm p-6">{t("dashboard.products_loading")}</p>
         ) : products.length === 0 ? (
-          <p className="text-gray-400 text-sm p-6">No products yet.</p>
+          <p className="text-gray-400 text-sm p-6">{t("dashboard.products_noProducts")}</p>
         ) : (
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide w-16">Image</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Title</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Price</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Stock</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide w-16">{t("dashboard.products_imageCol")}</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.products_titleCol")}</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.products_priceCol")}</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.products_stockCol")}</th>
                 <th className="px-5 py-3 w-20" />
               </tr>
             </thead>

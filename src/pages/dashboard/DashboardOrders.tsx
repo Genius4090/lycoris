@@ -1,19 +1,24 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { adminCancelOrder, adminFetchOrders } from "../../supabase/adminService";
 import type { Order } from "../../supabase/orderService";
+import { useTranslation } from "react-i18next";
 
 type AdminOrder = Order & { user_email: string };
 
-const StatusBadge = ({ status }: { status: Order["status"] }) => (
-  <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${
-    status === "cancelled" ? "bg-red-100 text-red-500" : "bg-green-100 text-green-600"
-  }`}>
-    {status === "cancelled" ? "Cancelled" : "Confirmed"}
-  </span>
-);
+const StatusBadge = ({ status }: { status: Order["status"] }) => {
+  const { t } = useTranslation();
+  return (
+    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${
+      status === "cancelled" ? "bg-red-100 text-red-500" : "bg-green-100 text-green-600"
+    }`}>
+      {status === "cancelled" ? t("orders.statusCancelled") : t("orders.statusConfirmed")}
+    </span>
+  );
+};
 
 const DashboardOrders = () => {
   const queryClient = useQueryClient();
+  const { t } = useTranslation();
 
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["admin-orders"],
@@ -43,28 +48,26 @@ const DashboardOrders = () => {
     <div className="flex flex-col gap-6">
       <div className="bg-white rounded-2xl overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
-          <h3 className="font-bold text-gray-800 text-base">All Orders</h3>
+          <h3 className="font-bold text-gray-800 text-base">{t("dashboard.orders_allOrders")}</h3>
           {!isLoading && (
-            <span className="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-0.5 rounded-full">
-              {orders.length}
-            </span>
+            <span className="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-0.5 rounded-full">{orders.length}</span>
           )}
         </div>
 
         {isLoading ? (
-          <p className="text-gray-400 text-sm p-6">Loading...</p>
+          <p className="text-gray-400 text-sm p-6">{t("dashboard.orders_loading")}</p>
         ) : orders.length === 0 ? (
-          <p className="text-gray-400 text-sm p-6">No orders yet.</p>
+          <p className="text-gray-400 text-sm p-6">{t("dashboard.orders_noOrders")}</p>
         ) : (
           <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-100">
               <tr>
                 <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">#</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Customer</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Items</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Total</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Date</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">Status</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.orders_customerCol")}</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.orders_itemsCol")}</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.orders_totalCol")}</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.orders_dateCol")}</th>
+                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.orders_statusCol")}</th>
                 <th className="px-5 py-3 w-24" />
               </tr>
             </thead>
@@ -92,7 +95,7 @@ const DashboardOrders = () => {
                   </td>
                   <td className="px-5 py-3 font-semibold text-gray-800">{order.total.toFixed(2)} €</td>
                   <td className="px-5 py-3 text-xs text-gray-400">
-                    {new Date(order.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    {new Date(order.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
                   </td>
                   <td className="px-5 py-3"><StatusBadge status={order.status} /></td>
                   <td className="px-5 py-3 text-right">
@@ -102,7 +105,7 @@ const DashboardOrders = () => {
                         disabled={cancelMutation.isPending && cancelMutation.variables === order.id}
                         className="text-xs text-gray-500 border border-gray-200 px-3 py-1.5 rounded-lg hover:border-red-300 hover:text-red-500 transition-colors disabled:opacity-40 cursor-pointer"
                       >
-                        Cancel
+                        {t("dashboard.orders_cancel")}
                       </button>
                     )}
                   </td>

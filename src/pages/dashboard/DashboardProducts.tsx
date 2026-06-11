@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 const empty = { title: "", price: "", stock: "" };
 
 const inp =
-  "w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 outline-none focus:border-gray-400 transition-colors bg-white";
+  "w-full border border-brownish/40 bg-stonish px-3 py-2 font-sora text-sm text-title outline-none focus:border-brownish/60 transition-colors";
 
 const DashboardProducts = () => {
   const queryClient = useQueryClient();
@@ -102,8 +102,8 @@ const DashboardProducts = () => {
     <div className="flex flex-col gap-6">
 
       {/* Form card */}
-      <div className="bg-white rounded-2xl p-6 flex flex-col gap-5">
-        <h2 className="font-bold text-gray-800 text-base">
+      <div className="border border-brownish/40 bg-stonish p-6 flex flex-col gap-5">
+        <h2 className="font-liter text-title text-base">
           {editingId ? t("dashboard.products_editProduct") : t("dashboard.products_addNew")}
         </h2>
 
@@ -132,35 +132,35 @@ const DashboardProducts = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
+            <div className="w-16 h-16 overflow-hidden bg-brownish/10 border border-brownish/20 shrink-0 flex items-center justify-center">
               {displayImage
                 ? <img src={displayImage} alt="preview" className="w-full h-full object-cover" />
-                : <ImagePlus className="w-5 h-5 text-gray-300" />
+                : <ImagePlus className="w-5 h-5 text-lightish" />
               }
             </div>
             <div className="flex flex-col gap-1">
-              <label className="cursor-pointer text-xs font-semibold text-white bg-gray-800 hover:bg-gray-700 transition-colors px-4 py-2 rounded-lg w-fit">
+              <label className="cursor-pointer font-sora text-xs text-grayish bg-brownish hover:bg-brownish/70 transition-colors px-4 py-2 w-fit">
                 {t("dashboard.products_chooseImage")}
                 <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
               </label>
-              <p className="text-xs text-gray-400">
+              <p className="font-sora text-xs text-title">
                 {imageFile ? imageFile.name : editingId ? t("dashboard.products_replaceFile") : t("dashboard.products_imageRequired")}
               </p>
-              {uploadError && <p className="text-xs text-red-500">{uploadError}</p>}
+              {uploadError && <p className="font-sora text-xs text-pinkish">{uploadError}</p>}
             </div>
           </div>
 
           <div className="flex gap-3">
             <button
               type="submit" disabled={isSubmitting}
-              className="bg-gray-900 hover:bg-gray-700 text-white text-sm font-semibold px-6 py-2 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
+              className="bg-brownish text-grayish font-sora text-xs tracking-wide py-2.5 px-6 hover:bg-brownish/70 transition-colors disabled:opacity-50 cursor-pointer"
             >
               {isSubmitting ? t("dashboard.products_saving") : editingId ? t("dashboard.products_saveChanges") : t("dashboard.products_addProduct")}
             </button>
             {editingId && (
               <button
                 type="button" onClick={resetForm}
-                className="border border-gray-200 text-gray-600 text-sm px-5 py-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                className="border border-brownish/30 text-textish font-sora text-xs py-2 px-4 hover:border-brownish/60 hover:text-title transition-colors cursor-pointer"
               >
                 {t("dashboard.products_cancel")}
               </button>
@@ -170,57 +170,57 @@ const DashboardProducts = () => {
       </div>
 
       {/* Table card */}
-      <div className="bg-white rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
-          <h3 className="font-bold text-gray-800 text-base">{t("dashboard.products_allProducts")}</h3>
+      <div className="border border-brownish/40 bg-stonish overflow-hidden">
+        <div className="px-6 py-4 border-b border-brownish/15 flex items-center gap-2">
+          <h3 className="font-liter text-title text-base">{t("dashboard.products_allProducts")}</h3>
           {!isLoading && (
-            <span className="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-0.5 rounded-full">{products.length}</span>
+            <span className="font-sora text-[10px] bg-brownish/20 text-brownish px-2 py-0.5">{products.length}</span>
           )}
         </div>
 
         {isLoading ? (
-          <p className="text-gray-400 text-sm p-6">{t("dashboard.products_loading")}</p>
+          <p className="font-sora text-lightish text-sm p-6">{t("dashboard.products_loading")}</p>
         ) : products.length === 0 ? (
-          <p className="text-gray-400 text-sm p-6">{t("dashboard.products_noProducts")}</p>
+          <p className="font-sora text-lightish text-sm p-6">{t("dashboard.products_noProducts")}</p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-100">
+            <thead className="bg-brownish/5 border-b border-brownish/10">
               <tr>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide w-16">{t("dashboard.products_imageCol")}</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.products_titleCol")}</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.products_priceCol")}</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.products_stockCol")}</th>
+                <th className="text-left font-sora text-[10px] uppercase tracking-widest text-title px-5 py-3 w-16">{t("dashboard.products_imageCol")}</th>
+                <th className="text-left font-sora text-[10px] uppercase tracking-widest text-title px-5 py-3">{t("dashboard.products_titleCol")}</th>
+                <th className="text-left font-sora text-[10px] uppercase tracking-widest text-title px-5 py-3">{t("dashboard.products_priceCol")}</th>
+                <th className="text-left font-sora text-[10px] uppercase tracking-widest text-title px-5 py-3">{t("dashboard.products_stockCol")}</th>
                 <th className="px-5 py-3 w-20" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody>
               {products.map((p) => (
-                <tr key={p.id} className={`transition-colors ${editingId === p.id ? "bg-blue-50" : "hover:bg-gray-50"}`}>
+                <tr key={p.id} className={`border-b border-brownish/10 transition-colors ${editingId === p.id ? "bg-brownish/10" : "hover:bg-brownish/5"}`}>
                   <td className="px-5 py-3">
-                    <div className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                    <div className="w-10 h-10 overflow-hidden bg-brownish/10 shrink-0">
                       {p.image_url
                         ? <img src={p.image_url} alt={p.title} className="w-full h-full object-cover" />
-                        : <div className="w-full h-full flex items-center justify-center text-gray-300 text-lg">🌸</div>
+                        : <div className="w-full h-full flex items-center justify-center text-title text-lg">🌸</div>
                       }
                     </div>
                   </td>
-                  <td className="px-5 py-3 font-medium text-gray-800">{p.title}</td>
-                  <td className="px-5 py-3 text-gray-600">{p.price} €</td>
+                  <td className="px-5 py-3 font-sora text-title">{p.title}</td>
+                  <td className="px-5 py-3 font-sora text-title">{p.price} €</td>
                   <td className="px-5 py-3">
-                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                      p.stock === 0 ? "bg-red-100 text-red-500"
-                        : p.stock <= 3 ? "bg-amber-100 text-amber-600"
-                        : "bg-green-100 text-green-600"
+                    <span className={`font-sora text-[10px] px-2 py-0.5 ${
+                      p.stock === 0 ? "bg-pinkish/10 text-pinkish"
+                        : p.stock <= 3 ? "bg-amber-900/30 text-amber-400"
+                        : "bg-brownish/20 text-brownish"
                     }`}>
                       {p.stock}
                     </span>
                   </td>
                   <td className="px-5 py-3">
                     <div className="flex justify-end gap-3">
-                      <button onClick={() => startEdit(p)} className="text-gray-400 hover:text-gray-700 transition-colors cursor-pointer" aria-label="Edit">
+                      <button onClick={() => startEdit(p)} className="text-title hover:text-title transition-colors cursor-pointer" aria-label="Edit">
                         <Pencil className="w-4 h-4" />
                       </button>
-                      <button onClick={() => deleteMutation.mutate(p.id)} disabled={deleteMutation.isPending} className="text-gray-400 hover:text-red-500 transition-colors disabled:opacity-40 cursor-pointer" aria-label="Delete">
+                      <button onClick={() => deleteMutation.mutate(p.id)} disabled={deleteMutation.isPending} className="text-title hover:text-pinkish transition-colors disabled:opacity-40 cursor-pointer" aria-label="Delete">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>

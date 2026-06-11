@@ -10,12 +10,12 @@ import { useTranslation } from "react-i18next";
 
 const RoleBadge = ({ role }: { role: Profile["role"] }) => {
   const map = {
-    admin:      "bg-blue-100 text-blue-700",
-    superadmin: "bg-purple-100 text-purple-700",
-    user:       "bg-gray-100 text-gray-600",
+    admin:      "bg-brownish/25 text-title font-sora text-[10px] px-2 py-0.5",
+    superadmin: "bg-pinkish/15 text-pinkish font-sora text-[10px] px-2 py-0.5",
+    user:       "bg-brownish/15 text-brownish font-sora text-[10px] px-2 py-0.5",
   };
   return (
-    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full capitalize ${map[role]}`}>
+    <span className={`capitalize ${map[role]}`}>
       {role}
     </span>
   );
@@ -45,34 +45,34 @@ const DashboardAdmins = () => {
     <div className="flex flex-col gap-6">
 
       {/* Current admins */}
-      <div className="bg-white rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
-          <h3 className="font-bold text-gray-800 text-base">{t("dashboard.admins_currentAdmins")}</h3>
+      <div className="border border-brownish/40 bg-stonish overflow-hidden">
+        <div className="px-6 py-4 border-b border-brownish/15 flex items-center gap-2">
+          <h3 className="font-liter text-title text-base">{t("dashboard.admins_currentAdmins")}</h3>
           {!isLoading && (
-            <span className="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-0.5 rounded-full">{admins.length}</span>
+            <span className="font-sora text-[10px] bg-brownish/20 text-brownish px-2 py-0.5">{admins.length}</span>
           )}
         </div>
 
         {isLoading ? (
-          <p className="text-gray-400 text-sm p-6">{t("dashboard.admins_loading")}</p>
+          <p className="font-sora text-lightish text-sm p-6">{t("dashboard.admins_loading")}</p>
         ) : admins.length === 0 ? (
-          <p className="text-gray-400 text-sm p-6">{t("dashboard.admins_noAdmins")}</p>
+          <p className="font-sora text-lightish text-sm p-6">{t("dashboard.admins_noAdmins")}</p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-100">
+            <thead className="bg-brownish/5 border-b border-brownish/10">
               <tr>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.admins_emailCol")}</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.admins_roleCol")}</th>
+                <th className="text-left font-sora text-[10px] uppercase tracking-widest text-title px-5 py-3">{t("dashboard.admins_emailCol")}</th>
+                <th className="text-left font-sora text-[10px] uppercase tracking-widest text-title px-5 py-3">{t("dashboard.admins_roleCol")}</th>
                 <th className="px-5 py-3 w-36" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody>
               {admins.map((a) => (
-                <tr key={a.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-5 py-3 font-medium text-gray-800">
+                <tr key={a.id} className="border-b border-brownish/10 hover:bg-brownish/5 transition-colors">
+                  <td className="px-5 py-3 font-sora text-title">
                     {a.email}
                     {a.id === currentUser?.id && (
-                      <span className="ml-2 text-xs text-gray-400">{t("dashboard.users_you")}</span>
+                      <span className="ml-2 font-sora text-xs text-lightish">{t("dashboard.users_you")}</span>
                     )}
                   </td>
                   <td className="px-5 py-3"><RoleBadge role={a.role} /></td>
@@ -81,7 +81,7 @@ const DashboardAdmins = () => {
                       <button
                         onClick={() => demoteMutation.mutate(a.id)}
                         disabled={demoteMutation.isPending}
-                        className="flex items-center gap-1.5 ml-auto text-xs text-gray-500 border border-gray-200 px-3 py-1.5 rounded-lg hover:border-red-300 hover:text-red-500 transition-colors disabled:opacity-40 cursor-pointer"
+                        className="flex items-center gap-1.5 ml-auto font-sora text-xs text-title border border-brownish/30 px-3 py-1.5 hover:border-pinkish/50 hover:text-pinkish transition-colors disabled:opacity-40 cursor-pointer"
                       >
                         <ShieldMinus className="w-3.5 h-3.5" />
                         {t("dashboard.admins_removeAdmin")}
@@ -96,45 +96,45 @@ const DashboardAdmins = () => {
       </div>
 
       {/* Promote a user */}
-      <div className="bg-white rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+      <div className="border border-brownish/40 bg-stonish overflow-hidden">
+        <div className="px-6 py-4 border-b border-brownish/15 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h3 className="font-bold text-gray-800 text-base">{t("dashboard.admins_promoteTitle")}</h3>
-            <span className="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-0.5 rounded-full">{filtered.length}</span>
+            <h3 className="font-liter text-title text-base">{t("dashboard.admins_promoteTitle")}</h3>
+            <span className="font-sora text-[10px] bg-brownish/20 text-brownish px-2 py-0.5">{filtered.length}</span>
           </div>
           <input
             placeholder={t("dashboard.admins_searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-gray-800 placeholder:text-gray-400 outline-none focus:border-gray-400 w-52 bg-white"
+            className="border border-brownish/40 bg-stonish px-3 py-2 font-sora text-sm text-title placeholder:text-lightish outline-none focus:border-brownish/60 transition-colors w-52"
           />
         </div>
 
         {filtered.length === 0 ? (
-          <p className="text-gray-400 text-sm p-6">
+          <p className="font-sora text-title text-sm p-6">
             {search ? `${t("dashboard.admins_noUsersMatching")} "${search}".` : t("dashboard.admins_noRegularUsers")}
           </p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-100">
+            <thead className="bg-brownish/5 border-b border-brownish/10">
               <tr>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.admins_emailCol")}</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.admins_joinedCol")}</th>
+                <th className="text-left font-sora text-[10px] uppercase tracking-widest text-title px-5 py-3">{t("dashboard.admins_emailCol")}</th>
+                <th className="text-left font-sora text-[10px] uppercase tracking-widest text-title px-5 py-3">{t("dashboard.admins_joinedCol")}</th>
                 <th className="px-5 py-3 w-32" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody>
               {filtered.map((u) => (
-                <tr key={u.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-5 py-3 font-medium text-gray-800 max-w-[180px] truncate">{u.email}</td>
-                  <td className="px-5 py-3 text-xs text-gray-400">
+                <tr key={u.id} className="border-b border-brownish/10 hover:bg-brownish/5 transition-colors">
+                  <td className="px-5 py-3 font-sora text-title max-w-[180px] truncate">{u.email}</td>
+                  <td className="px-5 py-3 font-sora text-xs text-title">
                     {new Date(u.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
                   </td>
                   <td className="px-5 py-3 text-right">
                     <button
                       onClick={() => promoteMutation.mutate(u.id)}
                       disabled={promoteMutation.isPending}
-                      className="flex items-center gap-1.5 ml-auto text-xs text-white bg-gray-900 hover:bg-gray-700 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 cursor-pointer"
+                      className="flex items-center gap-1.5 ml-auto bg-brownish text-grayish font-sora text-xs tracking-wide py-2.5 px-4 hover:bg-brownish/70 transition-colors disabled:opacity-50 cursor-pointer"
                     >
                       <ShieldPlus className="w-3.5 h-3.5" />
                       {t("dashboard.admins_makeAdmin")}

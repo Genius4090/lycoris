@@ -149,6 +149,8 @@
     "error": "Something went wrong. Please try again.",
     "placeOrder": "Place Order",
     "placing": "Placing order...",
+    "orderPlaced": "Order placed!",
+    "redirecting": "Taking you to your orders...",
     "terms": "By placing your order you agree to our terms of service."
   },
   "orders": {

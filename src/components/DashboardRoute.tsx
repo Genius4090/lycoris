@@ -9,8 +9,8 @@ const DashboardRoute = ({ children }: { children: ReactNode }) => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-textish text-sm">Loading...</p>
+        <div className=" flex justify-center w-full h-screen items-center">
+        <p className="text-textish text-2xl font-liter">Loading...</p>
       </div>
     );
   }

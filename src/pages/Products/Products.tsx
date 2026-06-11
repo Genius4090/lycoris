@@ -8,6 +8,9 @@ import { Card, Input, Title } from "../../components";
 import { ChevronLeft, ChevronRight, TextAlignEnd } from "lucide-react";
 import useDebounce from "../../hooks/debounce";
 import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence } from "motion/react";
+
+const SWIFT = [0.22, 1, 0.36, 1] as const;
 
 const Products = () => {
   const queryClient = useQueryClient();
@@ -22,7 +25,14 @@ const Products = () => {
   const debouncedSearch = useDebounce(search, 400);
 
   const handleSearch = (val: string) => { setSearch(val); setPage(1); };
+
   const handleSort = () => { setSortAZ((prev) => !prev); setPage(1); };
+
+  // Scroll to top on page change
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   const { data, isLoading } = useQuery({
     queryKey: ["products", debouncedSearch, sortAZ, page],
@@ -80,30 +90,88 @@ const Products = () => {
 
   return (
     <section className="min-h-screen flex flex-col items-center containers pt-50">
-      <Title extraClass="max-w-[860px]">{t("catalog.title")}</Title>
 
-      <div className="flex items-center justify-between w-full mt-25 px-4">
-        <Input value={search} onChange={handleSearch} />
+      {/* ── Title ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: SWIFT }}
+      >
+        <Title extraClass="max-w-[860px]">{t("catalog.title")}</Title>
+      </motion.div>
+
+      {/* ── Search bar + sort button ── */}
+      <motion.div
+        className="flex items-center justify-between w-full mt-25 px-4"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, delay: 0.1, ease: SWIFT }}
+      >
+       <div className="relative">
+         <Input value={search} onChange={handleSearch}/>
+          {/* ── Search result label ── */}
+      <AnimatePresence>
+        {debouncedSearch && (
+          <motion.p
+            className="text-textish text-xs absolute font-sora mt-3 self-start px-4"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2, ease: SWIFT }}
+          >
+            {total} {total === 1 ? "result" : "results"} for &ldquo;{debouncedSearch}&rdquo;
+          </motion.p>
+        )}
+      </AnimatePresence>
+       </div>
         <button
           onClick={handleSort}
-          className="cursor-pointer"
+          className="cursor-pointer relative w-6 h-6 flex items-center justify-center"
           title={sortAZ ? "Sort: A → Z (click to reset)" : "Sort by name"}
         >
-          {sortAZ
-            ? <TextAlignEnd className="rotate-180 -scale-x-100 text-title transition-transform duration-300" />
-            : <TextAlignEnd className="transition-transform text-title duration-300" />}
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={sortAZ ? "sorted" : "unsorted"}
+              className="absolute inset-0 flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              <TextAlignEnd
+                className={`text-title ${sortAZ ? "rotate-180 -scale-x-100" : ""}`}
+              />
+            </motion.span>
+          </AnimatePresence>
         </button>
-      </div>
+      </motion.div>
 
+    
+
+      {/* ── Product grid ── */}
       {isLoading ? (
-        <p className="text-textish text-sm mt-16">{t("catalog.loading")}</p>
+        <motion.p
+          className="text-textish text-sm mt-16"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          {t("catalog.loading")}
+        </motion.p>
       ) : products.length === 0 ? (
-        <p className="text-textish text-sm mt-16">
-          {debouncedSearch ? `${t("catalog.noProductsFor")} "${debouncedSearch}"` : t("catalog.noProducts")}.
-        </p>
+        <motion.p
+          className="text-textish text-sm mt-16"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease: SWIFT }}
+        >
+          {debouncedSearch
+            ? `${t("catalog.noProductsFor")} "${debouncedSearch}"`
+            : t("catalog.noProducts")}.
+        </motion.p>
       ) : (
         <ul className="flex flex-wrap justify-center gap-x-10 gap-y-8 mt-10">
-          {products.map((product) => {
+          {products.map((product, index) => {
             const cartItem = getCartItem(product.id);
             const qty = cartItem?.quantity ?? 0;
             return (
@@ -114,40 +182,62 @@ const Products = () => {
                 addMutation={addMutation}
                 removeMutation={removeMutation}
                 qty={qty}
+                index={index}
               />
             );
           })}
         </ul>
       )}
 
+      {/* ── Pagination ── */}
       {totalPages > 1 && (
-        <div className="flex items-center gap-4 mt-12">
-          <button
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
+        <motion.div
+          className="flex items-center gap-4 mt-12"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.2, ease: SWIFT }}
+        >
+          {/* Prev */}
+          <motion.button
+            onClick={() => handlePageChange(Math.max(1, page - 1))}
             disabled={page === 1}
             className="px-1.5 py-1.5 text-grayish bg-brownish text-sm disabled:opacity-40 cursor-pointer"
+            whileTap={{ scale: 0.88 }}
+            transition={{ duration: 0.1 }}
           >
             <ChevronLeft />
-          </button>
+          </motion.button>
+
+          {/* Page numbers */}
           <div className="flex items-center gap-2">
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-              <button
+              <motion.button
                 key={p}
-                onClick={() => setPage(p)}
-                className={`w-9 h-9 cursor-pointer text-title font-liter ${p === page ? "bg-brownish text-grayish!" : "border border-brownish"}`}
+                onClick={() => handlePageChange(p)}
+                className={`w-9 h-9 cursor-pointer text-title font-liter ${
+                  p === page ? "bg-brownish text-grayish!" : "border border-brownish"
+                }`}
+                whileTap={{ scale: 0.88 }}
+                transition={{ duration: 0.1 }}
+                // active page indicator pulses in
+                animate={p === page ? { scale: [1, 1.08, 1] } : { scale: 1 }}
               >
                 {p}
-              </button>
+              </motion.button>
             ))}
           </div>
-          <button
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+
+          {/* Next */}
+          <motion.button
+            onClick={() => handlePageChange(Math.min(totalPages, page + 1))}
             disabled={page === totalPages}
             className="px-1.5 py-1.5 text-grayish bg-brownish text-sm disabled:opacity-40 cursor-pointer"
+            whileTap={{ scale: 0.88 }}
+            transition={{ duration: 0.1 }}
           >
             <ChevronRight />
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       )}
     </section>
   );

@@ -31,78 +31,62 @@ const DashboardHome = () => {
   const recentOrders = orders.slice(0, 5);
 
   const stats = [
-    { label: t("dashboard.totalProducts"), value: products.length,                icon: Package,      color: "bg-[#1a6b3c]", text: "text-white" },
-    { label: t("dashboard.users"),         value: users.length,                   icon: Users,        color: "bg-[#e6b800]", text: "text-gray-900" },
-    { label: t("dashboard.orders"),        value: confirmedOrders,                icon: ClipboardList, color: "bg-[#7c3aed]", text: "text-white" },
-    { label: t("dashboard.revenue"),       value: `€${totalRevenue.toFixed(0)}`,  icon: TrendingUp,   color: "bg-[#ea580c]", text: "text-white" },
+    { label: t("dashboard.totalProducts"), value: products.length,               icon: Package },
+    { label: t("dashboard.users"),         value: users.length,                  icon: Users },
+    { label: t("dashboard.orders"),        value: confirmedOrders,               icon: ClipboardList },
+    { label: t("dashboard.revenue"),       value: `€${totalRevenue.toFixed(0)}`, icon: TrendingUp },
   ];
 
   return (
     <div className="flex flex-col gap-6">
-      {/* Hero banner */}
-      <div className="relative w-full h-50 rounded-3xl overflow-hidden bg-linear-to-r from-slate-700 to-slate-500">
+      <div className="relative w-full h-48 overflow-hidden">
         <video autoPlay muted loop playsInline width="100%" className="object-cover blur-[2px] w-full h-full">
           <source src={dashboardBanner} type="video/webm" />
         </video>
       </div>
-
-      {/* Stat cards */}
       <section className="-mt-32 z-100 px-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 bg-[#ffffff50] px-6 py-5 rounded-3xl">
-          {stats.map(({ label, value, icon: Icon, color, text }) => (
-            <div key={label} className={`${color} rounded-2xl p-5 flex flex-col gap-3`}>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 bg-[#100d0a]/70 border border-brownish/20 px-6 py-5">
+          {stats.map(({ label, value, icon: Icon }) => (
+            <div key={label} className="border-brownish/40 bg-stonish border  p-5 flex flex-col gap-3">
               <div className="flex items-center justify-between">
-                <p className={`text-sm font-medium ${text} opacity-80`}>{label}</p>
-                <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center">
-                  <ArrowUpRight className={`w-4 h-4 ${text}`} />
+                <p className="font-sora text-sm text-textish">{label}</p>
+                <div className="w-7 h-7 bg-brownish/10 flex items-center justify-center">
+                  <ArrowUpRight className="w-4 h-4 text-textish" />
                 </div>
               </div>
-              <p className={`text-4xl font-bold ${text}`}>{value}</p>
+              <p className="font-liter text-4xl text-title">{value}</p>
               <div className="flex items-center gap-1.5">
-                <Icon className={`w-3.5 h-3.5 ${text} opacity-60`} />
-                <p className={`text-xs ${text} opacity-60`}>{t("dashboard.allTime")}</p>
+                <Icon className="w-3.5 h-3.5 text-title" />
+                <p className="font-sora text-xs text-title">{t("dashboard.allTime")}</p>
               </div>
             </div>
           ))}
         </div>
       </section>
-
-      {/* Bottom row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-
-        {/* Recent Orders */}
-        <div className="lg:col-span-2 bg-white rounded-2xl p-6 flex flex-col gap-4">
+        <div className="lg:col-span-2 border-brownish/40 bg-stonish border p-6 flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-gray-800 text-base">{t("dashboard.recentOrders")}</h3>
-            <button
-              onClick={() => navigate(PATH.dashboardOrders)}
-              className="text-xs text-gray-400 hover:text-gray-700 transition-colors cursor-pointer flex items-center gap-1"
-            >
+            <h3 className="font-liter text-title text-base">{t("dashboard.recentOrders")}</h3>
+            <button onClick={() => navigate(PATH.dashboardOrders)} className="font-sora text-xs text-title hover:text-textish transition-colors cursor-pointer flex items-center gap-1">
               {t("dashboard.viewAll")} <ArrowUpRight className="w-3 h-3" />
             </button>
           </div>
           {recentOrders.length === 0 ? (
-            <p className="text-sm text-gray-400 py-4">{t("dashboard.noOrders")}</p>
+            <p className="font-sora text-sm text-title py-4">{t("dashboard.noOrders")}</p>
           ) : (
-            <div className="flex flex-col divide-y divide-gray-100">
+            <div className="flex flex-col divide-y divide-brownish/10 ">
               {recentOrders.map((order, idx) => (
                 <div key={order.id} className="flex items-center justify-between py-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500">
-                      #{orders.length - idx}
-                    </div>
+                    <div className="w-8 h-8 bg-brownish/10 border border-brownish/20 flex items-center justify-center font-sora text-xs text-title">#{orders.length - idx}</div>
                     <div>
-                      <p className="text-sm font-medium text-gray-700 truncate max-w-[180px]">{order.user_email}</p>
-                      <p className="text-xs text-gray-400">
-                        {new Date(order.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}
-                      </p>
+                      <p className="font-sora text-sm text-title truncate max-w-[180px]">{order.user_email}</p>
+                      <p className="font-sora text-xs text-title">{new Date(order.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-semibold text-gray-800">€{order.total.toFixed(2)}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                      order.status === "cancelled" ? "bg-red-100 text-red-500" : "bg-green-100 text-green-600"
-                    }`}>
+                    <span className="font-sora text-sm text-title">€{order.total.toFixed(2)}</span>
+                    <span className={`font-sora text-[10px] px-2 py-0.5 ${order.status === "cancelled" ? "bg-pinkish/10 text-pinkish" : "bg-brownish/20 text-brownish"}`}>
                       {order.status === "cancelled" ? t("orders.statusCancelled") : t("orders.statusConfirmed")}
                     </span>
                   </div>
@@ -111,21 +95,16 @@ const DashboardHome = () => {
             </div>
           )}
         </div>
-
-        {/* Best Seller */}
-        <div className="bg-white rounded-2xl p-6 flex flex-col gap-4">
+        <div className="border border-brownish/40 bg-stonish p-6 flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-gray-800 text-base">{t("dashboard.bestSeller")}</h3>
-            <button
-              onClick={() => navigate(PATH.dashboardProducts)}
-              className="w-7 h-7 rounded-full bg-gray-900 flex items-center justify-center cursor-pointer hover:bg-gray-700 transition-colors"
-            >
-              <ArrowUpRight className="w-3.5 h-3.5 text-white" />
+            <h3 className="font-liter text-title text-base">{t("dashboard.bestSeller")}</h3>
+            <button onClick={() => navigate(PATH.dashboardProducts)} className="w-7 h-7 bg-brownish/15 border border-brownish/20 flex items-center justify-center cursor-pointer hover:bg-brownish/25 transition-colors">
+              <ArrowUpRight className="w-3.5 h-3.5 text-title" />
             </button>
           </div>
           {bestSeller ? (
             <>
-              <div className="w-full h-36 rounded-xl overflow-hidden bg-gray-100">
+              <div className="w-full h-36 overflow-hidden bg-brownish/5 border border-brownish/15">
                 {bestSeller.image_url ? (
                   <img src={bestSeller.image_url} alt={bestSeller.title} className="w-full h-full object-cover" />
                 ) : (
@@ -133,42 +112,33 @@ const DashboardHome = () => {
                 )}
               </div>
               <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-gray-800 truncate max-w-[130px]">{bestSeller.title}</p>
-                <p className="text-sm font-bold text-gray-800">{bestSeller.price} €</p>
+                <p className="font-sora text-sm text-title truncate max-w-[130px]">{bestSeller.title}</p>
+                <p className="font-sora text-sm text-title">{bestSeller.price} €</p>
               </div>
-              <p className="text-xs text-gray-400">{bestSeller.qty} {t("dashboard.unitsSold")}</p>
+              <p className="font-sora text-xs text-title">{bestSeller.qty} {t("dashboard.unitsSold")}</p>
             </>
           ) : (
             <div className="flex-1 flex items-center justify-center">
-              <p className="text-sm text-gray-400">{t("dashboard.noSalesData")}</p>
+              <p className="font-sora text-sm text-lightish">{t("dashboard.noSalesData")}</p>
             </div>
           )}
         </div>
       </div>
-
-      {/* Low stock alert */}
       {products.filter((p) => p.stock <= 3).length > 0 && (
-        <div className="bg-white rounded-2xl p-6 flex flex-col gap-4">
-          <h3 className="font-bold text-gray-800 text-base">
+        <div className="border border-brownish/40 bg-stonish p-6 flex flex-col gap-4">
+          <h3 className="font-liter text-title text-base">
             {t("dashboard.lowStockAlert")}
-            <span className="ml-2 text-xs font-semibold bg-red-100 text-red-500 px-2 py-0.5 rounded-full">
-              {products.filter((p) => p.stock <= 3).length} {t("dashboard.items")}
-            </span>
+            <span className="ml-2 font-sora text-[10px] bg-pinkish/10 text-pinkish px-2 py-0.5">{products.filter((p) => p.stock <= 3).length} {t("dashboard.items")}</span>
           </h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {products.filter((p) => p.stock <= 3).map((p) => (
-              <div key={p.id} className="flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100">
-                <div className="w-9 h-9 rounded-lg overflow-hidden bg-gray-200 shrink-0">
-                  {p.image_url
-                    ? <img src={p.image_url} alt={p.title} className="w-full h-full object-cover" />
-                    : <div className="w-full h-full flex items-center justify-center text-sm opacity-30">🌸</div>
-                  }
+              <div key={p.id} className="flex items-center gap-3 p-3 border border-brownish/40 bg-stonish">
+                <div className="w-9 h-9 overflow-hidden bg-brownish/10 shrink-0">
+                  {p.image_url ? <img src={p.image_url} alt={p.title} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-sm opacity-30">🌸</div>}
                 </div>
                 <div className="min-w-0">
-                  <p className="text-xs font-medium text-gray-700 truncate">{p.title}</p>
-                  <p className={`text-xs font-bold ${p.stock === 0 ? "text-red-500" : "text-amber-500"}`}>
-                    {p.stock === 0 ? t("dashboard.outOfStock") : `${p.stock} ${t("dashboard.left")}`}
-                  </p>
+                  <p className="font-sora text-xs text-textish truncate">{p.title}</p>
+                  <p className={`font-sora text-xs ${p.stock === 0 ? "text-pinkish" : "text-amber-400"}`}>{p.stock === 0 ? t("dashboard.outOfStock") : `${p.stock} ${t("dashboard.left")}`}</p>
                 </div>
               </div>
             ))}

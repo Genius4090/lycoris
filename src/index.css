@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&display=swap');
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
 
 /* ── Sora ── */
 @font-face {
@@ -48,6 +50,7 @@
     background-size: 200px 200px;
     pointer-events: none;
   }
+
 }
 html{
   scrollbar-gutter: stable;
@@ -56,13 +59,13 @@ html{
 @theme {
   --font-sora: "Sora", sans-serif;
   --font-liter: "Literata", serif;
-  --font-cas:"Libre Caslon Display", serif;
   --color-title: #e8e0d5;
   --color-pinkish: #FB8585;
   --color-brownish: #DBCCBA;
   --color-textish: #a89880;
   --color-lightish: #6b6056;
   --color-grayish: #2C2C2C;
+  --color-stonish: #312c25;
 
 }
 
@@ -71,12 +74,7 @@ html{
   margin: 0 auto;
 }
 
-/* .active {
-  text-decoration: underline;
-  text-underline-offset: 6px;
-  text-decoration-thickness: 1.5px;
-  text-decoration-color: var(--color-textish) ;
-} */
+
 
 /* Minimal scrollbar */
 ::-webkit-scrollbar {
@@ -87,6 +85,4 @@ html{
   background: rgb(82, 82, 82);
   border-radius: 3px;
 }
-
-
 

@@ -1,19 +1,76 @@
 import { Banner, Button, Numbers, PopularBanner, Title } from "../../components"
 import AboutInfo from "./AboutInfo"
 import { useTranslation } from "react-i18next"
+import { motion } from "motion/react"
 
 const About = () => {
   const { t } = useTranslation()
 
   return (
-    <section className="pt-50 flex flex-col items-center">
-      <Title extraClass="max-w-[810px]">{t("about.title")}</Title>
-      <p className="text-textish max-w-[613px] text-center leading-6.5 mt-6">{t("about.description")}</p>
-      <Button extraClass="mt-6">{t("about.catalogBtn")}</Button>
+    <section className="pt-50 flex flex-col items-center relative">
+      <motion.div
+        initial={{ opacity: 0, y: 32 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <Title extraClass="max-w-[810px]">{t("about.title")}</Title>
+      </motion.div>
+      <motion.p
+        className="text-textish max-w-[613px] text-center leading-6.5 mt-6"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+      >
+        {t("about.description")}
+      </motion.p>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.28 }}
+      >
+        <Button extraClass="mt-8">{t("about.catalogBtn")}</Button>
+      </motion.div>
       <Numbers/>
       <Banner/>
       <AboutInfo/>
       <PopularBanner/>
+
+         {/* ══════════ SIDE DECORATIVE SPANS ══════════ */}
+        {/* Left side — vertical text + glow */}{" "}
+        <div
+          className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
+          style={{ width: "52px" }}
+        >
+          <span
+            className="font-sora text-white/20 font-light tracking-[0.28em] select-none"
+            style={{
+              writingMode: "vertical-rl",
+              textOrientation: "mixed",
+              transform: "rotate(180deg)",
+              fontSize: "10px",
+              letterSpacing: "0.28em",
+            }}
+          >
+            {t("home.leftDecor")}
+          </span>
+        </div>
+        {/* Right side — vertical text + glow */}
+        <div
+          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
+          style={{ width: "52px" }}
+        >
+          <span
+            className="font-sora text-white/20 font-light tracking-[0.28em] select-none"
+            style={{
+              writingMode: "vertical-rl",
+              textOrientation: "mixed",
+              fontSize: "10px",
+              letterSpacing: "0.28em",
+            }}
+          >
+            {t("home.rightDecor")}
+          </span>
+        </div>
     </section>
   )
 }

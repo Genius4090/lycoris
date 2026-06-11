@@ -5,6 +5,7 @@ import type { UseMutationResult } from "@tanstack/react-query";
 import type { User } from "@supabase/supabase-js";
 import type { Product } from "../@types";
 import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence } from "motion/react";
 
 interface CardProps {
   product: Product;
@@ -12,21 +13,34 @@ interface CardProps {
   addMutation: UseMutationResult<void, Error, number>;
   removeMutation: UseMutationResult<void, Error, number>;
   qty: number;
+  index?: number;
 }
 
-const Card = ({ product, user, addMutation, removeMutation, qty }: CardProps) => {
+const SWIFT = [0.22, 1, 0.36, 1] as const;
+
+const Card = ({ product, user, addMutation, removeMutation, qty, index = 0 }: CardProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   return (
-    <li className="flex flex-col w-[370px]">
+    <motion.li
+      className="flex flex-col w-[370px]"
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{
+        duration: 0.45,
+        delay: (index % 3) * 0.08,
+        ease: SWIFT,
+      }}
+    >
       {/* Image */}
       <div className="w-[370px] h-[378px] overflow-hidden bg-brownish/30">
         {product.image_url ? (
           <img
             src={product.image_url}
             alt={product.title}
-            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105 cursor-pointer"
             onClick={() => navigate(`${PATH.products}/${product.id}`)}
           />
         ) : (
@@ -50,7 +64,8 @@ const Card = ({ product, user, addMutation, removeMutation, qty }: CardProps) =>
           </span>
         </div>
 
-        <div className="flex flex-col items-center mt-4">
+        {/* ── Cart action area ── */}
+        <div className="flex flex-col items-center mt-4" style={{ minHeight: "60px" }}>
           {!user ? (
             <div className="border border-brownish p-2 w-full">
               <button
@@ -62,42 +77,81 @@ const Card = ({ product, user, addMutation, removeMutation, qty }: CardProps) =>
             </div>
           ) : product.stock === 0 ? (
             <div className="border border-brownish p-2 w-full opacity-70">
-              <p className="cursor-pointer w-full font-liter flex justify-center gap-2 items-center text-title bg-brownish py-2 px-7">
+              <p className="w-full font-liter flex justify-center gap-2 items-center text-title bg-brownish py-2 px-7">
                 {t("card.outOfStock")}
               </p>
             </div>
-          ) : qty > 0 ? (
-            <div className="w-full border border-brownish p-2">
-              <div className="bg-brownish flex items-center justify-between w-full py-1">
-                <button
-                  onClick={() => removeMutation.mutate(product.id)}
-                  className="bg-brownish w-8 h-8 rounded-full text-lg flex items-center justify-center cursor-pointer"
-                >
-                  <Minus className="w-4 text-grayish" />
-                </button>
-                <p className="font-liter mb-0.5 text-grayish">{qty}</p>
-                <button
-                  onClick={() => addMutation.mutate(product.id)}
-                  disabled={qty >= product.stock}
-                  className="bg-brownish text-title w-8 h-8 rounded-full text-lg disabled:opacity-40 flex items-center justify-center cursor-pointer"
-                >
-                  <Plus className="w-4 text-grayish" />
-                </button>
-              </div>
-            </div>
           ) : (
-            <div className="border border-brownish p-2 w-full">
-              <button
-                onClick={() => addMutation.mutate(product.id)}
-                className="cursor-pointer w-full font-liter flex justify-center gap-2 items-center text-grayish bg-brownish py-2 px-7"
-              >
-                {t("card.addToCart")}
-              </button>
-            </div>
+            // AnimatePresence swaps cleanly between "Add to Cart" and the stepper
+            <AnimatePresence mode="wait" initial={false}>
+              {qty === 0 ? (
+                <motion.div
+                  key="add-btn"
+                  className="border border-brownish p-2 w-full"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2, ease: SWIFT }}
+                >
+                  <button
+                    onClick={() => addMutation.mutate(product.id)}
+                    className="cursor-pointer w-full font-liter flex justify-center gap-2 items-center text-grayish bg-brownish py-2 px-7"
+                  >
+                    {t("card.addToCart")}
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="stepper"
+                  className="w-full border border-brownish p-2"
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2, ease: SWIFT }}
+                >
+                  <div className="bg-brownish flex items-center justify-between w-full py-1">
+                    <motion.button
+                      onClick={() => removeMutation.mutate(product.id)}
+                      className="bg-brownish w-8 h-8 rounded-full text-lg flex items-center justify-center cursor-pointer"
+                      whileTap={{ scale: 0.82 }}
+                      transition={{ duration: 0.1 }}
+                    >
+                      <Minus className="w-4 text-grayish" />
+                    </motion.button>
+
+                    {/* qty number — slides up on add, down on remove */}
+                    <div className="overflow-hidden h-6 flex items-center justify-center w-6">
+                      <AnimatePresence mode="popLayout" initial={false}>
+                        <motion.p
+                          key={qty}
+                          className="font-liter text-grayish leading-none"
+                          initial={{ opacity: 0, y: addMutation.isPending ? -12 : 12 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: addMutation.isPending ? 12 : -12 }}
+                          transition={{ duration: 0.18, ease: SWIFT }}
+                        >
+                          {qty}
+                        </motion.p>
+                      </AnimatePresence>
+                    </div>
+
+                    <motion.button
+                      onClick={() => addMutation.mutate(product.id)}
+                      disabled={qty >= product.stock}
+                      className="bg-brownish text-title w-8 h-8 rounded-full text-lg disabled:opacity-40 flex items-center justify-center cursor-pointer"
+                      whileTap={{ scale: 0.82 }}
+                      transition={{ duration: 0.1 }}
+                    >
+                      <Plus className="w-4 text-grayish" />
+                    </motion.button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           )}
         </div>
       </div>
-    </li>
+    </motion.li>
   );
 };
 

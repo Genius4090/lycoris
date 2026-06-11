@@ -2,7 +2,9 @@ import { MoveLeft, MoveRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { SliderImg1, SliderImg2 } from "../../assets/images";
 import { useTranslation } from "react-i18next";
+import { motion } from "motion/react";
 
+const ease = [0.22, 1, 0.36, 1] as const;
 const imagesList = [SliderImg1, SliderImg2];
 
 export default function Homeabout() {
@@ -37,12 +39,26 @@ export default function Homeabout() {
     : "opacity-100 translate-x-0";
 
   return (
-    <section className="w-full min-h-screen flex flex-col items-center justify-center gap-40 mb-60">
-      <span className="text-title max-w-180 font-liter text-center text-3xl leading-[50px]">
-       {t("homeAbout.title")}
-      </span>
+    <section className="w-full min-h-screen relative flex flex-col items-center justify-center gap-40 mb-60">
+      {/* Title fades up */}
+      <motion.span
+        className="text-title max-w-180 font-liter text-center text-3xl leading-[50px]"
+        initial={{ opacity: 0, y: 36 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.9, ease }}
+      >
+        {t("homeAbout.title")}
+      </motion.span>
 
-      <div className="flex items-center gap-20">
+      {/* Slider fades in */}
+      <motion.div
+        className="flex items-center gap-20"
+        initial={{ opacity: 0, y: 28 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.85, ease, delay: 0.1 }}
+      >
         {/* Prev */}
         <button onClick={prev} aria-label="Previous image" className="cursor-pointer">
           <MoveLeft className="text-title scale-140 hover:text-textish transition-colors duration-200" />
@@ -62,10 +78,16 @@ export default function Homeabout() {
         <button onClick={next} aria-label="Next image" className="cursor-pointer">
           <MoveRight className="text-title scale-140 hover:text-textish transition-colors duration-200" />
         </button>
-      </div>
+      </motion.div>
 
       {/* Dots */}
-      <div className="flex items-center gap-2 -mt-32">
+      <motion.div
+        className="flex items-center gap-2 -mt-32"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.7, ease, delay: 0.25 }}
+      >
         {imagesList.map((_, i) => (
           <button
             key={i}
@@ -78,6 +100,43 @@ export default function Homeabout() {
             }`}
           />
         ))}
+      </motion.div>
+
+      {/* ══════════ SIDE DECORATIVE SPANS ══════════ */}
+      {/* Left side */}
+      <div
+        className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
+        style={{ width: "52px" }}
+      >
+        <span
+          className="font-sora text-white/20 font-light tracking-[0.28em] select-none"
+          style={{
+            writingMode: "vertical-rl",
+            textOrientation: "mixed",
+            transform: "rotate(180deg)",
+            fontSize: "10px",
+            letterSpacing: "0.28em",
+          }}
+        >
+          {t("home.leftDecor")}
+        </span>
+      </div>
+      {/* Right side */}
+      <div
+        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
+        style={{ width: "52px" }}
+      >
+        <span
+          className="font-sora text-white/20 font-light tracking-[0.28em] select-none"
+          style={{
+            writingMode: "vertical-rl",
+            textOrientation: "mixed",
+            fontSize: "10px",
+            letterSpacing: "0.28em",
+          }}
+        >
+          {t("home.rightDecor")}
+        </span>
       </div>
     </section>
   );

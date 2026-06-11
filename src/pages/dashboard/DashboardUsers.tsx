@@ -9,16 +9,16 @@ import { Trash2 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const inp =
-  "w-full border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 outline-none focus:border-gray-400 transition-colors bg-white";
+  "w-full border border-brownish/40 bg-stonish px-3 py-2 font-sora text-sm text-title placeholder:text-lightish outline-none focus:border-brownish/60 transition-colors";
 
 const RoleBadge = ({ role }: { role: Role }) => {
   const map: Record<Role, string> = {
-    user:       "bg-gray-100 text-gray-600",
-    admin:      "bg-blue-100 text-blue-700",
-    superadmin: "bg-purple-100 text-purple-700",
+    user:       "bg-brownish/15 text-title font-sora text-[10px] px-2 py-0.5",
+    admin:      "bg-blue-500/70 text-title font-sora text-[10px] px-2 py-0.5",
+    superadmin: "bg-red-500/10 text-pinkish font-sora text-[10px] px-2 py-0.5",
   };
   return (
-    <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full capitalize ${map[role]}`}>
+    <span className={`capitalize ${map[role]}`}>
       {role}
     </span>
   );
@@ -74,8 +74,8 @@ const DashboardUsers = () => {
     <div className="flex flex-col gap-6">
 
       {/* Add user card */}
-      <div className="bg-white rounded-2xl p-6 flex flex-col gap-5">
-        <h2 className="font-bold text-gray-800 text-base">{t("dashboard.users_addNew")}</h2>
+      <div className="border border-brownish/40 bg-stonish p-6 flex flex-col gap-5">
+        <h2 className="font-liter text-title text-base">{t("dashboard.users_addNew")}</h2>
         <form onSubmit={handleCreate} className="flex flex-col gap-4">
           <div className="grid grid-cols-2 gap-4">
             <input
@@ -98,10 +98,10 @@ const DashboardUsers = () => {
               {roleOptions.map((r) => <option key={r} value={r}>{r}</option>)}
             </select>
           </div>
-          {formError && <p className="text-xs text-red-500">{formError}</p>}
+          {formError && <p className="font-sora text-xs text-pinkish">{formError}</p>}
           <button
             type="submit" disabled={createMutation.isPending}
-            className="bg-gray-900 hover:bg-gray-700 text-white text-sm font-semibold px-6 py-2 rounded-lg transition-colors disabled:opacity-50 cursor-pointer w-fit"
+            className="bg-brownish text-grayish font-sora text-xs tracking-wide py-2.5 px-6 hover:bg-brownish/70 transition-colors disabled:opacity-50 cursor-pointer w-fit"
           >
             {createMutation.isPending ? t("dashboard.users_creating") : t("dashboard.users_createUser")}
           </button>
@@ -109,39 +109,39 @@ const DashboardUsers = () => {
       </div>
 
       {/* Users table card */}
-      <div className="bg-white rounded-2xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center gap-2">
-          <h3 className="font-bold text-gray-800 text-base">{t("dashboard.users_allUsers")}</h3>
+      <div className="border border-brownish/40 bg-stonish overflow-hidden">
+        <div className="px-6 py-4 border-b border-brownish/15 flex items-center gap-2">
+          <h3 className="font-liter text-title text-base">{t("dashboard.users_allUsers")}</h3>
           {!isLoading && (
-            <span className="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-0.5 rounded-full">{users.length}</span>
+            <span className="font-sora text-[10px] bg-brownish/20 text-brownish px-2 py-0.5">{users.length}</span>
           )}
         </div>
 
         {isLoading ? (
-          <p className="text-gray-400 text-sm p-6">{t("dashboard.users_loading")}</p>
+          <p className="font-sora text-lightish text-sm p-6">{t("dashboard.users_loading")}</p>
         ) : users.length === 0 ? (
-          <p className="text-gray-400 text-sm p-6">{t("dashboard.users_noUsers")}</p>
+          <p className="font-sora text-lightish text-sm p-6">{t("dashboard.users_noUsers")}</p>
         ) : (
           <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b border-gray-100">
+            <thead className="bg-brownish/5 border-b border-brownish/10">
               <tr>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.users_emailCol")}</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.users_roleCol")}</th>
-                <th className="text-left px-5 py-3 text-xs text-gray-400 font-semibold uppercase tracking-wide">{t("dashboard.users_joinedCol")}</th>
+                <th className="text-left font-sora text-[10px] uppercase tracking-widest text-title px-5 py-3">{t("dashboard.users_emailCol")}</th>
+                <th className="text-left font-sora text-[10px] uppercase tracking-widest text-title px-5 py-3">{t("dashboard.users_roleCol")}</th>
+                <th className="text-left font-sora text-[10px] uppercase tracking-widest text-title px-5 py-3">{t("dashboard.users_joinedCol")}</th>
                 <th className="px-5 py-3 w-32" />
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody>
               {users.map((u) => (
-                <tr key={u.id} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-5 py-3 text-gray-800 font-medium max-w-[240px] truncate">
+                <tr key={u.id} className="border-b border-brownish/10 hover:bg-brownish/5 transition-colors">
+                  <td className="px-5 py-3 font-sora text-title max-w-[240px] truncate">
                     {u.email}
                     {u.id === currentUser?.id && (
-                      <span className="ml-2 text-xs text-gray-400">{t("dashboard.users_you")}</span>
+                      <span className="ml-2 font-sora text-xs text-brownish/60">{t("dashboard.users_you")}</span>
                     )}
                   </td>
                   <td className="px-5 py-3"><RoleBadge role={u.role} /></td>
-                  <td className="px-5 py-3 text-xs text-gray-400">
+                  <td className="px-5 py-3 font-sora text-xs text-title">
                     {new Date(u.created_at).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
                   </td>
                   <td className="px-5 py-3">
@@ -151,7 +151,7 @@ const DashboardUsers = () => {
                           <select
                             value={u.role}
                             onChange={(e) => roleMutation.mutate({ id: u.id, role: e.target.value as Role })}
-                            className="border border-gray-200 rounded-lg text-xs px-2 py-1.5 text-gray-700 cursor-pointer outline-none bg-white"
+                            className="border border-brownish/40 bg-stonish font-sora text-xs px-2 py-1.5 text-textish cursor-pointer outline-none focus:border-brownish/60"
                           >
                             <option value="user">user</option>
                             <option value="admin">admin</option>
@@ -161,7 +161,7 @@ const DashboardUsers = () => {
                         <button
                           onClick={() => deleteMutation.mutate(u.id)}
                           disabled={deleteMutation.isPending}
-                          className="text-gray-400 hover:text-red-500 transition-colors disabled:opacity-40 cursor-pointer"
+                          className="text-title hover:text-pinkish transition-colors disabled:opacity-40 cursor-pointer"
                           aria-label="Delete user"
                         >
                           <Trash2 className="w-4 h-4" />

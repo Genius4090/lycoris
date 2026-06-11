@@ -6,7 +6,14 @@
     "cart": "Cart",
     "orders": "Orders",
     "dashboard": "Dashboard",
-    "bag": "bag"
+    "bag": "bag",
+    "modal": {
+      "signedInAs": "Signed in as",
+      "member": "Lycoris member",
+      "notSignedIn": "Not signed in",
+      "welcome": "Welcome to Lycoris",
+      "guestHint": "Sign in to access your cart, orders, and more."
+    }
   },
   "auth": {
     "login": "Sign In",
@@ -34,6 +41,9 @@
     "cta": "buy her",
     "leftDecor": "ROMANTIC · FLOWERS · LOVE",
     "rightDecor": "BOUQUET · PASSION · GIFT"
+  },
+  "homeAbout": {
+  "title": "Flowers are simple, yet they say what words often cannot. But what matters more: giving flowers to others, or surrounding yourself with beauty so you can share it with the people you love?"
   },
   "banner1": {
     "title": "A Fragrant Tale: Weaving Memories with Flowers",
@@ -72,7 +82,7 @@
     "numbers": {
       "heading": "Our story in numbers",
       "bouquets": "Bouquets Delivered",
-      "deliveries": "Daily Deliveries",
+      "deliveries": "Monthly Deliveries",
       "reviews": "5-Star Reviews"
     },
     "info": {
@@ -164,7 +174,7 @@
     "title": "Stay Connected: Follow Our Floral Journey",
     "description": "Stay updated with the latest floral trends, exclusive offers, and special deals delivered straight to your inbox.",
     "send": "Send",
-    "copyright": "Lycoris ©Copyright 2026. All rights reserved."
+    "copyright": "© 2026 Lycoris. All rights reserved."
   },
   "dashboard": {
     "mainMenu": "Main Menu",

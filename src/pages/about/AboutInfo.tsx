@@ -13,7 +13,7 @@ const AboutInfo = () => {
 
   return (
     <section className="flex flex-col items-center containers px-5">
-      <Title extraClass="max-w-[710px] mt-40">{t("about.info.title1")}</Title>
+      <Title extraClass="max-w-[900px] mt-40">{t("about.info.title1")}</Title>
 
       <div className="flex gap-10 w-full mt-25">
         <img src={AboutInfo1} alt="about-info-img1" />
@@ -27,7 +27,7 @@ const AboutInfo = () => {
       <Title extraClass="text-start text-5xl! mt-20">{t("about.info.title2")}</Title>
 
       <div className="flex w-full justify-between items-start gap-9 mt-25">
-        <div className="max-w-[600px]">
+        <div className="max-w-[800px]">
           <p className="text-title">{t("about.info.body2a")}</p>
           <p className="mt-5 text-title">{t("about.info.body2b")}</p>
           <div className="flex gap-7 mt-8">

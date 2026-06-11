@@ -80,7 +80,7 @@ const Products = () => {
 
   return (
     <section className="min-h-screen flex flex-col items-center containers pt-50">
-      <Title extraClass="max-w-[810px]">{t("catalog.title")}</Title>
+      <Title extraClass="max-w-[860px]">{t("catalog.title")}</Title>
 
       <div className="flex items-center justify-between w-full mt-25 px-4">
         <Input value={search} onChange={handleSearch} />

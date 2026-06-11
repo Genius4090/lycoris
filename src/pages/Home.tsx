@@ -2,13 +2,16 @@ import FlowerImg from "../assets/icons/flower.svg";
 import { HomeSection1, HomeSocial } from "../components/home";
 import { HomeAd, HomeBanner1, HomeBanner2 } from "../components";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { PATH } from "../constants/paths";
+import Homeabout from "../components/home/HomeAbout";
 const Home = () => {
   const { t } = useTranslation();
   return (
     <>
       {/* ── Noise texture overlay ── */}
 
-      <section className="homepage relative h-screen  overflow-x-hidden flex flex-col items-center justify-center">
+      <section className="homepage relative min-h-screen  overflow-x-hidden flex flex-col items-center justify-center">
         <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 -mt-16">
           {/* ── FLOWERS title row ── */}
           <div className="relative flex items-center justify-center ">
@@ -60,14 +63,14 @@ const Home = () => {
           </div>
 
           {/* ── Subtitle ── */}
-          <p className=" text-white/50 font-liter font-light text-center mt-5 leading-relaxed max-w-70">
+          <p className=" text-white/50 font-liter font-light text-center mt-5 leading-relaxed max-w-73">
             {t("home.subtitle")}
           </p>
 
           {/* ── CTA ── */}
-          <span className="font-liter mt-20 text-white border-b group-hover:text-white text-[40px] transition-colors duration-300">
+          <Link to={PATH.products} className="font-liter mt-20 text-white border-b group-hover:text-white text-[40px] transition-colors duration-300">
             {t("home.cta")}
-          </span>
+          </Link>
         </div>
         
         {/* ══════════ SIDE DECORATIVE SPANS ══════════ */}
@@ -107,6 +110,7 @@ const Home = () => {
           </span>
         </div>
       </section>
+      <Homeabout/>
       <HomeBanner1 />
       <HomeSection1 />
       <HomeSocial />

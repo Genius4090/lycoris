@@ -19,8 +19,8 @@ const HomeAd = () => {
 
   return (
     <section className="w-full h-screen flex flex-col items-center justify-center gap-8">
-        <Title extraClass="max-w-[650px]">{t("ad.title")}</Title>
-        <p className="max-w-[880px] text-center text-title">{t("ad.description")}</p>
+        <Title extraClass="max-w-[720px]">{t("ad.title")}</Title>
+        <p className="max-w-[700px] text-center font-liter text-title">{t("ad.description")}</p>
         <ul className="flex gap-10 mt-8">
             {flowerList.map(item =>
               <li key={item.id} className="relative">

@@ -14,10 +14,10 @@ const Footer = () => {
   ]
 
   return (
-    <section className="flex flex-col items-center pt-20 pb-4 max-w-[670px] mx-auto">
-      <Title extraClass="max-w-200">{t("footer.title")}</Title>
-      <p className="max-w-120 text-center mt-10 font-light text-title">{t("footer.description")}</p>
-      <div className="flex items-center gap-4 mt-5">
+    <section className="flex flex-col items-center pt-20 pb-4  mx-auto">
+      <Title extraClass="max-w-[760px]">{t("footer.title")}</Title>
+      <p className="max-w-120 text-center font-liter mt-8 font-light text-title">{t("footer.description")}</p>
+      <div className="flex items-center gap-4 mt-7">
         <input
           type="text"
           className="outline-none py-2 px-2 w-[386px] border border-brownish bg-transparent text-title placeholder:text-title/40"
@@ -34,7 +34,7 @@ const Footer = () => {
           </div>
         )}
       </div>
-      <div className="border border-brownish my-8 w-full"></div>
+      <div className="border border-brownish my-8 w-full max-w-[670px]"></div>
       <p className="text-title font-light text-[15px]">{t("footer.copyright")}</p>
     </section>
   )

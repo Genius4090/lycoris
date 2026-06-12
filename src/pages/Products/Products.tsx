@@ -89,7 +89,7 @@ const Products = () => {
   const getCartItem = (productId: number) => cartItems.find((c) => c.product_id === productId);
 
   return (
-    <section className="min-h-screen flex flex-col items-center containers pt-50">
+    <section className="min-h-screen flex flex-col items-center containers pt-28 md:pt-50 px-4">
 
       {/* ── Title ── */}
       <motion.div
@@ -102,7 +102,7 @@ const Products = () => {
 
       {/* ── Search bar + sort button ── */}
       <motion.div
-        className="flex items-center justify-between w-full mt-25 px-4"
+        className="flex items-center justify-between w-full mt-10 md:mt-25 px-0"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, delay: 0.1, ease: SWIFT }}
@@ -170,7 +170,7 @@ const Products = () => {
             : t("catalog.noProducts")}.
         </motion.p>
       ) : (
-        <ul className="flex flex-wrap justify-center gap-x-10 gap-y-8 mt-10">
+        <ul className="flex flex-wrap justify-center gap-x-4 gap-y-6 sm:gap-x-6 md:gap-x-10 md:gap-y-8 mt-10 w-full">
           {products.map((product, index) => {
             const cartItem = getCartItem(product.id);
             const qty = cartItem?.quantity ?? 0;

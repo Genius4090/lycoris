@@ -103,7 +103,7 @@ const Cart = () => {
   }
 
   return (
-    <section className="containers min-h-screen pt-36 pb-24 px-8">
+    <section className="containers min-h-screen pt-28 md:pt-36 pb-24 px-4 md:px-8">
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-end gap-4">
           <h1 className="font-liter text-4xl text-title">{t("cart.title")}</h1>
@@ -135,7 +135,7 @@ const Cart = () => {
 
       <div className="flex flex-col lg:flex-row gap-10 items-start">
         {/* Cart items list — AnimatePresence handles exit animation per item */}
-        <ul className="flex flex-col flex-1 divide-y divide-brownish/50">
+        <ul className="flex flex-col w-full lg:flex-1 divide-y divide-brownish/50">
           <AnimatePresence initial={false}>
             {cartItems.map((item) => (
               <motion.li
@@ -176,11 +176,12 @@ const Cart = () => {
                     </motion.button>
                   </div>
 
-                  <div className="flex items-center justify-between mt-3">
+                  <div className="flex flex-col gap-2 mt-3">
                     <p className="font-liter text-[15px] text-textish">
                       {item.product.price} {t("cart.pricePerPc")}
                     </p>
 
+                    <div className="flex items-center justify-between">
                     {/* Qty stepper */}
                     <div className="flex items-center gap-3">
                       <motion.button
@@ -234,6 +235,7 @@ const Cart = () => {
                         {(item.product.price * item.quantity).toFixed(2)} €
                       </motion.p>
                     </AnimatePresence>
+                    </div>
                   </div>
 
                   {item.product.stock <= 3 && item.product.stock > 0 && (
@@ -248,7 +250,7 @@ const Cart = () => {
         </ul>
 
         {/* Order summary sidebar */}
-        <aside className="w-full lg:w-72 shrink-0 lg:sticky lg:top-28">
+        <aside className="w-full md:px-40 lg:w-72 lg:px-0 shrink-0 lg:sticky lg:top-28">
           <div className="bg-brownish/30 border border-brownish p-6 flex flex-col gap-4">
             <h2 className="font-liter text-xl text-title">{t("cart.orderSummary")}</h2>
             <div className="border-t border-brownish/60 pt-4 flex flex-col gap-3">

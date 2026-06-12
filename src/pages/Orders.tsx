@@ -73,7 +73,7 @@ const Orders = () => {
   }
 
   return (
-    <section className="containers min-h-screen pt-36 pb-24">
+    <section className="containers min-h-screen pt-28 md:pt-36 pb-24 px-0">
       <div className="flex items-center justify-between mb-10">
         <div className="flex items-end gap-3">
           <h1 className="font-liter text-4xl text-title">{t("orders.title")}</h1>

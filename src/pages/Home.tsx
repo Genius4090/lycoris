@@ -1,4 +1,4 @@
-import FlowerImg from "../assets/icons/flower.svg";
+import FlowerImg from "../assets/icons/flower.png";
 import { HomeSection1, HomeSocial } from "../components/home";
 import { HomeAd, HomeBanner1, HomeBanner2 } from "../components";
 import { useTranslation } from "react-i18next";
@@ -99,7 +99,7 @@ const Home = () => {
 
           {/* ── Subtitle — fades up after title lands ── */}
           <motion.p
-            className="text-white/50 font-liter font-light text-center mt-5 leading-relaxed max-w-73"
+            className="text-white/50 font-liter font-light text-center mt-5 leading-relaxed text-sm sm:text-base md:text-lg max-w-[80vw] sm:max-w-xs md:max-w-md"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.85, ease: EASE_OUT_QUART }}
@@ -115,7 +115,7 @@ const Home = () => {
           >
             <Link
               to={PATH.products}
-              className="relative font-liter font-light  mt-20 text-white text-[40px] transition-colors duration-300 group inline-block"
+              className="relative font-liter font-light mt-10 sm:mt-14 md:mt-20 text-white text-[20px] sm:text-[26px] md:text-[40px] transition-colors duration-300 group inline-block"
             >
               {t("home.cta")}
               {/* animated underline wipe */}
@@ -133,7 +133,7 @@ const Home = () => {
         {/* ══════════ SIDE DECORATIVE SPANS ══════════ */}
         {/* Left side */}
         <motion.div
-          className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
+          className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex flex-col items-center justify-center"
           style={{ width: "52px" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -155,7 +155,7 @@ const Home = () => {
 
         {/* Right side */}
         <motion.div
-          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
+          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex flex-col items-center justify-center"
           style={{ width: "52px" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

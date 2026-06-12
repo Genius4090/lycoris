@@ -91,7 +91,7 @@ function ProductMore() {
   }
 
   return (
-    <section className="min-h-screen containers pt-40 pb-20">
+    <section className="min-h-screen containers pt-28 md:pt-40 pb-20 px-0">
 
       {/* Back button */}
       <motion.button

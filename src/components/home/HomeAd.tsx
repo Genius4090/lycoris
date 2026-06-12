@@ -21,17 +21,17 @@ const HomeAd = () => {
   ]
 
   return (
-    <section className="w-full h-screen relative flex flex-col items-center justify-center gap-8">
+    <section className="w-full min-h-screen relative flex flex-col items-center justify-center gap-6 md:gap-8 px-4">
       <motion.div
         initial={{ opacity: 0, y: 36 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.9, ease }}
       >
-        <Title extraClass="max-w-[720px]">{t("ad.title")}</Title>
+        <Title extraClass="max-w-[90vw] md:max-w-[720px]">{t("ad.title")}</Title>
       </motion.div>
       <motion.p
-        className="max-w-[700px] text-center font-liter text-title"
+        className="max-w-[90vw] md:max-w-[700px] text-center font-liter text-title text-sm md:text-base"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
@@ -39,7 +39,7 @@ const HomeAd = () => {
       >
         {t("ad.description")}
       </motion.p>
-      <ul className="flex gap-10 mt-8">
+      <ul className="flex flex-wrap justify-center gap-8 md:gap-10 mt-6 md:mt-8">
         {flowerList.map((item, i) => (
           <motion.li
             key={item.id}
@@ -50,8 +50,8 @@ const HomeAd = () => {
             transition={{ duration: 0.8, ease, delay: i * 0.14 }}
           >
             <span className="bg-[#F7FF00] px-2 py-0.5 absolute -top-4 -right-5 font-liter">{item.off}%</span>
-            <img src={item.img} alt={t(item.contentKey)} />
-            <p className="mt-5 text-center font-liter text-xl text-title">{t(item.contentKey)}</p>
+            <img src={item.img} alt={t(item.contentKey)} className="w-[140px] sm:w-[180px] md:w-auto" />
+            <p className="mt-5 text-center font-liter text-lg md:text-xl text-title">{t(item.contentKey)}</p>
           </motion.li>
         ))}
       </ul>

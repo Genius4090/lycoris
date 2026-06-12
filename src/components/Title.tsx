@@ -7,7 +7,7 @@ type TitleType  = {
 
 const Title = ({extraClass,children}:TitleType) =>{
   return (
-    <h2 className={`text-6xl text-title font-liter text-center leading-[80px] ${extraClass}`}>{children}</h2>
+    <h2 className={`text-3xl sm:text-4xl md:text-6xl text-title font-liter text-center leading-tight md:leading-[80px] ${extraClass}`}>{children}</h2>
   )
 }
 

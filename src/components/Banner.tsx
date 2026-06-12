@@ -10,8 +10,8 @@ const Banner = () => {
         { id:5, img: Logo5 },
     ]
   return (
-    <div className="py-10 w-full mt-30">
-      <ul className="flex items-center justify-center gap-30">
+    <div className="py-10 w-full mt-20 md:mt-30">
+      <ul className="flex flex-wrap items-center justify-center gap-10 md:gap-30 px-4">
         {logoList.map((item, i) => (
           <motion.li
             key={item.id}

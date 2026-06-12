@@ -15,27 +15,28 @@ const AboutInfo = () => {
   ]
 
   return (
-    <section className="flex flex-col items-center containers px-5">
+    <section className="flex flex-col items-center containers px-4 md:px-5">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.85, ease }}
       >
-        <Title extraClass="max-w-[900px] mt-40">{t("about.info.title1")}</Title>
+        <Title extraClass="max-w-[90vw] md:max-w-[900px] mt-20 md:mt-40">{t("about.info.title1")}</Title>
       </motion.div>
 
-      <div className="flex gap-10 w-full mt-25">
+      <div className="flex flex-col md:flex-row gap-8 md:gap-10 w-full mt-10 md:mt-25">
         <motion.img
           src={AboutInfo1}
           alt="about-info-img1"
+          className="w-full max-w-[400px] mx-auto md:mx-0 md:w-auto"
           initial={{ opacity: 0, x: -48 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.85, ease }}
         />
         <motion.div
-          className="flex flex-col justify-start items-end max-w-[600px]"
+          className="flex flex-col justify-start items-start md:items-end max-w-full md:max-w-[600px]"
           initial={{ opacity: 0, x: 48 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.25 }}
@@ -43,7 +44,7 @@ const AboutInfo = () => {
         >
           <p className="text-title">{t("about.info.body1a")}</p>
           <p className="mt-4 text-title">{t("about.info.body1b")}</p>
-          <Button extraClass="mt-20">{t("about.info.readMore")}</Button>
+          <Button extraClass="mt-10 md:mt-20">{t("about.info.readMore")}</Button>
         </motion.div>
       </div>
 
@@ -53,12 +54,12 @@ const AboutInfo = () => {
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.85, ease }}
       >
-        <Title extraClass="text-start text-5xl! mt-20">{t("about.info.title2")}</Title>
+        <Title extraClass="text-start text-3xl! md:text-5xl! mt-10 md:mt-20">{t("about.info.title2")}</Title>
       </motion.div>
 
-      <div className="flex w-full justify-between items-start gap-9 mt-25">
+      <div className="flex flex-col-reverse md:flex-row w-full justify-between items-start gap-8 md:gap-9 mt-10 md:mt-25">
         <motion.div
-          className="max-w-[800px]"
+          className="max-w-full md:max-w-[800px]"
           initial={{ opacity: 0, x: -48 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -66,12 +67,13 @@ const AboutInfo = () => {
         >
           <p className="text-title">{t("about.info.body2a")}</p>
           <p className="mt-5 text-title">{t("about.info.body2b")}</p>
-          <div className="flex gap-7 mt-8">
+          <div className="flex flex-wrap gap-4 md:gap-7 mt-8">
             {ImgList.map((item, i) => (
               <motion.img
                 key={item.id}
                 src={item.img}
                 alt="about-flower-img"
+                className="w-[80px] sm:w-[100px] md:w-auto"
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -83,6 +85,7 @@ const AboutInfo = () => {
         <motion.img
           src={AboutInfo2}
           alt="about-info-img2"
+          className="w-full max-w-[400px] mx-auto md:mx-0 md:w-auto"
           initial={{ opacity: 0, x: 48 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}

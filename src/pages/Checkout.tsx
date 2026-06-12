@@ -76,7 +76,7 @@ const Checkout = () => {
   }
 
   return (
-    <section className="containers min-h-screen pt-36 pb-24 relative">
+    <section className="containers min-h-screen pt-28 md:pt-36 pb-24 relative px-0">
 
       {/* ── CHECKOUT FORM — always rendered, fades out when overlay appears ── */}
       <motion.div

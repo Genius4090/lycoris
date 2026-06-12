@@ -1,6 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom"
 import { Footer, Header } from "../components"
 import { useEffect } from "react"
+import CursorComet from "../components/CursorComet"
 
 const MainLayout = () => {
   const { pathname } = useLocation();
@@ -11,6 +12,7 @@ const MainLayout = () => {
 
   return (
     <>
+      <CursorComet />
       <Header/>
         <Outlet />
       <Footer/>

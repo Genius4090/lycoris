@@ -26,8 +26,10 @@ import Flower20 from "./flower20.png"
 import HomeImg2 from "./home_img2.png"
 import SliderImg1 from "./sliderImg1.png"
 import SliderImg2 from "./sliderImg2.png"
+import SliderImg3 from "./sliderImg3.jpg"
+import SliderImg4 from "./sliderImg4.jpg"
 import SocialImg1 from "./social_img1.png"
 import SocialImg2 from "./social_img2.png"
 import SocialImg3 from "./social_img3.png"
 
-export {AboutInfo1,AboutInfo2,Flower1,Flower2,Flower3,Flower4,AboutFlower1,AboutFlower2,AboutFlower3,Flower5,Flower6,Flower7,Flower8,Flower9,Flower10,Flower11,Flower12,Flower13,Flower14,Flower15,Flower16,HomeImg2,SliderImg1,SliderImg2,SocialImg1,SocialImg2,SocialImg3,Flower17,Flower18,Flower19,Flower20}
+export {AboutInfo1,AboutInfo2,Flower1,Flower2,Flower3,Flower4,SliderImg3,SliderImg4,AboutFlower1,AboutFlower2,AboutFlower3,Flower5,Flower6,Flower7,Flower8,Flower9,Flower10,Flower11,Flower12,Flower13,Flower14,Flower15,Flower16,HomeImg2,SliderImg1,SliderImg2,SocialImg1,SocialImg2,SocialImg3,Flower17,Flower18,Flower19,Flower20}

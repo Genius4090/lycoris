@@ -7,13 +7,13 @@ const About = () => {
   const { t } = useTranslation()
 
   return (
-    <section className="pt-50 flex flex-col items-center relative">
+    <section className="pt-28 md:pt-50 flex flex-col items-center relative px-4">
       <motion.div
         initial={{ opacity: 0, y: 32 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       >
-        <Title extraClass="max-w-[810px]">{t("about.title")}</Title>
+        <Title extraClass="max-w-[90vw] md:max-w-[810px]">{t("about.title")}</Title>
       </motion.div>
       <motion.p
         className="text-textish max-w-[613px] text-center leading-6.5 mt-6"

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import LanguageSelect from "./LanguageSelect";
 import { fetchCart } from "../supabase/cartService";
-import { CircleUserRound, SquareArrowRightExit, X } from "lucide-react";
+import { CircleUserRound, Menu, SquareArrowRightExit, X } from "lucide-react";
 import ShinyText from "./ShinyText";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -16,11 +16,13 @@ const Header = () => {
   const queryClient = useQueryClient();
   const { t } = useTranslation();
   const [modal, setModal] = useState<boolean>(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleSignOut = async () => {
     await signOut();
     queryClient.clear();
     navigate(PATH.login);
+    setMobileOpen(false);
   };
 
   const navLinks = [
@@ -48,17 +50,23 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
   return (
     <motion.nav
-      className={`fixed z-100 flex items-center justify-between w-full px-10 pt-7 pb-7 ${
+      className={`fixed z-100 flex items-center justify-between w-full px-5 md:px-10 pt-5 pb-5 md:pt-7 md:pb-7 ${
         scrolled ? "backdrop-blur-md border-b-black/10!" : "bg-transparent"
       }`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      {/* ── Left nav links ── */}
-      <ul className="flex items-center gap-6">
+      {/* ── Left nav links — desktop only ── */}
+      <ul className="hidden md:flex items-center gap-6">
         {navLinks.map((item, i) => (
           <li key={i}>
             <Link
@@ -71,8 +79,17 @@ const Header = () => {
         ))}
       </ul>
 
+      {/* ── Hamburger — mobile only ── */}
+      <button
+        className="md:hidden flex items-center justify-center w-8 h-8 text-white/70 hover:text-white transition-colors cursor-pointer z-110"
+        onClick={() => setMobileOpen((v) => !v)}
+        aria-label="Toggle menu"
+      >
+        {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+      </button>
+
       {/* ── Centre wordmark ── */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-6">
+      <div className="absolute left-1/2 -translate-x-1/2 top-5 md:top-6">
         <Link to={PATH.home}>
           <ShinyText
             text="Lycoris"
@@ -91,31 +108,31 @@ const Header = () => {
       </div>
 
       {/* ── Right controls ── */}
-      <div className="flex items-center gap-4 relative">
+      <div className="flex items-center gap-3 md:gap-4 relative">
 
-        {/* Dashboard link — only for admins once auth resolves */}
+        {/* Dashboard link — only for admins once auth resolves, desktop only */}
         {!loading && isAdmin && (
           <>
             <NavLink
               to={PATH.dashboard}
-              className="font-sora text-xs tracking-wide text-white/45 font-light hover:text-white/70 transition-colors duration-200"
+              className="hidden md:block font-sora text-xs tracking-wide text-white/45 font-light hover:text-white/70 transition-colors duration-200"
             >
               {t("header.dashboard")}
             </NavLink>
-            <span className="text-white/25 text-xs font-thin">|</span>
+            <span className="hidden md:block text-white/25 text-xs font-thin">|</span>
           </>
         )}
 
         <LanguageSelect />
-        <span className="text-white/25 text-xs font-thin">|</span>
+        <span className="hidden md:block text-white/25 text-xs font-thin">|</span>
 
         <Link
           to={PATH.cart}
-          className="font-sora text-xs text-white/80 tracking-wide cursor-pointer hover:text-white transition-colors duration-200"
+          className="hidden md:block font-sora text-xs text-white/80 tracking-wide cursor-pointer hover:text-white transition-colors duration-200"
         >
           {t("header.bag")} [&nbsp;{totalItems}&nbsp;]
         </Link>
-        <span className="text-white/25 text-xs font-thin">|</span>
+        <span className="hidden md:block text-white/25 text-xs font-thin">|</span>
 
         {/* Avatar — always rendered immediately, no loading gate */}
         <div className="relative">
@@ -135,7 +152,7 @@ const Header = () => {
               <div className="fixed inset-0 z-90" onClick={() => setModal(false)} />
 
               <motion.div
-                className="absolute z-100 top-11 right-0 max-w-80 rounded-xl border border-brownish/40 bg-stonish backdrop-blur-xl shadow-[0_24px_60px_rgba(0,0,0,0.6)] overflow-hidden"
+                className="absolute z-100 top-11 right-0 max-w-80 w-72 rounded-xl border border-brownish/40 bg-stonish backdrop-blur-xl shadow-[0_24px_60px_rgba(0,0,0,0.6)] overflow-hidden"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -149,7 +166,6 @@ const Header = () => {
                   <X className="w-4 h-4" />
                 </button>
 
-                {/* Show a loading state inside the dropdown while auth resolves */}
                 {loading ? (
                   <div className="px-6 py-8 flex items-center justify-center">
                     <span className="font-sora text-xs text-textish">...</span>
@@ -213,7 +229,7 @@ const Header = () => {
                     </div>
                   </>
                 ) : (
-                  <div className="w-70">
+                  <div className="w-full">
                     <div className="px-6 pt-6 pb-5 border-b border-brownish/30">
                       <div className="flex items-center gap-4 mb-4">
                         <div className="flex items-center justify-center w-11 h-11 rounded-full border border-brownish/40 bg-brownish/15 shrink-0">
@@ -249,6 +265,71 @@ const Header = () => {
           )}
         </AnimatePresence>
       </div>
+
+      {/* ── Mobile drawer ── */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            <div
+              className="fixed inset-0 z-95 bg-black/60 backdrop-blur-sm md:hidden"
+              onClick={() => setMobileOpen(false)}
+            />
+            <motion.div
+              className="fixed top-0 left-0 h-dvh w-72 max-w-[85vw] z-100 bg-stonish border-r border-brownish/30 flex flex-col pt-20 pb-8 px-6 md:hidden overflow-y-auto"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {/* Nav links */}
+              <ul className="flex flex-col gap-1">
+                {navLinks.map((item, i) => (
+                  <li key={i}>
+                    <Link
+                      to={item.path}
+                      onClick={() => setMobileOpen(false)}
+                      className="block font-sora text-sm font-light text-title tracking-wide hover:text-white transition-colors duration-200 uppercase py-3 border-b border-brownish/10"
+                    >
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+                {!loading && isAdmin && (
+                  <li>
+                    <NavLink
+                      to={PATH.dashboard}
+                      onClick={() => setMobileOpen(false)}
+                      className="block font-sora text-sm font-light text-title tracking-wide hover:text-white transition-colors duration-200 uppercase py-3 border-b border-brownish/10"
+                    >
+                      {t("header.dashboard")}
+                    </NavLink>
+                  </li>
+                )}
+              </ul>
+
+              {/* Cart link */}
+              <Link
+                to={PATH.cart}
+                onClick={() => setMobileOpen(false)}
+                className="mt-6 font-sora text-sm text-title tracking-wide hover:text-white transition-colors duration-200"
+              >
+                {t("header.bag")} [{totalItems}]
+              </Link>
+
+              {/* Sign out if logged in */}
+              {user && (
+                <button
+                  onClick={handleSignOut}
+                  className="mt-auto flex items-center gap-2 font-sora text-xs text-title hover:text-pinkish transition-colors duration-150 cursor-pointer"
+                >
+                  <SquareArrowRightExit className="w-4 h-4  shrink-0" />
+                  {t("auth.logout")}
+                </button>
+              )}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 };

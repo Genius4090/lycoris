@@ -1,11 +1,11 @@
 import { MoveLeft, MoveRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { SliderImg1, SliderImg2 } from "../../assets/images";
+import { SliderImg1, SliderImg2, SliderImg3, SliderImg4 } from "../../assets/images";
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const imagesList = [SliderImg1, SliderImg2];
+const imagesList = [SliderImg1, SliderImg2,SliderImg3,SliderImg4];
 
 export default function Homeabout() {
   const [current, setCurrent] = useState(0);
@@ -39,10 +39,10 @@ export default function Homeabout() {
     : "opacity-100 translate-x-0";
 
   return (
-    <section className="w-full min-h-screen relative flex flex-col items-center justify-center gap-40 mb-60">
+    <section className="w-full min-h-screen relative flex flex-col items-center justify-center gap-20 md:gap-40 mb-20 md:mb-60 px-4">
       {/* Title fades up */}
       <motion.span
-        className="text-title max-w-180 font-liter text-center text-3xl leading-[50px]"
+        className="text-title max-w-[90vw] md:max-w-180 font-liter text-center text-xl md:text-3xl leading-[40px] md:leading-[50px] px-4"
         initial={{ opacity: 0, y: 36 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
@@ -53,19 +53,19 @@ export default function Homeabout() {
 
       {/* Slider fades in */}
       <motion.div
-        className="flex items-center gap-20"
+        className="flex items-center gap-6 md:gap-20"
         initial={{ opacity: 0, y: 28 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.85, ease, delay: 0.1 }}
       >
         {/* Prev */}
-        <button onClick={prev} aria-label="Previous image" className="cursor-pointer">
-          <MoveLeft className="text-title scale-140 hover:text-textish transition-colors duration-200" />
+        <button onClick={prev} aria-label="Previous image" className="cursor-pointer shrink-0">
+          <MoveLeft className="text-title w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:text-textish transition-colors duration-200" />
         </button>
 
         {/* Image */}
-        <div className="w-[500px] h-[500px] relative">
+        <div className="w-[240px] h-[240px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] relative">
           <img
             key={current}
             src={imagesList[current]}
@@ -75,14 +75,14 @@ export default function Homeabout() {
         </div>
 
         {/* Next */}
-        <button onClick={next} aria-label="Next image" className="cursor-pointer">
-          <MoveRight className="text-title scale-140 hover:text-textish transition-colors duration-200" />
+        <button onClick={next} aria-label="Next image" className="cursor-pointer shrink-0">
+          <MoveRight className="text-title w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 hover:text-textish transition-colors duration-200" />
         </button>
       </motion.div>
 
       {/* Dots */}
       <motion.div
-        className="flex items-center gap-2 -mt-32"
+        className="flex items-center gap-2 -mt-16 sm:-mt-24 md:-mt-32"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, amount: 0.5 }}
@@ -105,7 +105,7 @@ export default function Homeabout() {
       {/* ══════════ SIDE DECORATIVE SPANS ══════════ */}
       {/* Left side */}
       <div
-        className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
+        className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex flex-col items-center justify-center"
         style={{ width: "52px" }}
       >
         <span
@@ -123,7 +123,7 @@ export default function Homeabout() {
       </div>
       {/* Right side */}
       <div
-        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
+        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex flex-col items-center justify-center"
         style={{ width: "52px" }}
       >
         <span

@@ -10,20 +10,21 @@ const HomeSection1 = () => {
   const hours: string[] = t("section1.hours", { returnObjects: true }) as string[]
 
   return (
-    <section className="w-full h-screen flex flex-col items-center relative justify-center mt-30">
+    <section className="w-full min-h-screen flex flex-col items-center relative justify-center mt-10 md:mt-30 px-4">
       <motion.div
         initial={{ opacity: 0, y: 36 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.9, ease }}
       >
-        <Title extraClass="max-w-[900px]">{t("section1.title")}</Title>
+        <Title extraClass="max-w-[90vw] md:max-w-[900px]">{t("section1.title")}</Title>
       </motion.div>
 
-      <div className="flex gap-10 mt-20">
+      <div className="flex flex-col md:flex-row gap-8 md:gap-10 mt-10 md:mt-20 items-center w-full max-w-[900px]">
         <motion.img
           src={HomeImg2}
           alt="home-section-1-img"
+          className="w-full max-w-[400px] md:max-w-none md:w-auto"
           initial={{ opacity: 0, x: -48 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.25 }}
@@ -50,7 +51,7 @@ const HomeSection1 = () => {
       {/* ══════════ SIDE DECORATIVE SPANS ══════════ */}
       {/* Left side */}
       <div
-        className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
+        className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex flex-col items-center justify-center"
         style={{ width: "52px" }}
       >
         <span
@@ -68,7 +69,7 @@ const HomeSection1 = () => {
       </div>
       {/* Right side */}
       <div
-        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
+        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex flex-col items-center justify-center"
         style={{ width: "52px" }}
       >
         <span

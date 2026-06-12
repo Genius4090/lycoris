@@ -17,10 +17,10 @@ const Footer = () => {
     <section className="flex flex-col items-center pt-20 pb-4  mx-auto">
       <Title extraClass="max-w-[760px]">{t("footer.title")}</Title>
       <p className="max-w-120 text-center font-liter mt-8 font-light text-title">{t("footer.description")}</p>
-      <div className="flex items-center gap-4 mt-7">
+      <div className="flex flex-col sm:flex-row items-center gap-4 mt-7 w-full max-w-[450px] px-4">
         <input
           type="text"
-          className="outline-none py-2 px-2 w-[386px] border border-brownish bg-transparent text-title placeholder:text-title/40"
+          className="outline-none py-2 px-2 w-full sm:w-[386px] border border-brownish bg-transparent text-title placeholder:text-title/40"
           placeholder=""
         />
         <button className="bg-brownish py-2 px-6 border border-brownish text-grayish font-liter cursor-pointer">

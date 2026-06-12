@@ -15,7 +15,7 @@ export default function Popularproducts() {
   });
 
   return (
-    <ul className="flex items-center gap-10 mt-9">
+    <ul className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mt-9 w-full px-4">
       {Popularproduct?.products.map((product, i) => (
         <motion.div
           key={product.id}
@@ -25,7 +25,7 @@ export default function Popularproducts() {
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
         >
-          <div className="w-[250px] h-[280px] overflow-hidden bg-brownish/30">
+          <div className="w-[200px] h-[240px] sm:w-[250px] sm:h-[280px] overflow-hidden bg-brownish/30">
             {product.image_url ? (
               <img
                 src={product.image_url}

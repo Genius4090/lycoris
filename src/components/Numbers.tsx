@@ -23,7 +23,7 @@ const Numbers = () => {
         <p className="text-[40px] text-title font-liter italic text-center">{t("about.numbers.heading")}</p>
       </motion.div>
 
-      <div className="flex gap-10">
+      <div className="flex flex-wrap justify-center gap-4 md:gap-10">
         {InfoList.map((item, i) => (
           <motion.div
             key={item.id}

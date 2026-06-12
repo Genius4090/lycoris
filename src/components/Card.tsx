@@ -24,7 +24,7 @@ const Card = ({ product, user, addMutation, removeMutation, qty, index = 0 }: Ca
 
   return (
     <motion.li
-      className="flex flex-col w-[370px]"
+      className="flex flex-col w-full sm:w-[370px]"
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
@@ -35,7 +35,7 @@ const Card = ({ product, user, addMutation, removeMutation, qty, index = 0 }: Ca
       }}
     >
       {/* Image */}
-      <div className="w-[370px] h-[378px] overflow-hidden bg-brownish/30">
+      <div className="w-full sm:w-[370px] h-[280px] sm:h-[378px] overflow-hidden bg-brownish/30">
         {product.image_url ? (
           <img
             src={product.image_url}

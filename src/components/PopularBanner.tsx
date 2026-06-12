@@ -10,15 +10,15 @@ const PopularBanner = () => {
   const { t } = useTranslation()
   
   return (
-    <section className="flex flex-col items-end mt-25">
+    <section className="flex flex-col items-center md:items-end mt-10 md:mt-25 w-full px-4">
       <motion.div
-        className="mx-auto mb-15"
+        className="mx-auto mb-8 md:mb-15"
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
       >
-        <Title extraClass="max-w-210">{t("about.popular.title")}</Title>
+        <Title extraClass="max-w-[90vw] md:max-w-210">{t("about.popular.title")}</Title>
       </motion.div>
       <Popularproducts />
       <motion.div

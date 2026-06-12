@@ -1,7 +1,7 @@
-import { MoveLeft, MoveRight } from "lucide-react";
+import { MoveLeft, MoveRight, Quote } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { SliderImg1, SliderImg2, SliderImg3, SliderImg4 } from "../../assets/images";
-import { useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 import { motion } from "motion/react";
 import SideDecor from "../SideDecor";
 
@@ -13,7 +13,6 @@ export default function Homeabout() {
   const [animating, setAnimating] = useState(false);
   const [direction, setDirection] = useState<"left" | "right">("right");
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { t } = useTranslation();
   const goTo = (next: number, dir: "left" | "right") => {
     if (animating) return;
     setDirection(dir);
@@ -29,7 +28,7 @@ export default function Homeabout() {
 
   // Auto-advance every 3.5s
   useEffect(() => {
-    timerRef.current = setTimeout(() => next(), 3500);
+    timerRef.current = setTimeout(() => next(), 5000);
     return () => { if (timerRef.current) clearTimeout(timerRef.current); };
   }, [current]);
 
@@ -43,13 +42,19 @@ export default function Homeabout() {
     <section className="w-full min-h-screen relative flex flex-col items-center gap-20 md:gap-40 mb-20 md:mb-60 px-4">
       {/* Title fades up */}
       <motion.span
-        className="text-title max-w-[90vw] md:max-w-180 font-liter text-center text-xl md:text-3xl leading-[40px] md:leading-[50px] px-4"
+        className="relative text-title  italic md:max-w-180 font-liter text-center text-xl md:text-3xl leading-[40px] md:leading-[50px] px-4"
         initial={{ opacity: 0, y: 36 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
         transition={{ duration: 0.9, ease }}
       >
-        {t("homeAbout.title")}
+        <Trans
+          i18nKey="homeAbout.title"
+          components={{
+            openQuote: <Quote className="inline-block rotate-180 relative text-lightish -top-5 w-5 skew-x-[-15deg] mr-2" />,
+            closeQuote: <Quote className="inline-block relative -top-4 w-5 text-lightish skew-x-[-15deg] ml-4" />,
+          }}
+        />
       </motion.span>
 
       {/* Slider fades in */}

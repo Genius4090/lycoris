@@ -94,7 +94,7 @@ const Header = () => {
           <ShinyText
             text="Lycoris"
             speed={2}
-            delay={0.5}
+            delay={0}
             color="#b5b5b5"
             shineColor="#ffffff"
             spread={120}
@@ -106,7 +106,7 @@ const Header = () => {
           />
         </Link>
       </div>
-
+  
       {/* ── Right controls ── */}
       <div className="flex items-center gap-2 md:gap-3 lg:gap-4 relative md:flex-1 md:justify-end">
 

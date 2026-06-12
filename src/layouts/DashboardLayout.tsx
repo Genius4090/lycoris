@@ -41,7 +41,6 @@ const DashboardLayout = () => {
 
   const pageTitle = pageTitles[location.pathname] ?? t("dashboard.dashboard");
   const displayName = user?.email?.split("@")[0] ?? "Admin";
-  const formattedName = displayName.charAt(0) + displayName.slice(1);
   const roleLabel = role ? role.charAt(0).toUpperCase() + role.slice(1) : "Admin";
 
   return (
@@ -79,11 +78,11 @@ const DashboardLayout = () => {
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-3">
                 <div className="text-right">
-                  <p className="font-sora text-sm text-title leading-tight">{formattedName}</p>
+                  <p className="font-sora text-sm text-title leading-tight">{displayName}</p>
                   <p className="font-sora text-xs text-title">{roleLabel}</p>
                 </div>
                 <div className="w-9 h-9 bg-brownish/15 border border-brownish/20 flex items-center justify-center text-title font-sora text-sm">
-                  {formattedName.charAt(0).toUpperCase()}
+                  {displayName.charAt(0).toUpperCase()}
                 </div>
               </div>
             </div>

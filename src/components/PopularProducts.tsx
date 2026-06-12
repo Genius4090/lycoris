@@ -25,7 +25,7 @@ export default function Popularproducts() {
           viewport={{ once: true, amount: 0.25 }}
           transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
         >
-          <div className="w-[200px] h-[240px] sm:w-[250px] sm:h-[280px] overflow-hidden bg-brownish/30">
+          <div className="lg:w-[240px] lg:h-[240px] sm:w-full sm:h-full md:w-[280px] md:h-[280px] overflow-hidden bg-brownish/30">
             {product.image_url ? (
               <img
                 src={product.image_url}

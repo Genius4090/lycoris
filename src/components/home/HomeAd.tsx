@@ -2,6 +2,9 @@ import { Flower17, Flower16 } from "../../assets/images"
 import Title from "../Title"
 import { useTranslation } from "react-i18next"
 import { motion } from "motion/react"
+import SideDecor from "../SideDecor"
+import { Link } from "react-router-dom"
+import { PATH } from "@/constants/paths"
 
 const ease = [0.22, 1, 0.36, 1] as const
 
@@ -39,59 +42,26 @@ const HomeAd = () => {
       >
         {t("ad.description")}
       </motion.p>
-      <ul className="flex flex-wrap justify-center gap-8 md:gap-10 mt-6 md:mt-8">
+      <ul className="flex flex-wrap justify-center item gap-8 md:gap-10 mt-6 md:mt-8">
         {flowerList.map((item, i) => (
           <motion.li
             key={item.id}
-            className="relative"
+            className="relative flex flex-col items-center"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, ease, delay: i * 0.14 }}
           >
+<Link to={PATH.products} className="w-[140px] sm:w-[180px] md:w-auto relative hover:scale-105 duration-300">
+            <img src={item.img} alt={t(item.contentKey)} className="w-full h-full" />
             <span className="bg-[#F7FF00] px-2 py-0.5 absolute -top-4 -right-5 font-liter">{item.off}%</span>
-            <img src={item.img} alt={t(item.contentKey)} className="w-[140px] sm:w-[180px] md:w-auto" />
+</Link>
             <p className="mt-5 text-center font-liter text-lg md:text-xl text-title">{t(item.contentKey)}</p>
           </motion.li>
         ))}
       </ul>
 
-      {/* ══════════ SIDE DECORATIVE SPANS ══════════ */}
-      {/* Left side */}
-      <div
-        className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
-        style={{ width: "52px" }}
-      >
-        <span
-          className="font-sora text-white/20 font-light tracking-[0.28em] select-none"
-          style={{
-            writingMode: "vertical-rl",
-            textOrientation: "mixed",
-            transform: "rotate(180deg)",
-            fontSize: "10px",
-            letterSpacing: "0.28em",
-          }}
-        >
-          {t("home.leftDecor")}
-        </span>
-      </div>
-      {/* Right side */}
-      <div
-        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
-        style={{ width: "52px" }}
-      >
-        <span
-          className="font-sora text-white/20 font-light tracking-[0.28em] select-none"
-          style={{
-            writingMode: "vertical-rl",
-            textOrientation: "mixed",
-            fontSize: "10px",
-            letterSpacing: "0.28em",
-          }}
-        >
-          {t("home.rightDecor")}
-        </span>
-      </div>
+      <SideDecor alwaysVisible />
     </section>
   )
 }

@@ -4,7 +4,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import Home from "./pages/Home";
 import { PATH } from "./constants/paths";
 import Products from "./pages/Products/Products";
-import ProductsMore from "./pages/Products/ProductMore";
+import ProductMore from "./pages/Products/ProductMore";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Orders from "./pages/Orders";
@@ -21,55 +21,53 @@ import About from "./pages/about/About";
 import Notfound from "./pages/NotFound/NotFound";
 import Errorpage from "./pages/Error/ErrorPage";
 
-function App() {
-  const router = createBrowserRouter([
-    // ── Store (public layout) ──────────────────────────────────────────────
-    {
-      path: "/",
-      errorElement: <Errorpage/>,
-      element: <MainLayout />,
-      children: [
-        { index: true, element: <Home /> },
-        { path: PATH.home, element: <Navigate to="/" replace /> },
-        { path: PATH.login, element: <Login /> },
-        { path: PATH.about, element: <About /> },
-        { path: PATH.products, element: <Products /> },
-        { path: PATH.productsMore, element: <ProductsMore/> },
-        { path: "*", element: <Notfound/> },
-        {
-          path: PATH.cart,
-          element: <ProtectedRoute><Cart /></ProtectedRoute>,
-        },
-        {
-          path: PATH.checkout,
-          element: <ProtectedRoute><Checkout /></ProtectedRoute>,
-        },
-        {
-          path: PATH.orders,
-          element: <ProtectedRoute><Orders /></ProtectedRoute>,
-        },
-      ],
-    },
-    // ── Dashboard (admin layout) ───────────────────────────────────────────
-    {
-      path: PATH.dashboard,
-      element: <DashboardRoute><DashboardLayout /></DashboardRoute>,
-      children: [
-        { index: true, element: <DashboardHome /> },
-        { path: PATH.dashboardProducts, element: <DashboardProducts /> },
-        { path: PATH.dashboardUsers, element: <DashboardUsers /> },
-        { path: PATH.dashboardOrders, element: <DashboardOrders /> },
-        {
-          path: PATH.dashboardAdmins,
-          element: <SuperAdminRoute><DashboardAdmins /></SuperAdminRoute>,
-        },
-      ],
-    },
-  ]);
+// Router defined outside the component — prevents re-creation on every render.
+const router = createBrowserRouter([
+  // ── Store (public layout) ──────────────────────────────────────────────
+  {
+    path: "/",
+    errorElement: <Errorpage />,
+    element: <MainLayout />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: PATH.login, element: <Login /> },
+      { path: PATH.about, element: <About /> },
+      { path: PATH.products, element: <Products /> },
+      { path: PATH.productsMore, element: <ProductMore /> },
+      { path: "*", element: <Notfound /> },
+      {
+        path: PATH.cart,
+        element: <ProtectedRoute><Cart /></ProtectedRoute>,
+      },
+      {
+        path: PATH.checkout,
+        element: <ProtectedRoute><Checkout /></ProtectedRoute>,
+      },
+      {
+        path: PATH.orders,
+        element: <ProtectedRoute><Orders /></ProtectedRoute>,
+      },
+    ],
+  },
+  // ── Dashboard (admin layout) ───────────────────────────────────────────
+  {
+    path: PATH.dashboard,
+    element: <DashboardRoute><DashboardLayout /></DashboardRoute>,
+    children: [
+      { index: true, element: <DashboardHome /> },
+      { path: PATH.dashboardProducts, element: <DashboardProducts /> },
+      { path: PATH.dashboardUsers, element: <DashboardUsers /> },
+      { path: PATH.dashboardOrders, element: <DashboardOrders /> },
+      {
+        path: PATH.dashboardAdmins,
+        element: <SuperAdminRoute><DashboardAdmins /></SuperAdminRoute>,
+      },
+    ],
+  },
+]);
 
-  return (
-    <RouterProvider router={router} />
-  );
+function App() {
+  return <RouterProvider router={router} />;
 }
 
 export default App;

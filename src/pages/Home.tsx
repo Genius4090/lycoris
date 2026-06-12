@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <>
       <section className="homepage relative min-h-screen overflow-x-hidden flex flex-col items-center justify-center">
-        <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 -mt-16">
+        <div className="relative z-10 flex flex-col items-center justify-center px-4 -mt-16">
 
           {/* ── FLOWERS title row ── */}
           <div className="relative flex items-center justify-center">
@@ -131,7 +131,6 @@ const Home = () => {
         </div>
 
         {/* ══════════ SIDE DECORATIVE SPANS ══════════ */}
-        {/* Left side */}
         <motion.div
           className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex flex-col items-center justify-center"
           style={{ width: "52px" }}

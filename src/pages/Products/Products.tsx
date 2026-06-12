@@ -6,7 +6,7 @@ import { useAuth } from "../../context/AuthContext";
 import type { CartItemFull } from "../../@types";
 import { Card, Input, Title } from "../../components";
 import { ChevronLeft, ChevronRight, TextAlignEnd } from "lucide-react";
-import useDebounce from "../../hooks/debounce";
+import useDebounce from "../../hooks/useDebounce";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "motion/react";
 

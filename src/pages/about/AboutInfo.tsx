@@ -25,7 +25,7 @@ const AboutInfo = () => {
         <Title extraClass="max-w-[90vw] md:max-w-[900px] mt-20 md:mt-40">{t("about.info.title1")}</Title>
       </motion.div>
 
-      <div className="flex flex-col md:flex-row gap-8 md:gap-10 w-full mt-10 md:mt-25">
+      <div className="flex flex-col items-start md:flex-row gap-8 md:gap-10 w-full mt-10 md:mt-25">
         <motion.img
           src={AboutInfo1}
           alt="about-info-img1"
@@ -67,20 +67,7 @@ const AboutInfo = () => {
         >
           <p className="text-title">{t("about.info.body2a")}</p>
           <p className="mt-5 text-title">{t("about.info.body2b")}</p>
-          <div className="flex flex-wrap gap-4 md:gap-7 mt-8">
-            {ImgList.map((item, i) => (
-              <motion.img
-                key={item.id}
-                src={item.img}
-                alt="about-flower-img"
-                className="w-[80px] sm:w-[100px] md:w-auto"
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.7, ease, delay: i * 0.12 }}
-              />
-            ))}
-          </div>
+        
         </motion.div>
         <motion.img
           src={AboutInfo2}
@@ -91,7 +78,22 @@ const AboutInfo = () => {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.85, ease, delay: 0.1 }}
         />
+        
       </div>
+        <div className="flex flex-wrap gap-4 md:gap-7 mt-8 w-full">
+            {ImgList.map((item, i) => (
+              <motion.img
+                key={item.id}
+                src={item.img}
+                alt="about-flower-img"
+                className="w-[90px] sm:w-[100px] md:w-auto"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.7, ease, delay: i * 0.12 }}
+              />
+            ))}
+          </div>
     </section>
   )
 }

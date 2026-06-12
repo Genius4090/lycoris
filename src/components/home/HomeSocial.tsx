@@ -9,7 +9,7 @@ const HomeSocial = () => {
   const { t } = useTranslation()
   const imageList: string[] = [SocialImg1, SocialImg2, SocialImg3]
   return (
-    <section className="w-full min-h-screen flex flex-col my-10 md:my-20 items-center justify-center px-4">
+    <section className="w-full my-20 flex flex-col  md:my-40 items-center justify-center px-4">
       <motion.p
         className="text-base md:text-lg text-textish font-medium"
         initial={{ opacity: 0, y: 16 }}
@@ -33,7 +33,7 @@ const HomeSocial = () => {
             key={i}
             src={item}
             alt="social-img"
-            className="hover:scale-105 duration-300 w-[90px] sm:w-[130px] md:w-auto"
+            className="hover:scale-105 duration-300 w-full sm:w-[130px] md:w-[320px]"
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}

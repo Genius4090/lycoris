@@ -2,6 +2,7 @@ import { Banner, Button, Numbers, PopularBanner, Title } from "../../components"
 import AboutInfo from "./AboutInfo"
 import { useTranslation } from "react-i18next"
 import { motion } from "motion/react"
+import SideDecor from "../../components/SideDecor"
 
 const About = () => {
   const { t } = useTranslation()
@@ -35,42 +36,7 @@ const About = () => {
       <AboutInfo/>
       <PopularBanner/>
 
-         {/* ══════════ SIDE DECORATIVE SPANS ══════════ */}
-        {/* Left side — vertical text + glow */}{" "}
-        <div
-          className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
-          style={{ width: "52px" }}
-        >
-          <span
-            className="font-sora text-white/20 font-light tracking-[0.28em] select-none"
-            style={{
-              writingMode: "vertical-rl",
-              textOrientation: "mixed",
-              transform: "rotate(180deg)",
-              fontSize: "10px",
-              letterSpacing: "0.28em",
-            }}
-          >
-            {t("home.leftDecor")}
-          </span>
-        </div>
-        {/* Right side — vertical text + glow */}
-        <div
-          className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 z-10 flex flex-col items-center justify-center"
-          style={{ width: "52px" }}
-        >
-          <span
-            className="font-sora text-white/20 font-light tracking-[0.28em] select-none"
-            style={{
-              writingMode: "vertical-rl",
-              textOrientation: "mixed",
-              fontSize: "10px",
-              letterSpacing: "0.28em",
-            }}
-          >
-            {t("home.rightDecor")}
-          </span>
-        </div>
+      <SideDecor alwaysVisible />
     </section>
   )
 }

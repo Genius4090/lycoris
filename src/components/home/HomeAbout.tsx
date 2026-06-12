@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { SliderImg1, SliderImg2, SliderImg3, SliderImg4 } from "../../assets/images";
 import { useTranslation } from "react-i18next";
 import { motion } from "motion/react";
+import SideDecor from "../SideDecor";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 const imagesList = [SliderImg1, SliderImg2,SliderImg3,SliderImg4];
@@ -39,7 +40,7 @@ export default function Homeabout() {
     : "opacity-100 translate-x-0";
 
   return (
-    <section className="w-full min-h-screen relative flex flex-col items-center justify-center gap-20 md:gap-40 mb-20 md:mb-60 px-4">
+    <section className="w-full min-h-screen relative flex flex-col items-center gap-20 md:gap-40 mb-20 md:mb-60 px-4">
       {/* Title fades up */}
       <motion.span
         className="text-title max-w-[90vw] md:max-w-180 font-liter text-center text-xl md:text-3xl leading-[40px] md:leading-[50px] px-4"
@@ -102,42 +103,7 @@ export default function Homeabout() {
         ))}
       </motion.div>
 
-      {/* ══════════ SIDE DECORATIVE SPANS ══════════ */}
-      {/* Left side */}
-      <div
-        className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex flex-col items-center justify-center"
-        style={{ width: "52px" }}
-      >
-        <span
-          className="font-sora text-white/20 font-light tracking-[0.28em] select-none"
-          style={{
-            writingMode: "vertical-rl",
-            textOrientation: "mixed",
-            transform: "rotate(180deg)",
-            fontSize: "10px",
-            letterSpacing: "0.28em",
-          }}
-        >
-          {t("home.leftDecor")}
-        </span>
-      </div>
-      {/* Right side */}
-      <div
-        className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 z-10 hidden sm:flex flex-col items-center justify-center"
-        style={{ width: "52px" }}
-      >
-        <span
-          className="font-sora text-white/20 font-light tracking-[0.28em] select-none"
-          style={{
-            writingMode: "vertical-rl",
-            textOrientation: "mixed",
-            fontSize: "10px",
-            letterSpacing: "0.28em",
-          }}
-        >
-          {t("home.rightDecor")}
-        </span>
-      </div>
+      <SideDecor />
     </section>
   );
 }

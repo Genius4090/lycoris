@@ -66,12 +66,12 @@ const Header = () => {
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       {/* ── Left nav links — desktop only ── */}
-      <ul className="hidden md:flex items-center gap-6">
+      <ul className="hidden md:flex items-center gap-3 lg:gap-6 flex-1">
         {navLinks.map((item, i) => (
           <li key={i}>
             <Link
               to={item.path}
-              className="font-sora text-[11.5px] font-light text-white/75 tracking-wide hover:text-white transition-colors duration-200 uppercase"
+              className="font-sora text-[10px] lg:text-[11.5px] font-light text-white/75 tracking-wide hover:text-white transition-colors duration-200 uppercase"
             >
               {item.title}
             </Link>
@@ -89,7 +89,7 @@ const Header = () => {
       </button>
 
       {/* ── Centre wordmark ── */}
-      <div className="absolute left-1/2 -translate-x-1/2 top-5 md:top-6">
+      <div className="absolute left-1/2 -translate-x-1/2 top-4 md:static md:translate-x-0 md:top-auto md:flex md:justify-center md:flex-1">
         <Link to={PATH.home}>
           <ShinyText
             text="Lycoris"
@@ -108,14 +108,14 @@ const Header = () => {
       </div>
 
       {/* ── Right controls ── */}
-      <div className="flex items-center gap-3 md:gap-4 relative">
+      <div className="flex items-center gap-2 md:gap-3 lg:gap-4 relative md:flex-1 md:justify-end">
 
         {/* Dashboard link — only for admins once auth resolves, desktop only */}
         {!loading && isAdmin && (
           <>
             <NavLink
               to={PATH.dashboard}
-              className="hidden md:block font-sora text-xs tracking-wide text-white/45 font-light hover:text-white/70 transition-colors duration-200"
+              className="hidden md:block font-sora text-[10px] lg:text-xs tracking-wide text-white/45 font-light hover:text-white/70 transition-colors duration-200"
             >
               {t("header.dashboard")}
             </NavLink>
@@ -128,7 +128,7 @@ const Header = () => {
 
         <Link
           to={PATH.cart}
-          className="hidden md:block font-sora text-xs text-white/80 tracking-wide cursor-pointer hover:text-white transition-colors duration-200"
+          className="hidden md:block font-sora text-[10px] lg:text-xs text-white/80 tracking-wide cursor-pointer hover:text-white transition-colors duration-200 whitespace-nowrap"
         >
           {t("header.bag")} [&nbsp;{totalItems}&nbsp;]
         </Link>
@@ -275,7 +275,7 @@ const Header = () => {
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
-              className="fixed top-0 left-0 h-dvh w-72 max-w-[85vw] z-100 bg-stonish border-r border-brownish/30 flex flex-col pt-20 pb-8 px-6 md:hidden overflow-y-auto"
+              className="fixed h-screen top-0 left-0 w-72 max-w-[85vw] z-100 bg-stonish border-r border-brownish/30 flex flex-col pt-20 pb-8 px-6 md:hidden overflow-y-auto"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}

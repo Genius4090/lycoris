@@ -8,7 +8,7 @@ const ease = [0.22, 1, 0.36, 1] as const
 const HomeBanner1 = () => {
   const { t } = useTranslation()
   return (
-    <section className="w-full h-screen home-banner-1 flex flex-col items-center justify-center gap-10">
+    <section className="w-full h-screen px-5 home-banner-1 flex flex-col items-center justify-center gap-10">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}

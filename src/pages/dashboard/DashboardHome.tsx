@@ -3,7 +3,7 @@ import { adminFetchProducts, adminFetchUsers, adminFetchOrders } from "../../sup
 import { ArrowUpRight, Package, Users, ClipboardList, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { PATH } from "../../constants/paths";
-import dashboardBanner from "../../assets/videos/dashboardBanner.webm";
+import dashboardBanner from "../../assets/videos/dashboardBanner.mp4";
 import { useTranslation } from "react-i18next";
 
 const DashboardHome = () => {

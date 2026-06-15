@@ -27,7 +27,7 @@ const Numbers = () => {
         {InfoList.map((item, i) => (
           <motion.div
             key={item.id}
-            className="flex flex-col items-center justify-center py-10 gap-5 p-4"
+            className="flex flex-col items-center justify-center py-10 gap-5 p-4 w-[220px]"
             initial={{ opacity: 0, y: 32 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
@@ -35,7 +35,7 @@ const Numbers = () => {
           >
             <span
               className="font-liter text-[56px] leading-none text-title"
-              style={{ textShadow: '0 0 40px rgba(200,80,5,0.4)' }}
+              style={{ textShadow: '0 0 40px rgba(200,80,5,0.4)', minWidth: '7ch', display: 'inline-block', textAlign: 'center' }}
             >
               <CountUp
                 from={item.from}

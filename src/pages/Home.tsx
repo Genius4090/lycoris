@@ -49,7 +49,7 @@ const Home = () => {
             {/* ── Rose wrapper — bloom entrance ── */}
 
             <motion.div
-              className="relative z-10 flex items-center justify-center"
+              className="relative z-10 flex items-center justify-center select-none pointer-events-none"
               style={{
                 width: "clamp(140px, 21vw, 260px)",
 
